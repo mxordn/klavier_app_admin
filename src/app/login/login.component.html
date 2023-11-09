@@ -1,0 +1,21 @@
+<div class="p-3">
+    <p-overlayPanel #loginPanelp>
+        <ng-template pTemplate="content">
+            <p-card header="Login">
+                <form [formGroup]="loginForm">
+                    <input id="username" type="text" pInputText class="w-full mb-3" placeholder="eMail"
+                    formControlName="username_email"/>
+                    <br>
+                    <p-password type="text" placeholder="Passwort" formControlName="password" [feedback]="false"></p-password>
+                </form>
+                <ng-template pTemplate="footer">
+                    <p-button class="mr-2" [disabled]="!!authService.user_logged_in" (onClick)="login()">Login</p-button>
+                    <p-button [disabled]="!authService.user_logged_in" (onClick)="logout()">Logout</p-button>
+                </ng-template>
+            </p-card>
+        </ng-template>
+    </p-overlayPanel>
+    <p-toolbar class="mb-3">
+        <p-button (click)="loginPanelp.toggle($event)" icon="pi pi-user" label="Login"></p-button>
+    </p-toolbar>
+</div>

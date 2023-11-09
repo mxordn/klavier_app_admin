@@ -1,0 +1,14 @@
+<p>collection-form works!</p>
+<form [formGroup]="collForm" (ngSubmit)="onSubmit()">
+    <input pInputText type="text" name="name" placeholder="Titel" formControlName="name">
+    <br>
+    <input pInputText type="text" name="display_name" placeholder="Anzeigename" formControlName="display_name">
+    <br>
+    <br>
+    <span class="p-float-label">
+        <textarea id="collection_description" pInputText type="text" name="collection_description" placeholder="Beschreibung" formControlName="collection_description"></textarea>
+        <label for="collection_description">Beschreibung</label>
+    </span>
+    <br/>
+    <p-button label="Anlegen" [loading]="loading" (onClick)="onSubmit()"></p-button>
+</form>

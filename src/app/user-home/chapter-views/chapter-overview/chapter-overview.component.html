@@ -1,0 +1,8 @@
+<p>chapter-overview works!</p>
+<div>
+    <p-card *ngFor="let chapter of list_of_chapters" [header]="chapter.name.toString()">
+        <p-button (onClick)="openChapter(chapter.id)" [disabled]="!activated">
+            {{ chapter.name }} öffnen
+        </p-button>
+    </p-card>
+</div>
