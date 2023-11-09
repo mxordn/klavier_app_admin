@@ -1,8 +1,9 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { HOST } from './models/collection';
+import { HOST, EmptyColl } from './models/collection';
 import { Router } from '@angular/router';
 import { jwtDecode, JwtDecodeOptions } from 'jwt-decode';
+import { CollectionService } from './collection.service';
 
 interface jwtData {
   user_id: string,
@@ -16,7 +17,9 @@ export class AuthService {
   jwt_usertoken: string = '';
   user_logged_in: Boolean = false;
 
-  constructor(private hC: HttpClient, private router: Router) { }
+  constructor(private hC: HttpClient,
+               private router: Router,
+               private collService: CollectionService) { }
 
   login_user(formData: FormData) {
     this.hC.post(HOST + '/user/login', formData).subscribe({
@@ -51,6 +54,8 @@ export class AuthService {
     localStorage.removeItem('user_id');
     localStorage.removeItem('exp');
     localStorage.removeItem('token');
+    this.collService.collections = [];
+    this.collService.selectedColl = EmptyColl;
     this.user_logged_in = false;
   }
 

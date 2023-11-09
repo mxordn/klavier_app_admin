@@ -12,6 +12,7 @@ import { PanelModule } from 'primeng/panel';
 import { ListboxModule } from 'primeng/listbox';
 import { MenuModule } from 'primeng/menu';
 import { ToolbarModule } from 'primeng/toolbar';
+import { DialogModule } from 'primeng/dialog';
 
 import { AppComponent } from './app.component';
 import  { ReactiveFormsModule  }  from  '@angular/forms';
@@ -49,6 +50,7 @@ import { ChapterDetailsComponent } from './user-home/chapter-views/chapter-detai
     ToolbarModule,
     PanelModule,
     ListboxModule,
+    DialogModule,
     OverlayPanelModule
   ],
   providers: [],

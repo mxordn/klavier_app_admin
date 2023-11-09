@@ -1,6 +1,6 @@
-<p>chapter-overview works!</p>
+<h2>{{ coll_name }}</h2>
 <div>
-    <p-card *ngFor="let chapter of list_of_chapters" [header]="chapter.name.toString()">
+    <p-card *ngFor="let chapter of list_of_chapters" class="m-2" [header]="chapter.name.toString()" [style]="{ 'max-width': '220px' }">
         <p-button (onClick)="openChapter(chapter.id)" [disabled]="!activated">
             {{ chapter.name }} öffnen
         </p-button>

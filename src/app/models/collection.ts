@@ -11,3 +11,14 @@ export interface CollectionModel {
     user_code: String,
     id: String
 }
+
+export const EmptyColl: CollectionModel = {
+    name: '',
+    display_name: '',
+    collection_description: '',
+    list_of_exercises: [],
+    owner: '',
+    num_of_chapters: 0,
+    user_code: '',
+    id: ''
+  }

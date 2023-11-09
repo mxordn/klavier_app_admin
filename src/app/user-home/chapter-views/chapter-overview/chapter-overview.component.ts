@@ -10,6 +10,7 @@ export class ChapterOverviewComponent {
   
   @Input('list_of_chapters') list_of_chapters: ChapterModel[] = [];
   @Input('activated') activated: Boolean = false;
+  @Input('coll_name') coll_name: String = '';
 
   constructor() {}
 
