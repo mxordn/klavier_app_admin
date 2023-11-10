@@ -43,32 +43,15 @@ export class UserHomeComponent implements OnInit {
         display_name: new FormControl('', Validators.required),
         collection_description: new FormControl('')
     });
+    //this.collService.getUserCollections();
   }
   
   ngOnInit(): void {
-    this.getUserCollections();
+    console.log('component initialized')
   }
 
-  getUserCollections() {
-    let headers = new HttpHeaders()
-    headers = headers.append('Authorization', 'Bearer ' + localStorage.getItem('token') || '');
-    console.log('LOG Header', headers.get('Authorization'))
-    this.hC.get<CollectionModel[]>(HOST + "/get_user_collection/" + localStorage.getItem('user_id'),
-                                    {headers: headers}).subscribe({
-      next: (response) => {
-        this.collService.collections = response;
-      },
-      error: (err) => {
-        console.log(err);
-      },
-      complete: () =>{
-        console.log(this.collService.collections)
-
-      }
-    })
-    //this.formGroup = new FormGroup({
-    //  selectedCollection: new FormControl<CollectionModel | null>(null)
-    //});
+  ngOnDestroy(): void {
+    console.log('component destroyed')
   }
 
   openDialog() {
@@ -114,7 +97,7 @@ export class UserHomeComponent implements OnInit {
           console.log(err)
         },
         complete: () => {
-          this.getUserCollections();
+          this.collService.getUserCollections();
           this.loading = false;
           this.dialogVisible = false;
         }

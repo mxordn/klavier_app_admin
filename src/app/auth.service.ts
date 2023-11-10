@@ -44,6 +44,7 @@ export class AuthService {
 
         if (this.is_token_valid()) {
           this.user_logged_in = true;
+          this.collService.getUserCollections();
           this.router.navigate(["user_home"]);
         }
       }

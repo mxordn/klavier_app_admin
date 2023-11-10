@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { CollectionService } from 'src/app/collection.service';
 import { ChapterModel } from 'src/app/models/chapter';
 
 @Component({
@@ -8,11 +9,9 @@ import { ChapterModel } from 'src/app/models/chapter';
 })
 export class ChapterOverviewComponent {
   
-  @Input('list_of_chapters') list_of_chapters: ChapterModel[] = [];
   @Input('activated') activated: Boolean = false;
-  @Input('coll_name') coll_name: String = '';
-
-  constructor() {}
+  
+  constructor(public collService: CollectionService) {}
 
   openChapter(chapter_id: String) {
     console.log(chapter_id);

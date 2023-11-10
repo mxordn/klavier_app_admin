@@ -4,7 +4,7 @@
             <div>
                 <form [formGroup]="formGroup">
                     <div class="p-2" *ngFor="let aColl of collService.collections; index as i;">
-                        <p-button size="large"
+                        <p-button [outlined]="true" severtiy="secondary"
                         (onClick)="openCollection(aColl.id)"
                         [label]="aColl.display_name.toString()"
                         ></p-button>
@@ -19,8 +19,6 @@
         </div>
         <div class="col-8">
             <app-chapter-overview
-                [coll_name]="collService.selectedColl.display_name"
-                [list_of_chapters]="collService.selectedColl.list_of_exercises"
                 [activated]="chapters_activated">
             </app-chapter-overview>
         </div>
