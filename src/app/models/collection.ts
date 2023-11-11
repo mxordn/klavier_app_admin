@@ -5,7 +5,7 @@ export let HOST: string = 'http://127.0.0.1:8000'
 
 export interface CollectionModel {
     name: String,
-    num_of_chapters: Number,
+    num_of_chapters: number,
     display_name: String,
     owner: String,
     collection_description: String,

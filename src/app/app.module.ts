@@ -13,6 +13,8 @@ import { ListboxModule } from 'primeng/listbox';
 import { MenuModule } from 'primeng/menu';
 import { ToolbarModule } from 'primeng/toolbar';
 import { DialogModule } from 'primeng/dialog';
+import { TabViewModule } from 'primeng/tabview';
+import { AccordionModule } from 'primeng/accordion'
 
 import { AppComponent } from './app.component';
 import  { ReactiveFormsModule  }  from  '@angular/forms';
@@ -51,6 +53,8 @@ import { ChapterDetailsComponent } from './user-home/chapter-views/chapter-detai
     PanelModule,
     ListboxModule,
     DialogModule,
+    AccordionModule,
+    TabViewModule,
     OverlayPanelModule
   ],
   providers: [],

@@ -1,9 +1,48 @@
-<h2>{{ collService.selectedColl.display_name }}</h2>
-<p> {{ collService.selectedColl.collection_description }} </p>
+<div class="grid">
+    <div class="col-11">
+        <h2>{{ collService.selectedColl.display_name }}</h2>
+        <p> {{ collService.selectedColl.collection_description }} </p>
+    </div>
+    <div class="col-1">
+        <p-button (onClick)="delCollection()" icon="pi pi-trash" [disabled]="!activated"></p-button>
+    </div>
+</div>
 <div>
-    <p-card *ngFor="let chapter of collService.selectedColl.list_of_exercises" class="m-2" [header]="chapter.name.toString()" [style]="{ 'max-width': '220px' }">
-        <p-button (onClick)="openChapter(chapter.id)" [disabled]="!activated">
-            {{ chapter.name }} öffnen
-        </p-button>
-    </p-card>
+    <p-accordion *ngFor="let chapter of collService.selectedColl.list_of_exercises, let i=index" class="m-1" [multiple]="true">
+        <p-accordionTab [header]="chapter.name.toString()">
+            <p-card header="Tabs">
+                <p-tabView>
+                    <p-tabPanel [header]="chapter.exercise_ids[i].exercise_tab_name.toString()">
+
+                    </p-tabPanel>
+                </p-tabView>
+                <ng-template pTemplate="footer">
+                    <p-button (onClick)="openChapter(chapter.id)" [disabled]="!activated">Bearbeiten</p-button>
+                    <p-button class="ml-6" severity="danger" (onClick)="delChapter()" icon="pi pi-trash" [disabled]="!activated"></p-button>
+                </ng-template>
+            </p-card>
+        </p-accordionTab>
+    </p-accordion>
+    <div class="m-2">
+        <p-button (onClick)="openDialogNewChapter()" icon="pi pi-plus" [hidden]="!activated"></p-button>
+    </div>
+
+    <p-dialog header="Neues Kapitel hinzufügen"
+                [(visible)]="dialogVisible"
+                [modal]="true"
+                [style]="{ width: '400px' }"
+                [draggable]="false"
+                [resizable]="false">
+        <form [formGroup]="chapForm">
+            <div class="m-2">
+                <input pInputText type="text" formControlName="name" name="name" placeholder="Titel des Kapitels"/>
+            </div>
+            <div class="m-2">
+                <input pInputTextarea type="textarea" formControlName="chapter_description" name="chapter_description" placeholder="Beschreibung des Kapitels"/>
+            </div>
+        </form>
+        <p-button (onClick)="closeDialogNewChapter()" severity="secondary">Schließen</p-button>
+        <p-button class="ml-2" (onClick)="createNewChapter()">Kapitel anlegen</p-button>
+    </p-dialog>
+    <!--<app-tab-details></app-tab-details>-->
 </div>
