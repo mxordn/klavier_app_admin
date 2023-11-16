@@ -1,0 +1,13 @@
+<form [formGroup]="newTabForm" (ngSubmit)="addTab()">
+    <div class="m-2">
+        <label htmlFor="name_input">Icon</label>
+        <input #name_input pInputText type="text" formControlName="exercise_tab_name" name="icon" placeholder="Icon Name"/>
+        <label htmlFor="icon_input">Icon</label>
+        <input #icon_input pInputText type="text" formControlName="icon" name="icon" placeholder="Icon Name"/>
+        <p-divider></p-divider>
+        <label htmlFor="description_input">Beschreibung des Tabs</label>
+        <input #description_input type="text" pInputText formControlName="exercise_description" name="exercise_description" placeholder="Beschreibung des Tabs"/>
+        <p-divider></p-divider>
+        <p-button (onClick)="addTab()" label="Tab anlegen"></p-button>
+    </div>
+</form>

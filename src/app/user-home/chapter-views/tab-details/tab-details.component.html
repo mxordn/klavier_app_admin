@@ -1,0 +1,36 @@
+<div class="card flex justify-content-center">
+    <form [formGroup]="formTab">
+        <div class="card">
+            <h5>Bild Upload</h5>
+            <div class="flex justify-content-left">
+                <p-fileUpload #imgUpload mode="basic" chooseLabel="Bild auswählen"
+                                name="file" [url]="tabService.selectedUploadURLImg"
+                                accept="image/*"
+                                (uploadHandler)="onUpload($event, imgUpload)">
+                </p-fileUpload>
+                <p-button (onClick)="imgUpload.clear()" icon="pi pi-times" severity="danger"></p-button>
+            </div>
+            <p-divider></p-divider>
+            <h5>Audio Upload</h5>
+            <div class="flex justify-content-left">
+            <!--<p-fileupload_buttonbar class="p-buttonset">-->
+                <p-fileUpload #audioUpload mode="basic" chooseLabel="Audio auswählen"
+                            name="file" [url]="tabService.selectedUploadURLAudio"
+                            accept="audio/mpeg"
+                            (uploadHandler)="onUpload($event, audioUpload)">
+                </p-fileUpload>
+                <p-button (onClick)="audioUpload.clear()" icon="pi pi-times" severity="danger"></p-button>
+            <!--</p-fileupload_buttonbar>-->
+            </div>
+            <p-divider></p-divider>
+            </div>
+            <h5>Beschreibung</h5>
+            <div class="justify-content-center">
+                <textarea pInputTextarea formControlName="tab_description" placeholder="Beschreibung"></textarea>
+            </div>
+            <p-button (onClick)="updateDescription()">Beschreibung aktualisieren</p-button>
+            <!--<input type="file" formControlName="img_file" placeholder="Bild"/>
+            <input type="file" formControlName="audio_file" placeholder="Audio"/>
+        -->
+    </form>
+</div>
