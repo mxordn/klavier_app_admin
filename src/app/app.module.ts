@@ -14,17 +14,21 @@ import { MenuModule } from 'primeng/menu';
 import { ToolbarModule } from 'primeng/toolbar';
 import { DialogModule } from 'primeng/dialog';
 import { TabViewModule } from 'primeng/tabview';
-import { AccordionModule } from 'primeng/accordion'
+import { AccordionModule } from 'primeng/accordion';
+import { FileUploadModule } from 'primeng/fileupload';
+import { DividerModule } from 'primeng/divider';
+import { ImageModule } from 'primeng/image';
 
 import { AppComponent } from './app.component';
-import  { ReactiveFormsModule  }  from  '@angular/forms';
+import { ReactiveFormsModule }  from  '@angular/forms';
 import { CollectionFormComponent } from './collection-form/collection-form.component';
 import { HttpClientModule } from '@angular/common/http';
 import { LoginComponent } from './login/login.component';
 import { CollectionRoutingModule } from './app-routing/app-routing.module';
 import { UserHomeComponent } from './user-home/user-home.component';
 import { ChapterOverviewComponent } from './user-home/chapter-views/chapter-overview/chapter-overview.component';
-import { ChapterDetailsComponent } from './user-home/chapter-views/chapter-details/chapter-details.component';
+import { TabDetailsComponent } from './user-home/chapter-views/tab-details/tab-details.component';
+import { NewTabPanelComponent } from './user-home/chapter-views/new-tab-panel/new-tab-panel.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +37,8 @@ import { ChapterDetailsComponent } from './user-home/chapter-views/chapter-detai
     LoginComponent,
     UserHomeComponent,
     ChapterOverviewComponent,
-    ChapterDetailsComponent
+    TabDetailsComponent,
+    NewTabPanelComponent
   ],
   imports: [
     CollectionRoutingModule,
@@ -55,7 +60,10 @@ import { ChapterDetailsComponent } from './user-home/chapter-views/chapter-detai
     DialogModule,
     AccordionModule,
     TabViewModule,
-    OverlayPanelModule
+    FileUploadModule,
+    OverlayPanelModule,
+    DividerModule,
+    ImageModule
   ],
   providers: [],
   bootstrap: [AppComponent]

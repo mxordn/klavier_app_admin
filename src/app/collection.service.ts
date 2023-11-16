@@ -1,7 +1,10 @@
 import { Injectable } from '@angular/core';
 import { CollectionModel, EmptyColl, HOST } from './models/collection';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { ChapterModel } from './models/chapter';
+import { ChapterModel, EmptyChapter } from './models/chapter';
+//import { ChapterService } from './chapter.service';
+//import { TabService } from './tab.service';
+import { EmptyTab, TabModel } from './models/tab';
 
 @Injectable({
   providedIn: 'root'
@@ -10,9 +13,13 @@ export class CollectionService {
   collections: CollectionModel[] = [];
   chapters_activated: Boolean = false
   selectedColl: CollectionModel = EmptyColl;
+  selectedChapter: ChapterModel = EmptyChapter;
+  selectedTab: TabModel = EmptyTab;
   
-  constructor(private hC: HttpClient
-    ) { }
+  constructor(private hC: HttpClient,
+              //private chapterService: ChapterService,
+              //private tabService: TabService
+              ) {}
 
   public getUserCollections(refresh: boolean=true) {
     let headers = new HttpHeaders()
@@ -33,6 +40,17 @@ export class CollectionService {
           this.collections.forEach((c) => {
             if (c.id === this.selectedColl.id) {
               this.selectedColl = c;
+              //this.selectedColl.list_of_exercises.forEach((chap) => {
+              //  if (chap.id === this.chapterService.selectedChapter.id) {
+              //    this.chapterService.selectedChapter = chap;
+              //    this.chapterService.selectedChapter.exercise_ids.forEach((t) => {
+              //      if (t.id === this.tabService.selectedTab.id) {
+              //        this.tabService.selectedTab = t;
+              //        return
+              //     }
+              //    });
+              //  }
+              //});
               return
             }
           })

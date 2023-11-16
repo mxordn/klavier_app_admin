@@ -9,3 +9,13 @@ export interface ChapterModel {
     order_num: Number,
     id: String
 }
+
+export const EmptyChapter: ChapterModel = {
+    name: '',
+    collection_id: '',
+    owner: '',
+    chapter_description: '',
+    exercise_ids: [],
+    order_num: 0,
+    id: ''
+}
