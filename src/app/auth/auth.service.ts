@@ -1,9 +1,9 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { HOST, EmptyColl } from './models/collection';
+import { HOST, EmptyColl } from '../models/collection';
 import { Router } from '@angular/router';
 import { jwtDecode, JwtDecodeOptions } from 'jwt-decode';
-import { CollectionService } from './collection.service';
+import { CollectionService } from '../collection.service';
 
 interface jwtData {
   user_id: string,
@@ -71,13 +71,4 @@ export class AuthService {
       return false
     }
   }
-
-  getAuthHeaders(): HttpHeaders {
-    let headers = new HttpHeaders()
-    headers = headers.append('Authorization', 'Bearer ' + localStorage.getItem('token') || '');
-    console.log(headers.get('Authorization'))
-    return headers
-  }
 }
-
-

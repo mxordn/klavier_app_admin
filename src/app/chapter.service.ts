@@ -1,22 +1,24 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ChapterModel, EmptyChapter } from './models/chapter';
 import { TabModel } from './models/tab';
 import { FormGroup } from '@angular/forms';
-import { AuthService } from './auth.service';
+import { getAuthHeaders } from './auth/auth.header';
+import { HOST } from './models/collection';
+import { CollectionService } from './collection.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ChapterService {
+  collChapters: ChapterModel[] = []
   selectedChapter: ChapterModel = EmptyChapter;
-  addTabUrl: string = '';
+  addTabUrl: string = HOST + '/new_exercise';
 
-  constructor(private hC: HttpClient,
-              private authService: AuthService) { }
+  constructor(private hC: HttpClient) { }
 
   addNewTab(formGroup: FormGroup, chapter_id: string) {
-    const headers = this.authService.getAuthHeaders();
+    const headers = getAuthHeaders();
 
     let formData: FormData = new FormData();
     console.log('FG', formGroup, formData);
@@ -38,5 +40,26 @@ export class ChapterService {
         console.log('data', this.selectedChapter);
       }
     });
+  }
+
+  deleteOneChapter(chap_id: string, coll_id: string) {
+    if (this.selectedChapter.id === chap_id) {
+      const headers = getAuthHeaders();
+      this.hC.delete<ChapterModel[]>(HOST + "/delete_one_chapter/" + this.selectedChapter.id + '?coll_id=' + coll_id,
+                                      {headers: headers}).subscribe({
+        next: (response) => {
+          console.log(response);
+          this.collChapters = response;
+        },
+        error: (err) => {
+          console.log(err);
+        },
+        complete: () => {
+          console.log('Collection deleted')
+        }
+      });
+    } else {
+      alert('Bitte öffnen Sie die Collection erneut.');
+    }
   }
 }

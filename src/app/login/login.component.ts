@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { AuthService } from '../auth.service';
+import { AuthService } from '../auth/auth.service';
 import { OverlayPanel } from 'primeng/overlaypanel';
 
 @Component({
@@ -20,12 +20,13 @@ export class LoginComponent {
   }
 
   
-  login() {
+  login(panel: OverlayPanel) {
     if (this.loginForm.valid) {
       let formData: FormData = new FormData();
       formData.append("username_email", this.loginForm.value.username_email);
       formData.append("password", this.loginForm.value.password);
       this.authService.login_user(formData);
+      panel.hide();
     }
   }
 

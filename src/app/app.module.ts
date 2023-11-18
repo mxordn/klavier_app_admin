@@ -18,6 +18,7 @@ import { AccordionModule } from 'primeng/accordion';
 import { FileUploadModule } from 'primeng/fileupload';
 import { DividerModule } from 'primeng/divider';
 import { ImageModule } from 'primeng/image';
+import { DialogService } from 'primeng/dynamicdialog';
 
 import { AppComponent } from './app.component';
 import { ReactiveFormsModule }  from  '@angular/forms';
@@ -27,7 +28,7 @@ import { LoginComponent } from './login/login.component';
 import { CollectionRoutingModule } from './app-routing/app-routing.module';
 import { UserHomeComponent } from './user-home/user-home.component';
 import { ChapterOverviewComponent } from './user-home/chapter-views/chapter-overview/chapter-overview.component';
-import { TabDetailsComponent } from './user-home/chapter-views/tab-details/tab-details.component';
+import { TabDescriptionComponent } from './user-home/chapter-views/tab-description/tab-description.component';
 import { NewTabPanelComponent } from './user-home/chapter-views/new-tab-panel/new-tab-panel.component';
 
 @NgModule({
@@ -37,7 +38,7 @@ import { NewTabPanelComponent } from './user-home/chapter-views/new-tab-panel/ne
     LoginComponent,
     UserHomeComponent,
     ChapterOverviewComponent,
-    TabDetailsComponent,
+    TabDescriptionComponent,
     NewTabPanelComponent
   ],
   imports: [
@@ -65,7 +66,7 @@ import { NewTabPanelComponent } from './user-home/chapter-views/new-tab-panel/ne
     DividerModule,
     ImageModule
   ],
-  providers: [],
+  providers: [DialogService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

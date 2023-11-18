@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { CollectionModel, HOST } from '../models/collection';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HOST } from '../models/collection';
+import { HttpClient } from '@angular/common/http';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { AuthService } from '../auth.service';
+import { AuthService } from '../auth/auth.service';
+import { getAuthHeaders } from '../auth/auth.header';
 import { Router } from '@angular/router';
 import { CollectionService } from '../collection.service';
+import { ChapterService } from '../chapter.service';
 
 
 @Component({
@@ -35,6 +37,7 @@ export class UserHomeComponent implements OnInit {
                public authService: AuthService,
                private router: Router,
                public collService: CollectionService,
+               private chapterService: ChapterService,
                private formBuilder: FormBuilder) {
     this.loading = false;
     this.formGroup = this.formBuilder.group({})
@@ -68,6 +71,7 @@ export class UserHomeComponent implements OnInit {
     this.collService.collections.forEach((coll) => {
       if (coll.id === id) {
         this.collService.selectedColl = coll;
+        this.chapterService.collChapters = coll.list_of_exercises;
         return
       }
     })
@@ -83,7 +87,7 @@ export class UserHomeComponent implements OnInit {
       console.log('VALID', this.collForm.value.collection_description)
 
       console.log(this.collForm)
-      let headers = this.authService.getAuthHeaders()
+      let headers = getAuthHeaders()
       this.loading = true;
       let formData: FormData = new FormData();
       formData.append("name", this.collForm.value.name);

@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http'
 import { FormControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HOST } from '../models/collection'
-import { AuthService } from '../auth.service';
+import { getAuthHeaders } from '../auth/auth.header';
 
 @Component({
   selector: 'app-collection-form',
@@ -15,8 +15,7 @@ export class CollectionFormComponent {
   loading: boolean
 
   constructor(private formBuilder: FormBuilder,
-              private hc: HttpClient,
-              private authService: AuthService) {
+              private hc: HttpClient) {
     this.loading = false;
     this.collForm = this.formBuilder.group({
         name: new FormControl('', Validators.required),
@@ -27,7 +26,7 @@ export class CollectionFormComponent {
 
   onSubmit() {
     console.log(this.collForm)
-    let headers = this.authService.getAuthHeaders()
+    let headers = getAuthHeaders();
     this.loading = true;
     let formData: FormData = new FormData();
     formData.append("name", this.collForm.value.name);

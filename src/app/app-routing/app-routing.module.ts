@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CollectionFormComponent } from '../collection-form/collection-form.component';
-import { authGuard } from '../auth.guard';
+import { authGuard } from '../auth/auth.guard';
 import { UserHomeComponent } from '../user-home/user-home.component';
 
 const routes: Routes = [

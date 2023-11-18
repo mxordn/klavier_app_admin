@@ -9,65 +9,68 @@
 </div>
 <div>
     <p-accordion [multiple]="false">
-        <p-accordionTab *ngFor="let chapter of collService.selectedColl.list_of_exercises, let i=index"
+        <p-accordionTab *ngFor="let chapter of chapterService.collChapters, let i=index"
                         class="m-1" [header]="chapter.name.toString()" (selectedChange)="openChapter(chapter.id)">
-            <p-card header="Tabs">
+            <p-card header="Tabs im Kapitel {{ chapter.name.toString() }}">
                 <p-button (onClick)="openNewTabPanel(i)" label="Neuer Tab" icon="pi pi-plus"></p-button>
                 <p-tabView  [(activeIndex)]="activeIndex" (onChange)="openTab(activeIndex)">
                     <p-tabPanel *ngFor="let exTab of chapter.exercise_ids, let itab=index"
                                 [header]="exTab.exercise_tab_name">
+                        <h3>{{ exTab.exercise_tab_name }}</h3>
                         <div>
-                            <h4>{{ exTab.exercise_tab_name }}</h4>
-                            <p>{{ exTab.exercise_description }}</p>
+                            <p><em>[Beschreibung des Tabs:]</em> {{ exTab.exercise_description }}</p>
+                            <p-button (onClick)="openDialogUpdateDescription()" label="Beschreibung bearbeiten"></p-button>
                         </div>
+                        <p-divider></p-divider>
                         <div>
+                            <!--"{{ HOST }}/serve_media/{{ collService.selectedColl.user_code }}/{{ exTab.img_url }}"-->
                             <h5>Bild/Partitur</h5>
-                            <img *ngIf="tabService.selectedTab.img_url != ''" src="{{ HOST }}/serve_media/{{ collService.selectedColl.user_code }}/{{ exTab.img_url }}"
+                            <img *ngIf="tabService.selectedTab.img_url != ''"
+                                [src]="imgURL"
                                 alt="{{ exTab.img_url }}" width="100%"/>
                             <div *ngIf="tabService.selectedTab.img_url === ''">
                                 Kein Bild hinterlegt.
                             </div>
                             <div class="flex justify-content-left">
-                                <p-fileUpload #imgUpload mode="basic" chooseLabel="Bild auswählen"
+                                <p-fileUpload #imgUpload class="m-2" mode="basic" chooseLabel="Bild auswählen"
                                                 name="file" [url]="tabService.selectedUploadURLImg"
                                                 accept="image/*"
                                                 [auto]="true"
                                                 (onUpload)="onUpload($event)">
                                 </p-fileUpload>
-                                <p-button (onClick)="clearImg()" icon="pi pi-times" severity="danger"></p-button>
+                                <p-button class="mt-2 mr-2" (onClick)="clearMedia('img')" icon="pi pi-times" severity="danger"
+                                            [disabled]="tabService.selectedTab.img_url === ''"></p-button>
                             </div>
                         </div>
+                        <p-divider></p-divider>
                         <div>
                             <h5>Audio</h5>
-                            <div *ngIf="tabService.selectedTab.audio_url != ''">
-                            <p-button [icon]="player_icon" [rounded]="true" [text]="true" [raised]="true" (onClick)="playPauseAudio()"></p-button>
-                            </div>
-                            <div *ngIf="tabService.selectedTab.audio_url === ''">
-                                Keine Audiodatei hinterlegt.
-                            </div>
-                            <!--{{ HOST }}/serve_media/{{ collService.selectedColl.user_code }}/{{ exTab.audio_url }}-->
-                            <div class="flex justify-content-left">
-                                <p-fileUpload #audioUpload mode="basic" chooseLabel="Audio auswählen"
-                                            name="file" [url]="tabService.selectedUploadURLAudio"
-                                            accept="audio/mpeg"
-                                            (onUpload)="onUpload($event)">
+                            <div class="flex">
+                                <div class="mr-2 mt-2" *ngIf="tabService.selectedTab.audio_url != ''">
+                                    <p-button [icon]="player_icon" [rounded]="true" [text]="true"
+                                            [raised]="true" (onClick)="playPauseAudio()">
+                                    </p-button>
+                                </div>
+                                <div *ngIf="tabService.selectedTab.audio_url === ''">
+                                    Keine Audiodatei hinterlegt.
+                                </div>
+                                <!--{{ HOST }}/serve_media/{{ collService.selectedColl.user_code }}/{{ exTab.audio_url }}-->
+                                <div class="flex justify-content-left">
+                                    <p-fileUpload #audioUpload class="m-2" mode="basic" chooseLabel="Audio auswählen"
+                                                name="file" [url]="tabService.selectedUploadURLAudio"
+                                                accept="audio/mpeg" [auto]="true"
+                                                (onUpload)="onUpload($event)">
                                 </p-fileUpload>
-                                <p-button (onClick)="audioUpload.clear()" icon="pi pi-times" severity="danger"></p-button>
+                                <p-button class="m-2" (onClick)="clearMedia('audio')" icon="pi pi-times" severity="danger"
+                                            [disabled]="tabService.selectedTab.audio_url === ''"></p-button>
+                                </div>
                             </div>
                         </div>
-                        <!--<p>
-                            {{ exTab.img_url.toString() }}
-                            {{ exTab.audio_url.toString() }}
-                            {{ exTab.icon.toString() }}
-                        </p>
-                        <div>
-                            <p-button (onClick)="editTab(i, itab)" severity="secondary">Tab bearbeiten</p-button>
-                        </div>-->
                     </p-tabPanel>
                 </p-tabView>
                 <ng-template pTemplate="footer">
-                    <p-button (onClick)="openChapter(chapter.id)" [disabled]="!activated">Bearbeiten</p-button>
-                    <p-button class="ml-6" severity="danger" (onClick)="delChapter()" icon="pi pi-trash" [disabled]="!activated"></p-button>
+                    <!--<p-button (onClick)="openChapter(chapter.id)" [disabled]="!activated">Bearbeiten</p-button>-->
+                    <p-button severity="danger" (onClick)="delChapter()" label="Chapter löschen" icon="pi pi-trash" [disabled]="!activated"></p-button>
                 </ng-template>
             </p-card>
         </p-accordionTab>
@@ -94,14 +97,6 @@
         </div>
         <p-button (onClick)="closeDialogNewChapter()" severity="secondary">Schließen</p-button>
         <p-button class="ml-2" (onClick)="createNewChapter()">Kapitel anlegen</p-button>
-    </p-dialog>
-    <p-dialog header="Tab bearbeiten"
-                [(visible)]="editTabDialogVisible"
-                [modal]="true"
-                [style]="{ width: '300px' }"
-                [draggable]="false"
-                [resizable]="false">
-        <app-tab-details></app-tab-details>
     </p-dialog>
     <p-dialog header="Neuen Tab anlegen"
             [(visible)]="newTabPanelVisible"
