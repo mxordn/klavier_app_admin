@@ -1,13 +1,13 @@
 import { TabModel } from "./tab";
 
 export interface ChapterModel {
-    name: String,
-    collection_id: String,
-    owner: String,
-    chapter_description: String,
+    name: string,
+    collection_id: string,
+    owner: string,
+    chapter_description: string,
     exercise_ids: TabModel[],
-    order_num: Number,
-    id: String
+    order_num: number,
+    id: string
 }
 
 export const EmptyChapter: ChapterModel = {

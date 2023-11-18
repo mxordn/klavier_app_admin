@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { DynamicDialogRef } from 'primeng/dynamicdialog';
 import { ChapterService } from 'src/app/chapter.service';
 
 @Component({
@@ -8,22 +9,30 @@ import { ChapterService } from 'src/app/chapter.service';
   styleUrls: ['./new-tab-panel.component.scss']
 })
 export class NewTabPanelComponent {
-  @Input('newTabPanelVisible') newTabPanelVisible: boolean = false;
   newTabForm: FormGroup;
 
   constructor(private fB: FormBuilder,
-              private chapterService: ChapterService) {
+              private chapterService: ChapterService,
+              private dialogRef: DynamicDialogRef) {
     this.newTabForm = this.fB.group({
       exercise_tab_name: new FormControl("", Validators.required),
       icon: new FormControl("music.note", Validators.required),
-      exercise_description: new FormControl("")
+      exercise_description: new FormControl(" ", Validators.nullValidator)
     })
   }
 
   addTab() {
     if (this.newTabForm.valid) {
-      this.chapterService.addNewTab(this.newTabForm, this.chapterService.selectedChapter.id.toString());
-      this.newTabPanelVisible = false;
+      let formData: FormData = new FormData();
+      console.log('FG', this.newTabForm);
+
+      formData.append("exercise_tab_name", this.newTabForm.value.exercise_tab_name);
+      formData.append("icon", this.newTabForm.value.icon);
+      formData.append("exercise_description", this.newTabForm.value.exercise_description);
+      formData.append("chap_id", this.chapterService.selectedChapter.id);
+
+      this.chapterService.addNewTab(formData);
+      this.dialogRef.close();
     } else {
       alert("Form nicht valide");
     }

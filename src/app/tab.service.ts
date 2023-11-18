@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import { EmptyTab, TabModel } from './models/tab';
 import { FormGroup } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { BehaviorSubject } from 'rxjs';
+import { getAuthHeaders } from './auth/auth.header';
+import { HOST } from './models/collection';
 
 @Injectable({
   providedIn: 'root'
@@ -54,6 +56,25 @@ export class TabService {
       this.imgURL.next(val);
     } else if (media_type === 'audio') {
       this.audioURL.next(val);
+    }
+  }
+
+  deleteOneTab(tab_id: string, chapter_id: string) {
+    const headers = getAuthHeaders();
+    const params = new HttpParams().append('chapter_id', chapter_id);
+    if (this.selectedTab.id === tab_id) {
+      this.hC.delete<TabModel[]>(HOST + '/delete_tab/' + this.selectedTab.id, {params: params, headers: headers}).subscribe({
+        next: (res) => {
+          console.log(res);
+          this.tabs = res;
+        },
+        error: (err) => {
+          console.log(err);
+        },
+        complete: () => {
+
+        }
+      });
     }
   }
 }

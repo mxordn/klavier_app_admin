@@ -29,7 +29,6 @@ export class ChapterOverviewComponent implements OnInit {
   player_icon: "pi pi-play" | "pi pi-pause" = "pi pi-play"
   imgURL: string = ''
   audioURL: string = ''
-  dialogDescriptionVisible: boolean = false;
   dialogRef: DynamicDialogRef | undefined;
 
   constructor(public collService: CollectionService,
@@ -67,7 +66,14 @@ export class ChapterOverviewComponent implements OnInit {
       if (c.id === chapter_id) {
         this.chapterService.selectedChapter = c;
         console.log(c);
-        this.tabService.tabs = c.exercise_ids;
+        this.tabService.tabs = c.exercise_ids.sort((a, b) => {
+          if (a['order_num'] < b['order_num']) {
+            return -1
+          } if (a['order_num'] > b['order_num']) {
+            return 1
+          }
+          return 0
+      });
       }
     })
     this.activeIndex = 0;
@@ -98,7 +104,7 @@ export class ChapterOverviewComponent implements OnInit {
   }
 
   openDialogUpdateDescription() {
-    this.dialogDescriptionVisible = true;
+    //this.dialogDescriptionVisible = true;
     this.dialogRef = this.dialogService.open(TabDescriptionComponent, {});
     this.dialogRef.onClose.subscribe(() => {
       //this.collService.getUserCollections(true);
@@ -143,7 +149,7 @@ export class ChapterOverviewComponent implements OnInit {
     this.dialogService.open(NewTabPanelComponent, {
       header: "Neuen Tab anlegen",
       modal: true,
-      style: { width: '300px' },
+      style: { width: '400px' },
       draggable: false,
       resizable: false
     });
@@ -166,6 +172,11 @@ export class ChapterOverviewComponent implements OnInit {
     console.log('Chapter löschen')
     this.chapterService.deleteOneChapter(this.chapterService.selectedChapter.id.toString(),
                                         this.collService.selectedColl.id.toString());
+  }
+
+  delTab(tab_id: string) {
+    console.log('Tab löschen', tab_id);
+    this.tabService.deleteOneTab(tab_id, this.chapterService.selectedChapter.id.toString());
   }
 
   playPauseAudio() {

@@ -40,6 +40,14 @@ export class CollectionService {
             if (c.id === this.selectedColl.id) {
               this.selectedColl = c;
               this.chapterService.collChapters = this.selectedColl.list_of_exercises;
+              this.chapterService.collChapters.sort((a, b) => {
+                if (a['order_num'] > b['order_num']) {
+                  return -1
+                } if (a['order_num'] < b['order_num']) {
+                  return 1
+                }
+                return 0
+              });
               this.selectedColl.list_of_exercises.forEach((chap) => {
                 if (chap.id === this.chapterService.selectedChapter.id) {
                   this.chapterService.selectedChapter = chap;

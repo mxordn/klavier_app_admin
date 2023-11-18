@@ -2,23 +2,21 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ButtonModule } from 'primeng/button';
-import { ToggleButtonModule } from 'primeng/togglebutton';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { PasswordModule } from 'primeng/password';
 import { CardModule } from 'primeng/card';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { PanelModule } from 'primeng/panel';
-import { ListboxModule } from 'primeng/listbox';
 import { MenuModule } from 'primeng/menu';
 import { ToolbarModule } from 'primeng/toolbar';
 import { DialogModule } from 'primeng/dialog';
+import { DialogService } from 'primeng/dynamicdialog';
 import { TabViewModule } from 'primeng/tabview';
 import { AccordionModule } from 'primeng/accordion';
 import { FileUploadModule } from 'primeng/fileupload';
 import { DividerModule } from 'primeng/divider';
 import { ImageModule } from 'primeng/image';
-import { DialogService } from 'primeng/dynamicdialog';
 
 import { AppComponent } from './app.component';
 import { ReactiveFormsModule }  from  '@angular/forms';
@@ -47,17 +45,14 @@ import { NewTabPanelComponent } from './user-home/chapter-views/new-tab-panel/ne
     HttpClientModule,
     BrowserAnimationsModule,
     ButtonModule,
-    ToggleButtonModule,
     ReactiveFormsModule,
     InputTextModule,
     InputTextareaModule,
     PasswordModule,
-    ListboxModule,
     MenuModule,
     CardModule,
     ToolbarModule,
     PanelModule,
-    ListboxModule,
     DialogModule,
     AccordionModule,
     TabViewModule,

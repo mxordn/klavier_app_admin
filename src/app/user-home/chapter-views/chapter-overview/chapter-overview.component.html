@@ -14,9 +14,14 @@
             <p-card header="Tabs im Kapitel {{ chapter.name.toString() }}">
                 <p-button (onClick)="openNewTabPanel(i)" label="Neuer Tab" icon="pi pi-plus"></p-button>
                 <p-tabView  [(activeIndex)]="activeIndex" (onChange)="openTab(activeIndex)">
-                    <p-tabPanel *ngFor="let exTab of chapter.exercise_ids, let itab=index"
-                                [header]="exTab.exercise_tab_name">
+                    <p-tabPanel *ngFor="let exTab of tabService.tabs, let itab=index"
+                    [header]="exTab.exercise_tab_name">
+                    <div class="flex align-items-center justify-content-between">
                         <h3>{{ exTab.exercise_tab_name }}</h3>
+                        <p-button class="ml-4" (onClick)="delTab(exTab.id)" icon="pi pi-times"
+                                 label="Tab löschen" severity="danger" size="small">
+                        </p-button>
+                    </div>
                         <div>
                             <p><em>[Beschreibung des Tabs:]</em> {{ exTab.exercise_description }}</p>
                             <p-button (onClick)="openDialogUpdateDescription()" label="Beschreibung bearbeiten"></p-button>
@@ -69,8 +74,8 @@
                     </p-tabPanel>
                 </p-tabView>
                 <ng-template pTemplate="footer">
-                    <!--<p-button (onClick)="openChapter(chapter.id)" [disabled]="!activated">Bearbeiten</p-button>-->
-                    <p-button severity="danger" (onClick)="delChapter()" label="Chapter löschen" icon="pi pi-trash" [disabled]="!activated"></p-button>
+                    <p-button severity="danger" (onClick)="delChapter()"
+                                label="Chapter löschen" icon="pi pi-trash" [disabled]="!activated"></p-button>
                 </ng-template>
             </p-card>
         </p-accordionTab>
@@ -88,22 +93,16 @@
         <div>
             <form [formGroup]="chapForm">
                 <div class="m-2">
-                    <input class="w-full" pInputText type="text" name="name" formControlName="name" placeholder="Titel des Kapitels"/>
+                    <input class="w-full" pInputText type="text" name="name"
+                            formControlName="name" placeholder="Titel des Kapitels"/>
                 </div>
                 <div class="m-2">
-                    <input pInputTextarea type="textarea" formControlName="chapter_description" name="chapter_description" placeholder="Beschreibung des Kapitels"/>
+                    <input pInputTextarea type="textarea" formControlName="chapter_description"
+                            name="chapter_description" placeholder="Beschreibung des Kapitels"/>
                 </div>
             </form>
         </div>
         <p-button (onClick)="closeDialogNewChapter()" severity="secondary">Schließen</p-button>
         <p-button class="ml-2" (onClick)="createNewChapter()">Kapitel anlegen</p-button>
-    </p-dialog>
-    <p-dialog header="Neuen Tab anlegen"
-            [(visible)]="newTabPanelVisible"
-            [modal]="true"
-            [style]="{ width: '300px' }"
-            [draggable]="false"
-            [resizable]="false">
-        <app-new-tab-panel [newTabPanelVisible]="newTabPanelVisible"></app-new-tab-panel>
     </p-dialog>
 </div>
