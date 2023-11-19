@@ -13,7 +13,6 @@ export class CollectionService {
   collections: CollectionModel[] = [];
   chapters_activated: Boolean = false
   selectedColl: CollectionModel = EmptyColl;
-  selectedChapter: ChapterModel = EmptyChapter;
   selectedTab: TabModel = EmptyTab;
   
   constructor(private hC: HttpClient,

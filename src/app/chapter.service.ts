@@ -42,12 +42,22 @@ export class ChapterService {
         next: (response) => {
           console.log(response);
           this.collChapters = response;
+          this.collChapters.sort((a, b) => {
+            if (a['order_num'] > b['order_num']) {
+              return 1
+            }
+            if (a['order_num'] < b['order_num']) {
+              return -1
+            }
+            return 0
+          })
         },
         error: (err) => {
           console.log(err);
         },
         complete: () => {
           console.log('Collection deleted')
+
         }
       });
     } else {

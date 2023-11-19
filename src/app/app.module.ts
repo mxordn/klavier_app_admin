@@ -28,6 +28,7 @@ import { UserHomeComponent } from './user-home/user-home.component';
 import { ChapterOverviewComponent } from './user-home/chapter-views/chapter-overview/chapter-overview.component';
 import { TabDescriptionComponent } from './user-home/chapter-views/tab-description/tab-description.component';
 import { NewTabPanelComponent } from './user-home/chapter-views/new-tab-panel/new-tab-panel.component';
+import { NewChapterComponent } from './user-home/chapter-views/new-chapter/new-chapter.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { NewTabPanelComponent } from './user-home/chapter-views/new-tab-panel/ne
     UserHomeComponent,
     ChapterOverviewComponent,
     TabDescriptionComponent,
-    NewTabPanelComponent
+    NewTabPanelComponent,
+    NewChapterComponent
   ],
   imports: [
     CollectionRoutingModule,

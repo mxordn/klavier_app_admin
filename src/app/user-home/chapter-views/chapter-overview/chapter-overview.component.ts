@@ -11,6 +11,7 @@ import { TabService } from 'src/app/tab.service';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { TabDescriptionComponent } from '../tab-description/tab-description.component';
 import { NewTabPanelComponent } from '../new-tab-panel/new-tab-panel.component';
+import { NewChapterComponent } from '../new-chapter/new-chapter.component';
 
 @Component({
   selector: 'app-chapter-overview',
@@ -100,7 +101,14 @@ export class ChapterOverviewComponent implements OnInit {
   }
 
   openDialogNewChapter(): void {
-    this.dialogVisible = true;
+    this.dialogService.open(NewChapterComponent, {
+      header: "Neues Kapitel hinzufügen",
+      modal: true,
+      style: { width: '400px' },
+      draggable: false,
+      resizable: false,
+    });
+    //this.dialogVisible = true;
   }
 
   openDialogUpdateDescription() {

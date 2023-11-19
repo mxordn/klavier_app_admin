@@ -1,12 +1,21 @@
 <form [formGroup]="newTabForm" (ngSubmit)="addTab()">
-    <div class="m-2">
-        <label htmlFor="name_input">Titel des Tabs</label>
-        <input #name_input pInputText type="text" formControlName="exercise_tab_name" name="icon" placeholder="Tab Titel"/>
-        <label htmlFor="icon_input">Icon</label>
-        <input #icon_input pInputText type="text" formControlName="icon" name="icon" placeholder="Icon Name"/>
+    <div class="w-full">
+        <div class="flex flex-column gap-2">
+            <label htmlFor="name_input">Titel des Tabs</label>
+            <input #name_input pInputText type="text" formControlName="exercise_tab_name" name="icon" placeholder="Tab Titel"/>
+        </div>
+        <div class="flex flex-column gap-2 mt-2">
+            <label htmlFor="icon_input">Icon</label>
+            <input #icon_input pInputText type="text" formControlName="icon" name="icon" placeholder="Icon Name"/>
+        </div>
         <p-divider></p-divider>
-        <label htmlFor="description_input">Beschreibung des Tabs</label>
-        <textarea #description_input type="text" pInputText formControlName="exercise_description" name="exercise_description" placeholder="Beschreibung des Tabs"></textarea>
+        <div class="flex flex-column gap-2">
+            <label htmlFor="description_input">Beschreibung des Tabs</label>
+            <textarea #description_input type="text" pInputText
+                    formControlName="exercise_description" name="exercise_description"
+                    placeholder="Beschreibung des Tabs">
+            </textarea>
+        </div>
         <p-divider></p-divider>
         <p-button (onClick)="addTab()" label="Tab anlegen"></p-button>
     </div>

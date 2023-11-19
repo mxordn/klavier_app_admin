@@ -11,8 +11,9 @@
         <ng-template pTemplate="content">
             <p-card header="Login">
                 <form [formGroup]="loginForm">
-                    <input id="username" type="text" pInputText class="w-full mb-3" placeholder="eMail"
-                    formControlName="username_email"/>
+                    <input id="username" type="text" pInputText class="w-full mb-3" 
+                            placeholder="eMail"
+                            formControlName="username_email"/>
                     <br>
                     <p-password type="text" placeholder="Passwort" formControlName="password" [feedback]="false"></p-password>
                 </form>
