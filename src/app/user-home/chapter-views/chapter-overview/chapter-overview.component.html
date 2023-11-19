@@ -83,26 +83,4 @@
     <div class="m-2">
         <p-button (onClick)="openDialogNewChapter()" icon="pi pi-plus" [hidden]="!activated"></p-button>
     </div>
-
-    <p-dialog header="Neues Kapitel hinzufügen"
-                [(visible)]="dialogVisible"
-                [modal]="true"
-                [style]="{ width: '400px' }"
-                [draggable]="false"
-                [resizable]="false">
-        <div>
-            <form [formGroup]="chapForm">
-                <div class="m-2">
-                    <input class="w-full" pInputText type="text" name="name"
-                            formControlName="name" placeholder="Titel des Kapitels"/>
-                </div>
-                <div class="m-2">
-                    <input pInputTextarea type="textarea" formControlName="chapter_description"
-                            name="chapter_description" placeholder="Beschreibung des Kapitels"/>
-                </div>
-            </form>
-        </div>
-        <p-button (onClick)="closeDialogNewChapter()" severity="secondary">Schließen</p-button>
-        <p-button class="ml-2" (onClick)="createNewChapter()">Kapitel anlegen</p-button>
-    </p-dialog>
 </div>

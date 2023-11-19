@@ -123,36 +123,6 @@ export class ChapterOverviewComponent implements OnInit {
     this.dialogVisible = false;
   }
 
-  createNewChapter(): void {
-    if (this.chapForm.valid) {
-      console.log('VALID', this.chapForm.value.collection_description)
-
-      console.log(this.chapForm)
-      let headers = getAuthHeaders()
-      let formData: FormData = new FormData();
-      formData.append("name", this.chapForm.value.name);
-      formData.append("chapter_description", this.chapForm.value.chapter_description);
-      formData.append("collection_id", this.collService.selectedColl.id.toString());
-      formData.append("owner", this.collService.selectedColl.owner.toString());
-
-      this.hC.post<ChapterModel>(HOST+'/new_chapter', formData, { headers: headers }).subscribe({
-        next: (data) => {
-          console.log('Neues Kapitel: ', data);
-          this.collService.getUserCollections();
-        },
-        error: (err) => {
-          console.log(err)
-        },
-        complete: () => {
-          this.ngOnInit();
-          this.dialogVisible = false;
-        }
-      })
-    } else {
-      return
-    }
-  }
-
   openNewTabPanel(chapter_index: number) {
     this.dialogService.open(NewTabPanelComponent, {
       header: "Neuen Tab anlegen",
