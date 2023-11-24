@@ -17,6 +17,7 @@ import { AccordionModule } from 'primeng/accordion';
 import { FileUploadModule } from 'primeng/fileupload';
 import { DividerModule } from 'primeng/divider';
 import { ImageModule } from 'primeng/image';
+import { DropdownModule } from 'primeng/dropdown';
 
 import { AppComponent } from './app.component';
 import { ReactiveFormsModule }  from  '@angular/forms';
@@ -29,6 +30,9 @@ import { ChapterOverviewComponent } from './user-home/chapter-views/chapter-over
 import { TabDescriptionComponent } from './user-home/chapter-views/tab-description/tab-description.component';
 import { NewTabPanelComponent } from './user-home/chapter-views/new-tab-panel/new-tab-panel.component';
 import { NewChapterComponent } from './user-home/chapter-views/new-chapter/new-chapter.component';
+import { NewCollectionComponent } from './user-home/collection-overview/new-collection/new-collection.component';
+import { EditCollectionComponent } from './user-home/collection-overview/edit-collection/edit-collection.component';
+import { MarkdownPipe } from './markdown.pipe';
 
 @NgModule({
   declarations: [
@@ -39,7 +43,10 @@ import { NewChapterComponent } from './user-home/chapter-views/new-chapter/new-c
     ChapterOverviewComponent,
     TabDescriptionComponent,
     NewTabPanelComponent,
-    NewChapterComponent
+    NewChapterComponent,
+    NewCollectionComponent,
+    EditCollectionComponent,
+    MarkdownPipe
   ],
   imports: [
     CollectionRoutingModule,
@@ -61,7 +68,8 @@ import { NewChapterComponent } from './user-home/chapter-views/new-chapter/new-c
     FileUploadModule,
     OverlayPanelModule,
     DividerModule,
-    ImageModule
+    ImageModule,
+    DropdownModule
   ],
   providers: [DialogService],
   bootstrap: [AppComponent]

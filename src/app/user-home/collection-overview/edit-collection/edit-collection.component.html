@@ -1,0 +1,11 @@
+<form class="w-full" [formGroup]="editCollectionForm">
+    <input class="w-full" type="text" pInputText name="title" formControlName="title" placeholder="Titel eingeben"/>
+    <textarea class="w-full mt-2" id="collection_description" pInputText type="text" name="collection_description"
+                rows="6" placeholder="Beschreibung" formControlName="collection_description">
+    </textarea>
+    <div class="mt-2">
+        <p-button class="mt-2" (onClick)="updateCollectionInfo()">
+            Sammlung aktualisieren
+        </p-button>    
+    </div>
+</form>

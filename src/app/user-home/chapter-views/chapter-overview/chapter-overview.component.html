@@ -1,13 +1,31 @@
-<div class="grid">
-    <div class="col-11">
-        <h2>{{ collService.selectedColl.display_name }}</h2>
-        <p> {{ collService.selectedColl.collection_description }} </p>
+<p-panel [hidden]="!activated">
+    <ng-template pTemplate="header">
+        <div class="flex justify-content-between flex-wrap">
+            <h2 class="m-2 flex align-items-center justify-content-center">
+                {{ collService.selectedColl.display_name }}
+            </h2>
+            <div class="flex align-items-center">
+                <p-button (onClick)="editCollection()" icon="pi pi-file-edit" size="small" [disabled]="!activated"></p-button>
+                <p-button (onClick)="delCollection()" icon="pi pi-trash" size="small" [disabled]="!activated" severity="danger"></p-button>
+            </div>
+        </div>
+    </ng-template>
+    <div class="grid">
+        <div class="col-9">
+            <!--<h2>{{ collService.selectedColl.display_name }}</h2>-->
+            <p-panel header="Beschreibung der Sammlung" [toggleable]="true">
+                <p [innerHTML]="collService.selectedColl.collection_description | markdown"></p>
+            </p-panel>
+        </div>
+        <div class="col-3 flex">
+            <div [hidden]="!activated">
+                <h4>User Code:</h4>
+                <p-button label=" {{ collService.selectedColl.user_code }}" icon="pi pi-copy" size="small" [text]="true" [plain]="true" (onClick)="copyClipboard()"></p-button>
+            </div>
+            <!--<p-button (onClick)="editCollection()" icon="pi pi-file-edit" [disabled]="!activated"></p-button>
+            <p-button (onClick)="delCollection()" icon="pi pi-trash" [disabled]="!activated" severity="danger"></p-button>-->
+        </div>
     </div>
-    <div class="col-1">
-        <p-button (onClick)="delCollection()" icon="pi pi-trash" [disabled]="!activated"></p-button>
-    </div>
-</div>
-<div>
     <p-accordion [multiple]="false">
         <p-accordionTab *ngFor="let chapter of chapterService.collChapters, let i=index"
                         class="m-1" [header]="chapter.name.toString()" (selectedChange)="openChapter(chapter.id)">
@@ -79,8 +97,10 @@
                 </ng-template>
             </p-card>
         </p-accordionTab>
+        <div class="m-2">
+            <p-button (onClick)="openDialogNewChapter()" icon="pi pi-plus" [hidden]="!activated"></p-button>
+        </div>
     </p-accordion>
-    <div class="m-2">
-        <p-button (onClick)="openDialogNewChapter()" icon="pi pi-plus" [hidden]="!activated"></p-button>
-    </div>
-</div>
+    <ng-template pTemplate="footer">
+    </ng-template>
+</p-panel>

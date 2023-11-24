@@ -12,6 +12,7 @@ import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { TabDescriptionComponent } from '../tab-description/tab-description.component';
 import { NewTabPanelComponent } from '../new-tab-panel/new-tab-panel.component';
 import { NewChapterComponent } from '../new-chapter/new-chapter.component';
+import { EditCollectionComponent } from '../../collection-overview/edit-collection/edit-collection.component';
 
 @Component({
   selector: 'app-chapter-overview',
@@ -134,6 +135,16 @@ export class ChapterOverviewComponent implements OnInit {
     this.chapterService.selectedChapter = this.chapterService.collChapters[chapter_index];
   }
 
+  editCollection() {
+    this.dialogService.open(EditCollectionComponent, {
+      header: "Sammlung bearbeiten",
+      modal: true,
+      style: { width: '400px', height: '350px' },
+      draggable: false,
+      resizable: false,
+    })
+  }
+
   editTab(chapter_index: number, tab_index: number) {
     this.tabService.selectedTab = this.collService.selectedColl.list_of_exercises[chapter_index].exercise_ids[tab_index];
     this.tabService.selectedUploadURLAudio = HOST + '/upload/media/audio/' + this.tabService.selectedTab.id + '?user_code=' + this.collService.selectedColl.user_code;
@@ -193,5 +204,9 @@ export class ChapterOverviewComponent implements OnInit {
         console.log('successfully deleted.');
       }
     })
+  }
+
+  copyClipboard() {
+    navigator.clipboard.writeText(this.collService.selectedColl.user_code.toString())
   }
 }

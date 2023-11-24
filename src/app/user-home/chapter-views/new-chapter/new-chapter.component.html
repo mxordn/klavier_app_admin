@@ -1,12 +1,10 @@
-<form [formGroup]="chapForm">
-    <div class="m-2">
-        <input class="w-full" pInputText type="text" name="name"
-                formControlName="name" placeholder="Titel des Kapitels"/>
-    </div>
-    <div class="m-2">
-        <input pInputTextarea type="textarea" formControlName="chapter_description"
-                name="chapter_description" placeholder="Beschreibung des Kapitels"/>
-    </div>
+<form class="w-full" [formGroup]="chapForm">
+
+    <input class="w-full mt-2" pInputText type="text" name="name"
+            formControlName="name" placeholder="Titel des Kapitels"/>
+    <textarea class="w-full mt-2 mb-2" pInputTextarea type="textarea" cols="6" formControlName="chapter_description"
+            name="chapter_description" placeholder="Beschreibung des Kapitels">
+    </textarea>
     <!--<p-button (onClick)="closeDialogNewChapter()" severity="secondary">Schließen</p-button>-->
-    <p-button class="ml-2" (onClick)="createNewChapter()">Kapitel anlegen</p-button>
+    <p-button class="mt-2" (onClick)="createNewChapter()">Kapitel anlegen</p-button>
 </form>

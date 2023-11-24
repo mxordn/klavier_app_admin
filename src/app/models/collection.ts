@@ -1,6 +1,6 @@
 import { ChapterModel } from "./chapter"
 
-export let HOST: string = 'http://127.0.0.1:8000'
+export const HOST: string = 'http://127.0.0.1:8000'
 
 
 export interface CollectionModel {

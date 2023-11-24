@@ -4,7 +4,7 @@
             <div>
                 <form [formGroup]="formGroup">
                     <div class="p-2 w-auto" *ngFor="let aColl of collService.collections; index as i;">
-                        <p-button [outlined]="true" severtiy="secondary"
+                        <p-button class="w-full" [outlined]="true" severtiy="secondary"
                         (onClick)="openCollection(aColl.id)"
                         [label]="aColl.display_name.toString()"
                         ></p-button>

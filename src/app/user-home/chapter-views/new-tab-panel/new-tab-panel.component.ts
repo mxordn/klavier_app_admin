@@ -11,12 +11,23 @@ import { ChapterService } from 'src/app/chapter.service';
 export class NewTabPanelComponent {
   newTabForm: FormGroup;
 
+  iconList: string[] = ["music.note",
+                        "music.note",
+                        "music.quarternote.3",
+                        "music.note.list",
+                        "music.note.house",
+                        "line.3.horizontal",
+                        "text.line.first.and.arrowtriangle.forward",
+                        "text.line.last.and.arrowtriangle.forward",
+                        "arrow.up.and.down.text.horizontal"
+                      ];
+
   constructor(private fB: FormBuilder,
               private chapterService: ChapterService,
               private dialogRef: DynamicDialogRef) {
     this.newTabForm = this.fB.group({
       exercise_tab_name: new FormControl("", Validators.required),
-      icon: new FormControl("music.note", Validators.required),
+      icon: new FormControl(this.iconList, Validators.required),
       exercise_description: new FormControl(" ", Validators.nullValidator)
     })
   }
