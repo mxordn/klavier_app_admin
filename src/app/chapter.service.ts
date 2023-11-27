@@ -29,7 +29,7 @@ export class ChapterService {
         console.log(err);
       },
       complete: () => {
-        console.log('data', this.selectedChapter);
+        //console.log('data', this.selectedChapter);
       }
     });
   }

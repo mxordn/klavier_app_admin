@@ -45,7 +45,7 @@ export class TabService {
           console.log(err);
         },
         complete: () => {
-          console.log('data', this.selectedTab);
+          console.log('updated data tab:', this.selectedTab);
         }
       });
     }

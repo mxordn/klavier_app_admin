@@ -1,14 +1,12 @@
-<p-card header="Titel und Beschreibung des Tabs">
-    <form [formGroup]="formTab">
-        <div class="justify-content-center">
-            <input type="text" pInputText formControlName="exercise_tab_name" placeholder="Titel für den Tab"/>
-        </div>
-        <p-divider></p-divider>
-        <div class="justify-content-center">
-            <textarea pInputTextarea formControlName="tab_description" placeholder="Beschreibung">
-                {{ tab_desc }}
-            </textarea>
-        </div>
-        <p-button (onClick)="updateDescription()">Beschreibung aktualisieren</p-button>
-    </form>
-</p-card>
+<form [formGroup]="formTab">
+    <div class="justify-content-center w-full mt-2">
+        <input class="w-full" type="text" pInputText formControlName="exercise_tab_name" placeholder="Titel für den Tab"/>
+    </div>
+    <p-divider></p-divider>
+    <div class="justify-content-center mt-2 mb-2">
+        <textarea class="w-full" rows="6" pInputTextarea formControlName="tab_description" placeholder="Beschreibung">
+            {{ tab_desc }}
+        </textarea>
+    </div>
+    <p-button class="mt-2" (onClick)="updateDescription()">Beschreibung aktualisieren</p-button>
+</form>

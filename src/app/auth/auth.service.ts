@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { HOST, EmptyColl } from '../models/collection';
 import { Router } from '@angular/router';
-import { jwtDecode, JwtDecodeOptions } from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 import { CollectionService } from '../collection.service';
 
 interface jwtData {
@@ -60,7 +60,7 @@ export class AuthService {
     this.user_logged_in = false;
   }
 
-  private is_token_valid(): Boolean {
+  is_token_valid(): Boolean {
     let curr_date = new Date().getTime();
     let token_exp = Number(localStorage.getItem("exp")!) * 1000;
 

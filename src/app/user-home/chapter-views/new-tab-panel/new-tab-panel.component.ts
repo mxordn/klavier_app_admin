@@ -1,6 +1,8 @@
 import { Component, Input } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { options } from 'marked';
 import { DynamicDialogRef } from 'primeng/dynamicdialog';
+import { AuthService } from 'src/app/auth/auth.service';
 import { ChapterService } from 'src/app/chapter.service';
 
 @Component({
@@ -24,15 +26,21 @@ export class NewTabPanelComponent {
 
   constructor(private fB: FormBuilder,
               private chapterService: ChapterService,
+              private authService: AuthService,
               private dialogRef: DynamicDialogRef) {
     this.newTabForm = this.fB.group({
       exercise_tab_name: new FormControl("", Validators.required),
       icon: new FormControl(this.iconList, Validators.required),
       exercise_description: new FormControl(" ", Validators.nullValidator)
-    })
+    });
+    this.newTabForm.value.icon = "music.note";
   }
 
   addTab() {
+    if (!this.authService.is_token_valid()) {
+      alert("Bitte neu einloggen (Token Timeout)");
+      return; 
+    }
     if (this.newTabForm.valid) {
       let formData: FormData = new FormData();
       console.log('FG', this.newTabForm);

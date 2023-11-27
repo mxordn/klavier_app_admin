@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { HOST } from '../models/collection';
+import { EmptyColl, HOST } from '../models/collection';
 import { HttpClient } from '@angular/common/http';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../auth/auth.service';
@@ -74,8 +74,10 @@ export class UserHomeComponent implements OnInit {
         this.chapterService.collChapters = coll.list_of_exercises;
         return
       }
-    })
-
+    });
+    if (this.collService.selectedColl === EmptyColl) {
+      alert('Sammlung nicht gefunden.');
+    }
   }
 
   openCreateCollection() {

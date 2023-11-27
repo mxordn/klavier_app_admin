@@ -13,6 +13,7 @@ import { TabDescriptionComponent } from '../tab-description/tab-description.comp
 import { NewTabPanelComponent } from '../new-tab-panel/new-tab-panel.component';
 import { NewChapterComponent } from '../new-chapter/new-chapter.component';
 import { EditCollectionComponent } from '../../collection-overview/edit-collection/edit-collection.component';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: 'app-chapter-overview',
@@ -38,6 +39,7 @@ export class ChapterOverviewComponent implements OnInit {
               public tabService: TabService,
               public chapterService: ChapterService,
               private dialogService: DialogService,
+              private authService: AuthService,
               private hC: HttpClient) {
     this.chapForm = this.fB.group({
       name: new FormControl('', Validators.required),
@@ -112,37 +114,55 @@ export class ChapterOverviewComponent implements OnInit {
     //this.dialogVisible = true;
   }
 
-  openDialogUpdateDescription() {
+  openDialogUpdateDescription(tabId: string) {
     //this.dialogDescriptionVisible = true;
-    this.dialogRef = this.dialogService.open(TabDescriptionComponent, {});
+    this.dialogRef = this.dialogService.open(TabDescriptionComponent, {
+      header: "Titel und Beschreibung des Tabs",
+    });
     this.dialogRef.onClose.subscribe(() => {
-      //this.collService.getUserCollections(true);
+      this.chapterService.selectedChapter.exercise_ids.forEach((t) => {
+        if (t.id === tabId) {
+          this.tabService.selectedTab = t;
+        }
+      })
     });
   }
 
-  closeDialogNewChapter(): void {
-    this.dialogVisible = false;
-  }
+//  closeDialogNewChapter(): void {
+//    this.dialogVisible = false;
+//  }
 
   openNewTabPanel(chapter_index: number) {
-    this.dialogService.open(NewTabPanelComponent, {
+    this.dialogRef = this.dialogService.open(NewTabPanelComponent, {
       header: "Neuen Tab anlegen",
       modal: true,
       style: { width: '400px' },
       draggable: false,
       resizable: false
     });
-    this.chapterService.selectedChapter = this.chapterService.collChapters[chapter_index];
+    this.dialogRef.onClose.subscribe(() => {
+      this.tabService.tabs = this.chapterService.selectedChapter.exercise_ids;
+      this.collService.selectedColl.list_of_exercises.forEach((chap) => {
+        if (chap.id === this.chapterService.selectedChapter.id) {
+          console.log("updated collService", chap.exercise_ids);
+        }
+      });
+    });
+//    this.chapterService.selectedChapter = this.chapterService.collChapters[chapter_index];
   }
 
   editCollection() {
-    this.dialogService.open(EditCollectionComponent, {
-      header: "Sammlung bearbeiten",
-      modal: true,
-      style: { width: '400px', height: '350px' },
-      draggable: false,
-      resizable: false,
-    })
+    if (this.authService.is_token_valid()) {
+      this.dialogService.open(EditCollectionComponent, {
+        header: "Sammlung bearbeiten",
+        modal: true,
+        style: { width: '400px', height: '350px' },
+        draggable: false,
+        resizable: false,
+      });
+    } else {
+      alert("Bitte loggen Sie sich neu ein (Timeout).");
+    }
   }
 
   editTab(chapter_index: number, tab_index: number) {
@@ -155,6 +175,7 @@ export class ChapterOverviewComponent implements OnInit {
 
   delCollection() {
     this.collService.deleteOneCollection(this.collService.selectedColl.id.toString())
+    this.activated = false;
   }
 
   delChapter() {
@@ -181,9 +202,15 @@ export class ChapterOverviewComponent implements OnInit {
   }
 
   onUpload(e: any) {
-    console.log('Upload:', e);
-    this.tabService.selectedTab = e.originalEvent.body;
-    this.collService.getUserCollections(true);
+    console.log('Upload:', e.originalEvent.body);
+    const updatedTab: TabModel = e.originalEvent.body;
+    this.chapterService.selectedChapter.exercise_ids.forEach((t) => {
+      if (t.id === updatedTab.id) {
+        t = updatedTab;
+      }
+    });
+    this.tabService.selectedTab = updatedTab;
+    this.imgURL = HOST + "/serve_media/" + this.collService.selectedColl.user_code + "/" + this.tabService.selectedTab.img_url;
   }
 
   clearMedia(media_type: 'img' | 'audio') {

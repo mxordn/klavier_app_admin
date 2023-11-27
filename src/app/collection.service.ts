@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { CollectionModel, EmptyColl, HOST } from './models/collection';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { ChapterModel, EmptyChapter } from './models/chapter';
 import { ChapterService } from './chapter.service';
 import { TabService } from './tab.service';
 import { EmptyTab, TabModel } from './models/tab';
+import { getAuthHeaders } from './auth/auth.header';
 
 @Injectable({
   providedIn: 'root'
@@ -77,11 +78,10 @@ export class CollectionService {
 
   deleteOneCollection(id: string): void {
     if (this.selectedColl.id === id) {
-      let headers = new HttpHeaders()
-      headers = headers.append('Authorization', 'Bearer ' + localStorage.getItem('token') || '');
-      console.log('LOG Header', headers.get('Authorization'))
-      this.hC.get<CollectionModel[]>(HOST + "/delete_one_collection/" + this.selectedColl.id,
-                                      {headers: headers}).subscribe({
+      const headers = getAuthHeaders();
+      const params = new HttpParams().set("user_id", this.selectedColl.owner.toString());
+      this.hC.delete<CollectionModel[]>(HOST + "/delete_one_collection/" + this.selectedColl.id,
+                                      {params: params, headers: headers}).subscribe({
         next: (response) => {
           console.log(response);
           this.getUserCollections(false);

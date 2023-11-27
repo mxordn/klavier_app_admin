@@ -3,7 +3,7 @@
         <div class="col-3">
             <div>
                 <form [formGroup]="formGroup">
-                    <div class="p-2 w-auto" *ngFor="let aColl of collService.collections; index as i;">
+                    <div class="p-2" *ngFor="let aColl of collService.collections; index as i;">
                         <p-button class="w-full" [outlined]="true" severtiy="secondary"
                         (onClick)="openCollection(aColl.id)"
                         [label]="aColl.display_name.toString()"

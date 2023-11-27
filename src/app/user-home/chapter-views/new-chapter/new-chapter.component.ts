@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { DynamicDialogRef } from 'primeng/dynamicdialog';
 import { getAuthHeaders } from 'src/app/auth/auth.header';
+import { AuthService } from 'src/app/auth/auth.service';
 import { CollectionService } from 'src/app/collection.service';
 import { ChapterModel } from 'src/app/models/chapter';
 import { HOST } from 'src/app/models/collection';
@@ -18,6 +19,7 @@ export class NewChapterComponent {
   constructor(private dialogRef: DynamicDialogRef,
               private fB: FormBuilder,
               private collService: CollectionService,
+              private authService: AuthService,
               private hC: HttpClient) {
     this.chapForm = this.fB.group({
       name: new FormControl('', Validators.required),
@@ -26,6 +28,10 @@ export class NewChapterComponent {
   }
 
   createNewChapter(): void {
+    if (!this.authService.is_token_valid()) {
+      alert("Bitte neu einloggen (Timeout)");
+      return;
+    }
     if (this.chapForm.valid) {
       console.log('VALID', this.chapForm.value.collection_description)
 
