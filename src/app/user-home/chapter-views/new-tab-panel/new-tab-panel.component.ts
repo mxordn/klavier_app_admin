@@ -1,9 +1,9 @@
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { options } from 'marked';
 import { DynamicDialogRef } from 'primeng/dynamicdialog';
 import { AuthService } from 'src/app/auth/auth.service';
 import { ChapterService } from 'src/app/chapter.service';
+import { CollectionService } from 'src/app/collection.service';
 
 @Component({
   selector: 'app-new-tab-panel',
@@ -25,6 +25,7 @@ export class NewTabPanelComponent {
                       ];
 
   constructor(private fB: FormBuilder,
+              private collService: CollectionService,
               private chapterService: ChapterService,
               private authService: AuthService,
               private dialogRef: DynamicDialogRef) {
@@ -50,7 +51,7 @@ export class NewTabPanelComponent {
       formData.append("exercise_description", this.newTabForm.value.exercise_description);
       formData.append("chap_id", this.chapterService.selectedChapter.id);
 
-      this.chapterService.addNewTab(formData);
+      this.collService.addNewTab(formData);
       this.dialogRef.close();
     } else {
       alert("Form nicht valide");

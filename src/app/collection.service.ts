@@ -76,6 +76,53 @@ export class CollectionService {
     this.selectedColl.list_of_exercises.push(newChap);
   }
 
+  addNewTab(formData: FormData) {
+    const headers = getAuthHeaders();
+    this.hC.post<TabModel>(this.chapterService.addTabUrl, formData, {headers: headers}).subscribe({
+      next: (data) => {
+        console.log('Chapter', data);
+        console.log(this.chapterService.selectedChapter);
+        this.chapterService.selectedChapter.exercise_ids.push(data);
+        console.log('Vergleich coll', this.selectedColl.list_of_exercises);
+      },
+      error: (err) => {
+        console.log(err);
+      },
+      complete: () => {
+        this.tabService.tabs = this.chapterService.selectedChapter.exercise_ids;
+        //this.tabService.setSelectedTab(this.tabService.tabs[this.tabService.tabs.length -1].id)
+        this.selectedColl.list_of_exercises.forEach((chap) => {
+        if (chap.id === this.chapterService.selectedChapter.id) {
+          console.log("updated collService", chap.exercise_ids);
+
+        }
+      });
+        //console.log('data', this.selectedChapter);
+      }
+    });
+  }
+
+  deleteOneTab(tab_id: string, chapter_id: string) {
+    const headers = getAuthHeaders();
+    const params = new HttpParams().append('chapter_id', chapter_id);
+    if (this.selectedTab.id === tab_id) {
+      this.hC.delete<TabModel[]>(HOST + '/delete_tab/' + this.selectedTab.id, {params: params, headers: headers}).subscribe({
+        next: (res) => {
+          console.log(res);
+          this.tabService.tabs = res;
+          this.chapterService.selectedChapter.exercise_ids = res;
+          this.selectedTab = EmptyTab;
+        },
+        error: (err) => {
+          console.log(err);
+        },
+        complete: () => {
+
+        }
+      });
+    }
+  }
+
   deleteOneCollection(id: string): void {
     if (this.selectedColl.id === id) {
       const headers = getAuthHeaders();
@@ -84,6 +131,7 @@ export class CollectionService {
                                       {params: params, headers: headers}).subscribe({
         next: (response) => {
           console.log(response);
+          this.selectedColl = EmptyColl;
           this.getUserCollections(false);
         },
         error: (err) => {

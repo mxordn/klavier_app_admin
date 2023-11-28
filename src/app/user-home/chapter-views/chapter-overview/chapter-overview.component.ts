@@ -77,7 +77,10 @@ export class ChapterOverviewComponent implements OnInit {
             return 1
           }
           return 0
-      });
+        });
+        if (this.tabService.tabs.length != 0) {
+          this.tabService.setSelectedTab(this.tabService.tabs[0].id);
+        }
       }
     })
     this.activeIndex = 0;
@@ -89,9 +92,10 @@ export class ChapterOverviewComponent implements OnInit {
     let cnt = 0;
     this.chapterService.selectedChapter.exercise_ids.forEach((t) => {
       if (cnt === tab_index) {
-        this.tabService.selectedTab = t;
-        this.tabService.updateURL(t.audio_url, 'audio');
-        this.tabService.updateURL(t.img_url, 'img');
+        console.log('setTab', tab_index, t.id);
+        this.tabService.setSelectedTab(t.id);
+        //this.tabService.updateURL(t.audio_url, 'audio');
+        //this.tabService.updateURL(t.img_url, 'img');
       }
       cnt += 1;
     });
@@ -117,12 +121,16 @@ export class ChapterOverviewComponent implements OnInit {
   openDialogUpdateDescription(tabId: string) {
     //this.dialogDescriptionVisible = true;
     this.dialogRef = this.dialogService.open(TabDescriptionComponent, {
-      header: "Titel und Beschreibung des Tabs",
+      data: {
+        title: this.tabService.selectedTab.exercise_tab_name,
+        tab_desc: this.tabService.selectedTab.exercise_description
+      },
+      header: "Titel und Beschreibung des Tabs"
     });
     this.dialogRef.onClose.subscribe(() => {
       this.chapterService.selectedChapter.exercise_ids.forEach((t) => {
         if (t.id === tabId) {
-          this.tabService.selectedTab = t;
+          this.tabService.setSelectedTab(t.id);
         }
       })
     });
@@ -140,15 +148,7 @@ export class ChapterOverviewComponent implements OnInit {
       draggable: false,
       resizable: false
     });
-    this.dialogRef.onClose.subscribe(() => {
-      this.tabService.tabs = this.chapterService.selectedChapter.exercise_ids;
-      this.collService.selectedColl.list_of_exercises.forEach((chap) => {
-        if (chap.id === this.chapterService.selectedChapter.id) {
-          console.log("updated collService", chap.exercise_ids);
-        }
-      });
-    });
-//    this.chapterService.selectedChapter = this.chapterService.collChapters[chapter_index];
+  //    this.chapterService.selectedChapter = this.chapterService.collChapters[chapter_index];
   }
 
   editCollection() {
@@ -186,7 +186,7 @@ export class ChapterOverviewComponent implements OnInit {
 
   delTab(tab_id: string) {
     console.log('Tab löschen', tab_id);
-    this.tabService.deleteOneTab(tab_id, this.chapterService.selectedChapter.id.toString());
+    this.collService.deleteOneTab(tab_id, this.chapterService.selectedChapter.id.toString());
   }
 
   playPauseAudio() {
@@ -207,30 +207,35 @@ export class ChapterOverviewComponent implements OnInit {
     this.chapterService.selectedChapter.exercise_ids.forEach((t) => {
       if (t.id === updatedTab.id) {
         t = updatedTab;
+        console.log('upload tab set', t);
+        this.tabService.setSelectedTab(t.id);
       }
     });
-    this.tabService.selectedTab = updatedTab;
-    this.imgURL = HOST + "/serve_media/" + this.collService.selectedColl.user_code + "/" + this.tabService.selectedTab.img_url;
+    //s =  = 
+    //this.imgURL = HOST + "/serve_media/" + this.collService.selectedColl.user_code + "/" + this.tabService.selectedTab.img_url;
   }
 
   clearMedia(media_type: 'img' | 'audio') {
     const headers: HttpHeaders = getAuthHeaders();
-    this.hC.delete<TabModel>(HOST+'/del_media/' + this.tabService.selectedTab.id + '/' + 
-                              media_type + '?user_code=' + this.collService.selectedColl.user_code, 
-                              {headers: headers})
-    .subscribe({
-      next: (res) => {
-        console.log(res);
-        this.tabService.selectedTab = res;
-        //this.collService.getUserCollections();
-      },
-      error: (err) => {
-        console.log(err);
-      },
-      complete: () => {
-        console.log('successfully deleted.');
-      }
-    })
+    if (this.authService.is_token_valid()) {
+      this.hC.delete<TabModel>(HOST+'/del_media/' + this.tabService.selectedTab.id + '/' + 
+                                media_type + '?user_code=' + this.collService.selectedColl.user_code, 
+                                {headers: headers})
+      .subscribe({
+        next: (res) => {
+          console.log(res);
+          this.tabService.updateTabData(res);
+          //this.tabService.setSelectedTab(res.id);
+          //this.collService.getUserCollections(); = 
+        },
+        error: (err) => {
+          console.log(err);
+        },
+        complete: () => {
+          console.log('successfully deleted.');
+        }
+      });
+    }
   }
 
   copyClipboard() {

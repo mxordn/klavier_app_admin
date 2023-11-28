@@ -2,10 +2,8 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ChapterModel, EmptyChapter } from './models/chapter';
 import { TabModel } from './models/tab';
-import { FormGroup } from '@angular/forms';
 import { getAuthHeaders } from './auth/auth.header';
 import { HOST } from './models/collection';
-import { CollectionService } from './collection.service';
 
 @Injectable({
   providedIn: 'root'
@@ -16,23 +14,6 @@ export class ChapterService {
   addTabUrl: string = HOST + '/new_exercise';
 
   constructor(private hC: HttpClient) { }
-
-  addNewTab(formData: FormData) {
-    const headers = getAuthHeaders();
-    this.hC.post<TabModel>(this.addTabUrl, formData, {headers: headers}).subscribe({
-      next: (data) => {
-        console.log('Chapter', data);
-        console.log(this.selectedChapter);
-        this.selectedChapter.exercise_ids.push(data);
-      },
-      error: (err) => {
-        console.log(err);
-      },
-      complete: () => {
-        //console.log('data', this.selectedChapter);
-      }
-    });
-  }
 
   deleteOneChapter(chap_id: string, coll_id: string) {
     if (this.selectedChapter.id === chap_id) {

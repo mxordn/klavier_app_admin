@@ -2,9 +2,11 @@ import { Injectable } from '@angular/core';
 import { EmptyTab, TabModel } from './models/tab';
 import { FormGroup } from '@angular/forms';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, EMPTY } from 'rxjs';
 import { getAuthHeaders } from './auth/auth.header';
 import { HOST } from './models/collection';
+import { AuthService } from './auth/auth.service';
+import { authGuard } from './auth/auth.guard';
 
 @Injectable({
   providedIn: 'root'
@@ -23,6 +25,28 @@ export class TabService {
   constructor(private hC: HttpClient) {
     this.imgURL = new BehaviorSubject('');
     this.audioURL = new BehaviorSubject('');
+  }
+
+  updateTabData(tab_data: TabModel) {
+    this.tabs.forEach((t) => {
+      if (t.id === tab_data.id) {
+        t = tab_data;
+        this.setSelectedTab(t.id);
+        return
+      }
+    });
+  }
+
+  setSelectedTab(tab_id: string) {
+    this.tabs.forEach((t) => {
+      if (t.id === tab_id) {
+        this.selectedTab = t;
+        console.log('tab set +', tab_id, t, t.audio_url, t.img_url);
+      }
+    })
+    this.updateURLs();
+    //(this.selectedTab.img_url, "img");
+    //this.updateURL(this.selectedTab.audio_url, "audio");
   }
 
   updateTabDescription(formTab: FormGroup) {
@@ -51,30 +75,19 @@ export class TabService {
     }
   }
 
+  updateURLs() {
+    console.log('next: ', this.selectedTab.img_url, this.selectedTab.audio_url);
+    this.imgURL.next(this.selectedTab.img_url);
+    this.audioURL.next(this.selectedTab.audio_url);
+  }
+
   updateURL(val: string, media_type: 'img' | 'audio') {
+    console.log(this.selectedTab.audio_url, this.selectedTab.img_url)
+    console.log("Update called", val, media_type)
     if (media_type === 'img') {
       this.imgURL.next(val);
     } else if (media_type === 'audio') {
       this.audioURL.next(val);
-    }
-  }
-
-  deleteOneTab(tab_id: string, chapter_id: string) {
-    const headers = getAuthHeaders();
-    const params = new HttpParams().append('chapter_id', chapter_id);
-    if (this.selectedTab.id === tab_id) {
-      this.hC.delete<TabModel[]>(HOST + '/delete_tab/' + this.selectedTab.id, {params: params, headers: headers}).subscribe({
-        next: (res) => {
-          console.log(res);
-          this.tabs = res;
-        },
-        error: (err) => {
-          console.log(err);
-        },
-        complete: () => {
-
-        }
-      });
     }
   }
 }

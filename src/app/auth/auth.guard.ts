@@ -8,7 +8,7 @@ export const authGuard = () => {
   const router = inject(Router);
 
   console.log(authService.user_logged_in)
-  if (authService.user_logged_in) {
+  if (authService.user_logged_in && authService.is_token_valid()) {
 
     return true;
   }
