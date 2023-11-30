@@ -15,6 +15,8 @@ export class CollectionService {
   chapters_activated: Boolean = false
   selectedColl: CollectionModel = EmptyColl;
   selectedTab: TabModel = EmptyTab;
+  selectedChapter: ChapterModel = EmptyChapter;
+  collChapters: ChapterModel[] = [];
   
   constructor(private hC: HttpClient,
               private chapterService: ChapterService,
@@ -123,27 +125,35 @@ export class CollectionService {
     }
   }
 
-  deleteOneCollection(id: string): void {
-    if (this.selectedColl.id === id) {
+
+  deleteOneChapter(chap_id: string, coll_id: string) {
+    if (this.selectedChapter.id === chap_id) {
       const headers = getAuthHeaders();
-      const params = new HttpParams().set("user_id", this.selectedColl.owner.toString());
-      this.hC.delete<CollectionModel[]>(HOST + "/delete_one_collection/" + this.selectedColl.id,
-                                      {params: params, headers: headers}).subscribe({
+      this.hC.delete<ChapterModel[]>(HOST + "/delete_one_chapter/" + this.selectedChapter.id + '?coll_id=' + coll_id,
+                                      {headers: headers}).subscribe({
         next: (response) => {
           console.log(response);
-          this.selectedColl = EmptyColl;
-          this.getUserCollections(false);
+          this.collChapters = response;
+          this.collChapters.sort((a, b) => {
+            if (a['order_num'] > b['order_num']) {
+              return 1
+            }
+            if (a['order_num'] < b['order_num']) {
+              return -1
+            }
+            return 0
+          })
         },
         error: (err) => {
           console.log(err);
         },
         complete: () => {
           console.log('Collection deleted')
+
         }
       });
     } else {
       alert('Bitte öffnen Sie die Collection erneut.');
     }
   }
-
 }

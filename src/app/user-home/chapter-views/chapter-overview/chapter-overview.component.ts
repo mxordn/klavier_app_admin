@@ -1,12 +1,12 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { getAuthHeaders } from 'src/app/auth/auth.header';
 import { ChapterService } from 'src/app/chapter.service';
 import { CollectionService } from 'src/app/collection.service';
 import { ChapterModel } from 'src/app/models/chapter';
-import { HOST } from 'src/app/models/collection';
-import { TabModel } from 'src/app/models/tab';
+import { CollectionModel, EmptyColl, HOST } from 'src/app/models/collection';
+import { EmptyTab, TabModel } from 'src/app/models/tab';
 import { TabService } from 'src/app/tab.service';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { TabDescriptionComponent } from '../tab-description/tab-description.component';
@@ -68,8 +68,8 @@ export class ChapterOverviewComponent implements OnInit {
   openChapter(chapter_id: String) {
     this.collService.selectedColl.list_of_exercises.forEach((c) => {
       if (c.id === chapter_id) {
-        this.chapterService.selectedChapter = c;
-        console.log(c);
+        this.collService.selectedChapter = c;
+        //console.log(c);
         this.tabService.tabs = c.exercise_ids.sort((a, b) => {
           if (a['order_num'] < b['order_num']) {
             return -1
@@ -174,26 +174,96 @@ export class ChapterOverviewComponent implements OnInit {
   }
 
   delCollection() {
-    this.collService.deleteOneCollection(this.collService.selectedColl.id.toString())
+    //this.collService.deleteOneCollection(this.collService.selectedColl.id.toString())
+    const headers = getAuthHeaders();
+    const params = new HttpParams().set("user_id", this.collService.selectedColl.owner.toString());
+    if (this.authService.is_token_valid()) {
+      this.hC.delete<CollectionModel[]>(HOST + "/delete_one_collection/" + this.collService.selectedColl.id,
+                                      {params: params, headers: headers}).subscribe({
+        next: (response) => {
+          console.log(response);
+          this.collService.selectedColl = EmptyColl;
+          this.collService.getUserCollections(false);
+        },
+        error: (err) => {
+          console.log(err);
+        },
+        complete: () => {
+          console.log('Collection deleted')
+        }
+      });
+    } else {
+      alert('Bitte öffnen Sie die Collection erneut.');
+    }
     this.activated = false;
   }
 
   delChapter() {
     console.log('Chapter löschen')
-    this.chapterService.deleteOneChapter(this.chapterService.selectedChapter.id.toString(),
-                                        this.collService.selectedColl.id.toString());
+    const headers = getAuthHeaders();
+    if (this.authService.is_token_valid()) {
+      this.hC.delete<ChapterModel[]>(HOST + "/delete_one_chapter/" + this.collService.selectedChapter.id +
+                                     '?coll_id=' + this.collService.selectedColl.id,
+                                      {headers: headers}).subscribe({
+        next: (response) => {
+          console.log(response);
+          this.collService.selectedColl.list_of_exercises = response;
+          this.collService.selectedColl.list_of_exercises.sort((a, b) => {
+            if (a['order_num'] > b['order_num']) {
+              return 1
+            }
+            if (a['order_num'] < b['order_num']) {
+              return -1
+            }
+            return 0
+          })
+        },
+        error: (err) => {
+          console.log(err);
+        },
+        complete: () => {
+          console.log('Collection deleted', this.collService.selectedColl, this.collService.collections)
+        }
+      });
+    } else {
+      alert('Bitte öffnen Sie die Collection erneut.');
+    }
+    //this.chapterService.deleteOneChapter(this.chapterService.selectedChapter.id.toString(),
+    //                                    this.collService.selectedColl.id.toString());
   }
 
   delTab(tab_id: string) {
     console.log('Tab löschen', tab_id);
-    this.collService.deleteOneTab(tab_id, this.chapterService.selectedChapter.id.toString());
+    //deleteOneTab(tab_id: string, chapter_id: string) {chapter_
+    const headers = getAuthHeaders();
+    const params = new HttpParams().append('chapter_id', this.collService.selectedChapter.id);
+    if (this.authService.is_token_valid()) {
+      this.hC.delete<TabModel[]>(HOST + '/delete_tab/' + tab_id, {params: params, headers: headers}).subscribe({
+        next: (res) => {
+          console.log('Response:', res);
+          //this.tabService.tabs = res;
+          this.collService.selectedChapter.exercise_ids = res;
+          this.collService.selectedTab = EmptyTab;
+        },
+        error: (err) => {
+          console.log(err);
+        },
+        complete: () => {
+          console.log('Tab deleted', this.collService.selectedChapter.exercise_ids)
+        }
+      });
+    }
+    //this.collService.deleteOneTab(tab_id, this.chapterService.selectedChapter.id.toString());
   }
 
   playPauseAudio() {
     //console.log(this.tabService.selectedTab.audio_url);
     if (this.player_icon === 'pi pi-play') {
       this.player.src = HOST + '/serve_media/' + this.collService.selectedColl.user_code + '/' + this.tabService.selectedTab.audio_url;
-      this.player.play();
+      this.player.play()
+      this.player.onended = () => {
+        this.player_icon = 'pi pi-play';
+      };
       this.player_icon = 'pi pi-pause';
     } else {
       this.player.pause();

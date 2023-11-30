@@ -1,9 +1,12 @@
+import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { DynamicDialogRef } from 'primeng/dynamicdialog';
+import { getAuthHeaders } from 'src/app/auth/auth.header';
 import { AuthService } from 'src/app/auth/auth.service';
 import { ChapterService } from 'src/app/chapter.service';
 import { CollectionService } from 'src/app/collection.service';
+import { TabModel } from 'src/app/models/tab';
 
 @Component({
   selector: 'app-new-tab-panel',
@@ -25,6 +28,7 @@ export class NewTabPanelComponent {
                       ];
 
   constructor(private fB: FormBuilder,
+              private hC: HttpClient,
               private collService: CollectionService,
               private chapterService: ChapterService,
               private authService: AuthService,
@@ -50,9 +54,33 @@ export class NewTabPanelComponent {
       formData.append("icon", this.newTabForm.value.icon);
       formData.append("exercise_description", this.newTabForm.value.exercise_description);
       formData.append("chap_id", this.chapterService.selectedChapter.id);
-
-      this.collService.addNewTab(formData);
-      this.dialogRef.close();
+      //addNewTab(formData: FormData)
+      if (this.authService.is_token_valid()) {
+        const headers = getAuthHeaders();
+        this.hC.post<TabModel>(this.chapterService.addTabUrl, formData, {headers: headers}).subscribe({
+          next: (data) => {
+            console.log('Chapter', data);
+            //console.log(this.chapterService.selectedChapter);
+            this.collService.selectedChapter.exercise_ids.push(data);
+            //console.log('Vergleich coll', this.selectedColl.list_of_exercises);
+          },
+          error: (err) => {
+            console.log(err);
+          },
+          complete: () => {
+            //this.collService.selectedChapter.exercise_ids = this.chapterService.selectedChapter.exercise_ids;
+            //this.tabService.setSelectedTab(this.tabService.tabs[this.tabService.tabs.length -1].id)
+            //this.selectedColl.list_of_exercises.forEach((chap) => {
+            //if (chap.id === this.chapterService.selectedChapter.id) {
+            //  console.log("updated collService", chap.exercise_ids);
+            //}
+          //});
+            //console.log('data', this.selectedChapter);
+            this.dialogRef.close();
+          }
+        });
+      }
+      //this.collService.addNewTab(formData);
     } else {
       alert("Form nicht valide");
     }

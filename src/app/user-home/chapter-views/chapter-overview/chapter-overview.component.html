@@ -27,7 +27,7 @@
         </div>
     </div>
     <p-accordion [multiple]="false">
-        <p-accordionTab *ngFor="let chapter of chapterService.collChapters, let i=index"
+        <p-accordionTab *ngFor="let chapter of collService.selectedColl.list_of_exercises, let i=index"
                         class="m-1" [header]="chapter.name.toString()" (selectedChange)="openChapter(chapter.id)">
             <p-card header="{{ chapter.name }}">
                 <p-button (onClick)="openNewTabPanel(i)" label="Neuer Tab" icon="pi pi-plus"></p-button>

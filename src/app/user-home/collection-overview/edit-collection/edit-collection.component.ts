@@ -34,15 +34,20 @@ export class EditCollectionComponent {
         next: (res) => {
           this.collService.collections.forEach((c) => {
             if (c.id === res.id) {
-              c = res;
-              this.collService.selectedColl = res;
+              c.display_name = res.display_name;
+              c.collection_description = res.collection_description;
+              console.log("Response:", res, 'collection', c, this.collService.collections);
+              this.collService.selectedColl = c;
             }
+            //console.log(c);
           });
         },
         error: (err) => {
           console.log(err);
         },
         complete: () => {
+          //console.log("Check:", this.collService.collections);
+          //console.log("Check:", this.collService.selectedColl);
           this.dialogRef.close();
         }
       })

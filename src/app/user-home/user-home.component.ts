@@ -7,6 +7,8 @@ import { getAuthHeaders } from '../auth/auth.header';
 import { Router } from '@angular/router';
 import { CollectionService } from '../collection.service';
 import { ChapterService } from '../chapter.service';
+import { DialogService } from 'primeng/dynamicdialog';
+import { NewCollectionComponent } from './collection-overview/new-collection/new-collection.component';
 
 
 @Component({
@@ -38,6 +40,7 @@ export class UserHomeComponent implements OnInit {
                private router: Router,
                public collService: CollectionService,
                private chapterService: ChapterService,
+               private dialogService: DialogService,
                private formBuilder: FormBuilder) {
     this.loading = false;
     this.formGroup = this.formBuilder.group({})
@@ -81,7 +84,13 @@ export class UserHomeComponent implements OnInit {
   }
 
   openCreateCollection() {
-    this.router.navigate(["create_collection"])
+    this.dialogService.open(NewCollectionComponent, {
+      header: "Neue Collection anlegen",
+      modal: true,
+      width: '500px',
+      draggable: false,
+      resizable: false
+    });
   }
 
   onSubmit() {
