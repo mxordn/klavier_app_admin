@@ -9,8 +9,8 @@ import { CollectionModel, EmptyColl, HOST } from 'src/app/models/collection';
 import { EmptyTab, TabModel } from 'src/app/models/tab';
 import { TabService } from 'src/app/tab.service';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { TabDescriptionComponent } from '../tab-description/tab-description.component';
-import { NewTabPanelComponent } from '../new-tab-panel/new-tab-panel.component';
+import { TabDescriptionComponent } from '../../tab-views/tab-description/tab-description.component';
+import { NewTabPanelComponent } from '../../tab-views/new-tab-panel/new-tab-panel.component';
 import { NewChapterComponent } from '../new-chapter/new-chapter.component';
 import { EditCollectionComponent } from '../../collection-overview/edit-collection/edit-collection.component';
 import { AuthService } from 'src/app/auth/auth.service';
@@ -20,7 +20,7 @@ import { AuthService } from 'src/app/auth/auth.service';
   templateUrl: './chapter-overview.component.html',
   styleUrls: ['./chapter-overview.component.scss']
 })
-export class ChapterOverviewComponent implements OnInit {
+export class ChapterOverviewComponent {
   @Input('activated') activated: Boolean = false;
   chapForm!: FormGroup;
   newTabForm!: FormGroup;
@@ -53,24 +53,12 @@ export class ChapterOverviewComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {
-    console.log(this.collService.selectedColl);
-    this.tabService.imgURL.subscribe((val) => {
-      this.imgURL = HOST + '/serve_media/' + this.collService.selectedColl.user_code + '/' + val;
-      console.log('updated img', this.imgURL);
-    });
-    this.tabService.audioURL.subscribe((val) => {
-      this.audioURL = HOST + '/serve_media/' + this.collService.selectedColl.user_code + '/' + val;
-      console.log('updated audio', this.audioURL);
-    });
-  }
-
   openChapter(chapter_id: String) {
     this.collService.selectedColl.list_of_exercises.forEach((c) => {
       if (c.id === chapter_id) {
         this.collService.selectedChapter = c;
         //console.log(c);
-        this.tabService.tabs = c.exercise_ids.sort((a, b) => {
+        c.exercise_ids.sort((a, b) => {
           if (a['order_num'] < b['order_num']) {
             return -1
           } if (a['order_num'] > b['order_num']) {
@@ -78,34 +66,38 @@ export class ChapterOverviewComponent implements OnInit {
           }
           return 0
         });
-        if (this.tabService.tabs.length != 0) {
-          this.tabService.setSelectedTab(this.tabService.tabs[0].id);
+        if (this.collService.selectedChapter.exercise_ids.length != 0) {
+          this.collService.selectedTab = this.collService.selectedChapter.exercise_ids[0];
+          this.collService.setTabMediaData();
         }
       }
     })
     this.activeIndex = 0;
-    this.openTab(0);
+    //this.openTab(0);
+    this.collService.selectedTab = this.collService.selectedChapter.exercise_ids[0];
     this.player_icon = "pi pi-play";
   }
 
-  openTab(tab_index: number) {
-    let cnt = 0;
-    this.chapterService.selectedChapter.exercise_ids.forEach((t) => {
-      if (cnt === tab_index) {
-        console.log('setTab', tab_index, t.id);
-        this.tabService.setSelectedTab(t.id);
-        //this.tabService.updateURL(t.audio_url, 'audio');
-        //this.tabService.updateURL(t.img_url, 'img');
-      }
-      cnt += 1;
-    });
+  //openTab(tab_index: number) {
+  //  let cnt = 0;
+  //  this.chapterService.selectedChapter.exercise_ids.forEach((t) => {
+  //    if (cnt === tab_index) {
+  //      console.log('setTab', tab_index, t.id);
+  //      this.collService.selectedTab = t;
+  //      this.collService.setTabMediaData();
+  //      //.setSelectedTab(t.id);
+  //      //this.tabService.updateURL(t.audio_url, 'audio');
+  //      //this.tabService.updateURL(t.img_url, 'img');
+  //    }
+  //    cnt += 1;
+  //  });
     
-    this.tabService.selectedUploadURLAudio = HOST + '/upload/media/audio/' + this.tabService.selectedTab.id + '?user_code=' + this.collService.selectedColl.user_code;
-    this.tabService.selectedUploadURLImg = HOST + '/upload/media/img/' + this.tabService.selectedTab.id + '?user_code=' + this.collService.selectedColl.user_code;
-    this.tabService.selectedUploadURLDescription = HOST + '/upload/description/' + this.tabService.selectedTab.id + '?user_code=' + this.collService.selectedColl.user_code;
+  //  this.tabService.selectedUploadURLAudio = HOST + '/upload/media/audio/' + this.tabService.selectedTab.id + '?user_code=' + this.collService.selectedColl.user_code;
+  //  this.tabService.selectedUploadURLImg = HOST + '/upload/media/img/' + this.tabService.selectedTab.id + '?user_code=' + this.collService.selectedColl.user_code;
+  //  this.tabService.selectedUploadURLDescription = HOST + '/upload/description/' + this.tabService.selectedTab.id + '?user_code=' + this.collService.selectedColl.user_code;
 
-    this.player_icon = "pi pi-play";
-  }
+  //  this.player_icon = "pi pi-play";
+  //}
 
   openDialogNewChapter(): void {
     this.dialogService.open(NewChapterComponent, {
@@ -232,81 +224,6 @@ export class ChapterOverviewComponent implements OnInit {
     //                                    this.collService.selectedColl.id.toString());
   }
 
-  delTab(tab_id: string) {
-    console.log('Tab löschen', tab_id);
-    //deleteOneTab(tab_id: string, chapter_id: string) {chapter_
-    const headers = getAuthHeaders();
-    const params = new HttpParams().append('chapter_id', this.collService.selectedChapter.id);
-    if (this.authService.is_token_valid()) {
-      this.hC.delete<TabModel[]>(HOST + '/delete_tab/' + tab_id, {params: params, headers: headers}).subscribe({
-        next: (res) => {
-          console.log('Response:', res);
-          //this.tabService.tabs = res;
-          this.collService.selectedChapter.exercise_ids = res;
-          this.collService.selectedTab = EmptyTab;
-        },
-        error: (err) => {
-          console.log(err);
-        },
-        complete: () => {
-          console.log('Tab deleted', this.collService.selectedChapter.exercise_ids)
-        }
-      });
-    }
-    //this.collService.deleteOneTab(tab_id, this.chapterService.selectedChapter.id.toString());
-  }
-
-  playPauseAudio() {
-    //console.log(this.tabService.selectedTab.audio_url);
-    if (this.player_icon === 'pi pi-play') {
-      this.player.src = HOST + '/serve_media/' + this.collService.selectedColl.user_code + '/' + this.tabService.selectedTab.audio_url;
-      this.player.play()
-      this.player.onended = () => {
-        this.player_icon = 'pi pi-play';
-      };
-      this.player_icon = 'pi pi-pause';
-    } else {
-      this.player.pause();
-      this.player_icon = 'pi pi-play';
-    }
-  }
-
-  onUpload(e: any) {
-    console.log('Upload:', e.originalEvent.body);
-    const updatedTab: TabModel = e.originalEvent.body;
-    this.chapterService.selectedChapter.exercise_ids.forEach((t) => {
-      if (t.id === updatedTab.id) {
-        t = updatedTab;
-        console.log('upload tab set', t);
-        this.tabService.setSelectedTab(t.id);
-      }
-    });
-    //s =  = 
-    //this.imgURL = HOST + "/serve_media/" + this.collService.selectedColl.user_code + "/" + this.tabService.selectedTab.img_url;
-  }
-
-  clearMedia(media_type: 'img' | 'audio') {
-    const headers: HttpHeaders = getAuthHeaders();
-    if (this.authService.is_token_valid()) {
-      this.hC.delete<TabModel>(HOST+'/del_media/' + this.tabService.selectedTab.id + '/' + 
-                                media_type + '?user_code=' + this.collService.selectedColl.user_code, 
-                                {headers: headers})
-      .subscribe({
-        next: (res) => {
-          console.log(res);
-          this.tabService.updateTabData(res);
-          //this.tabService.setSelectedTab(res.id);
-          //this.collService.getUserCollections(); = 
-        },
-        error: (err) => {
-          console.log(err);
-        },
-        complete: () => {
-          console.log('successfully deleted.');
-        }
-      });
-    }
-  }
 
   copyClipboard() {
     navigator.clipboard.writeText(this.collService.selectedColl.user_code.toString())

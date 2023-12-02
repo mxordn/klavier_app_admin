@@ -53,7 +53,7 @@ export class NewTabPanelComponent {
       formData.append("exercise_tab_name", this.newTabForm.value.exercise_tab_name);
       formData.append("icon", this.newTabForm.value.icon);
       formData.append("exercise_description", this.newTabForm.value.exercise_description);
-      formData.append("chap_id", this.chapterService.selectedChapter.id);
+      formData.append("chap_id", this.collService.selectedChapter.id);
       //addNewTab(formData: FormData)
       if (this.authService.is_token_valid()) {
         const headers = getAuthHeaders();

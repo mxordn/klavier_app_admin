@@ -6,7 +6,6 @@ import { AuthService } from 'src/app/auth/auth.service';
 import { CollectionService } from 'src/app/collection.service';
 import { HOST } from 'src/app/models/collection';
 import { TabModel } from 'src/app/models/tab';
-import { TabService } from 'src/app/tab.service';
 
 @Component({
   selector: 'app-tab-description',
@@ -15,10 +14,8 @@ import { TabService } from 'src/app/tab.service';
 })
 export class TabDescriptionComponent {
     formTab: any;
-    title: string = ''
-    // = this.tabService.selectedTab.exercise_tab_name;
-    tab_desc: string = '';
-    // = this.tabService.selectedTab.exercise_description;
+    //title: string = ''
+    //tab_desc: string = '';
 
     constructor(private fB: FormBuilder,
                 private hC: HttpClient,
@@ -26,8 +23,8 @@ export class TabDescriptionComponent {
                 private authService: AuthService,
                 public ref: DynamicDialogRef) {
       this.formTab = this.fB.group({
-        exercise_tab_name: new FormControl(this.title),
-        tab_description: new FormControl(this.tab_desc)
+        exercise_tab_name: new FormControl(this.collService.selectedTab.exercise_tab_name),
+        tab_description: new FormControl(this.collService.selectedTab.exercise_description)
       });
       //{{ UploadURL }} + '/audio/' + {{ tab.id }} + '?user_code=' {{ user_code }}
       ///+ this.media_type + '/' + this.user_code + '/' + this.tab.id 
@@ -41,7 +38,7 @@ export class TabDescriptionComponent {
           formData.append("tab_description", this.formTab.value.tab_description);
           formData.append("exercise_tab_name", this.formTab.value.exercise_tab_name);
     
-          this.hC.post<TabModel>(HOST + '/upload/description/' + this.collService.selectedTab.id + '?user_code=' + this.collService.selectedColl.user_code, formData).subscribe({
+          this.hC.post<TabModel>(HOST + '/upload/update_tab_description/' + this.collService.selectedTab.id + '?user_code=' + this.collService.selectedColl.user_code, formData).subscribe({
             next: (data) => {
               this.collService.selectedTab = data;
               this.collService.selectedChapter.exercise_ids.forEach((t) => {

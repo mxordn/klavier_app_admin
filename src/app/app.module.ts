@@ -27,12 +27,13 @@ import { LoginComponent } from './login/login.component';
 import { CollectionRoutingModule } from './app-routing/app-routing.module';
 import { UserHomeComponent } from './user-home/user-home.component';
 import { ChapterOverviewComponent } from './user-home/chapter-views/chapter-overview/chapter-overview.component';
-import { TabDescriptionComponent } from './user-home/chapter-views/tab-description/tab-description.component';
-import { NewTabPanelComponent } from './user-home/chapter-views/new-tab-panel/new-tab-panel.component';
+import { TabDescriptionComponent } from './user-home/tab-views/tab-description/tab-description.component';
+import { NewTabPanelComponent } from './user-home/tab-views/new-tab-panel/new-tab-panel.component';
 import { NewChapterComponent } from './user-home/chapter-views/new-chapter/new-chapter.component';
 import { NewCollectionComponent } from './user-home/collection-overview/new-collection/new-collection.component';
 import { EditCollectionComponent } from './user-home/collection-overview/edit-collection/edit-collection.component';
 import { MarkdownPipe } from './markdown.pipe';
+import { TabOverviewComponent } from './user-home/tab-views/tab-overview/tab-overview.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import { MarkdownPipe } from './markdown.pipe';
     NewChapterComponent,
     NewCollectionComponent,
     EditCollectionComponent,
-    MarkdownPipe
+    MarkdownPipe,
+    TabOverviewComponent
   ],
   imports: [
     CollectionRoutingModule,

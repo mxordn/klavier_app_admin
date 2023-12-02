@@ -60,13 +60,15 @@ export class UserHomeComponent implements OnInit {
     console.log('component destroyed')
   }
 
-  openDialog() {
-    this.dialogVisible = true;
+  openNewCollectionDialog() {
+    this.dialogService.open(NewCollectionComponent, {
+      header: 'Neue Sammlung anlegen'
+    });
   }
 
-  closeDialog() {
-    this.dialogVisible = false;
-  }
+  //closeDialog() {
+  //  this.dialogVisible = false;Visible = true
+  //}
 
   openCollection(id: String) {
     console.log('Öffnen', id)

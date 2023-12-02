@@ -6,6 +6,7 @@ import { ChapterService } from './chapter.service';
 import { TabService } from './tab.service';
 import { EmptyTab, TabModel } from './models/tab';
 import { getAuthHeaders } from './auth/auth.header';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -14,13 +15,24 @@ export class CollectionService {
   collections: CollectionModel[] = [];
   chapters_activated: Boolean = false
   selectedColl: CollectionModel = EmptyColl;
-  selectedTab: TabModel = EmptyTab;
   selectedChapter: ChapterModel = EmptyChapter;
+  selectedTab: TabModel = EmptyTab;
   collChapters: ChapterModel[] = [];
+
+  currentImgURL: BehaviorSubject<string>
+  currentAudioURL: BehaviorSubject<string>
+  selectedUploadURLAudio = HOST + '/upload/media/audio/';
+  selectedUploadURLImg = HOST + '/upload/media/img/';
+  //selectedUploadURLDescription = HOST + '/upload/description/' + this.tabService.selectedTab.id + '?user_code=' + this.collService.selectedColl.user;
+        
+
   
   constructor(private hC: HttpClient,
               private chapterService: ChapterService,
-              private tabService: TabService) {}
+              private tabService: TabService) {
+    this.currentAudioURL = new BehaviorSubject('');
+    this.currentImgURL = new BehaviorSubject('');
+  }
 
   public getUserCollections(refresh: boolean=true) {
     let headers = new HttpHeaders()
@@ -154,6 +166,22 @@ export class CollectionService {
       });
     } else {
       alert('Bitte öffnen Sie die Collection erneut.');
+    }
+  }
+
+  setTabMediaData() {
+    this.currentImgURL.next(this.selectedTab.img_url);
+    this.currentAudioURL.next(this.selectedTab.audio_url);
+    this.selectedUploadURLAudio = HOST + '/upload/media/audio/' + this.selectedTab.id + '?user_code=' + this.selectedColl.user_code;
+    this.selectedUploadURLImg = HOST + '/upload/media/img/' + this.selectedTab.id + '?user_code=' + this.selectedColl.user_code;
+  }
+
+  updateTabMedia(media: string) {
+    if (media === 'audio') {
+      this.currentAudioURL.next(this.selectedTab.audio_url);
+    }
+    if (media === 'img') {
+      this.currentImgURL.next(this.selectedTab.img_url);
     }
   }
 }
