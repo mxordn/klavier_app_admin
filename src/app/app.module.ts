@@ -18,6 +18,10 @@ import { FileUploadModule } from 'primeng/fileupload';
 import { DividerModule } from 'primeng/divider';
 import { ImageModule } from 'primeng/image';
 import { DropdownModule } from 'primeng/dropdown';
+import { ConfirmationService } from 'primeng/api';
+import { MessageService } from 'primeng/api';
+import { ConfirmPopupModule } from 'primeng/confirmpopup';
+import { ToastModule } from 'primeng/toast';
 
 import { AppComponent } from './app.component';
 import { ReactiveFormsModule }  from  '@angular/forms';
@@ -51,8 +55,9 @@ import { TabOverviewComponent } from './user-home/tab-views/tab-overview/tab-ove
     TabOverviewComponent
   ],
   imports: [
-    CollectionRoutingModule,
     BrowserModule,
+    CollectionRoutingModule,
+    ConfirmPopupModule,
     HttpClientModule,
     BrowserAnimationsModule,
     ButtonModule,
@@ -67,13 +72,14 @@ import { TabOverviewComponent } from './user-home/tab-views/tab-overview/tab-ove
     DialogModule,
     AccordionModule,
     TabViewModule,
+    ToastModule,
     FileUploadModule,
     OverlayPanelModule,
     DividerModule,
     ImageModule,
     DropdownModule
   ],
-  providers: [DialogService],
+  providers: [DialogService, ConfirmationService, MessageService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -18,7 +18,7 @@ import { NewCollectionComponent } from './collection-overview/new-collection/new
 })
 export class UserHomeComponent implements OnInit {
   //collections: CollectionModel[] = [];
-  chapters_activated: Boolean = false
+  chapters_activated: boolean = false
   //selectedColl: CollectionModel = {
   //  name: '',
   //  display_name: '',
@@ -49,6 +49,11 @@ export class UserHomeComponent implements OnInit {
         display_name: new FormControl('', Validators.required),
         collection_description: new FormControl('')
     });
+    this.collService.chapters_activated.subscribe({
+      next: (val) => {
+        this.chapters_activated = val;
+      }
+    });
     //this.collService.getUserCollections();
   }
   
@@ -76,7 +81,8 @@ export class UserHomeComponent implements OnInit {
     this.collService.collections.forEach((coll) => {
       if (coll.id === id) {
         this.collService.selectedColl = coll;
-        this.chapterService.collChapters = coll.list_of_exercises;
+        //this.chapterService.collChapters = coll.list_of_exercises;
+        this.collService.chapters_activated.next(true);
         return
       }
     });

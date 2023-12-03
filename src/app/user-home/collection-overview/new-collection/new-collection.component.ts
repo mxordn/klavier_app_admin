@@ -49,6 +49,7 @@ export class NewCollectionComponent {
         complete: () => {
           this.collService.getUserCollections();
           this.loading = false;
+          this.dialogRef.close();
         }
       })
     } else {

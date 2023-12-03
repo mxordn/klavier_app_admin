@@ -1,12 +1,11 @@
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { getAuthHeaders } from 'src/app/auth/auth.header';
 import { ChapterService } from 'src/app/chapter.service';
 import { CollectionService } from 'src/app/collection.service';
 import { ChapterModel } from 'src/app/models/chapter';
 import { CollectionModel, EmptyColl, HOST } from 'src/app/models/collection';
-import { EmptyTab, TabModel } from 'src/app/models/tab';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { TabService } from 'src/app/tab.service';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { TabDescriptionComponent } from '../../tab-views/tab-description/tab-description.component';
@@ -18,15 +17,16 @@ import { AuthService } from 'src/app/auth/auth.service';
 @Component({
   selector: 'app-chapter-overview',
   templateUrl: './chapter-overview.component.html',
-  styleUrls: ['./chapter-overview.component.scss']
+  styleUrls: ['./chapter-overview.component.scss'],
+  providers: [ConfirmationService]
 })
 export class ChapterOverviewComponent {
   @Input('activated') activated: Boolean = false;
-  chapForm!: FormGroup;
-  newTabForm!: FormGroup;
-  dialogVisible: boolean = false;
-  newTabPanelVisible = false;
-  HOST = HOST;
+  //chapForm!: FormGroup;
+  //newTabForm!: FormGroup;
+  //dialogVisible: boolean = false;
+  //newTabPanelVisible = false;
+  //HOST = HOST;
   activeIndex: number = 0;
   player: HTMLAudioElement = new Audio()
   player_icon: "pi pi-play" | "pi pi-pause" = "pi pi-play"
@@ -35,21 +35,27 @@ export class ChapterOverviewComponent {
   dialogRef: DynamicDialogRef | undefined;
 
   constructor(public collService: CollectionService,
-              private fB: FormBuilder,
               public tabService: TabService,
               public chapterService: ChapterService,
               private dialogService: DialogService,
+              private messageService: MessageService,
+              private confirmationService: ConfirmationService,
               private authService: AuthService,
               private hC: HttpClient) {
-    this.chapForm = this.fB.group({
-      name: new FormControl('', Validators.required),
-      chapter_description: new FormControl(''),
+    //this.chapForm = this.fB.group({
+    //  name: new FormControl('', Validators.required),
+    //  chapter_description: new FormControl(''),
       //order_num: new FormControl(String(collService.seletedColl.num_of_chapters + 1))
-    });
+    //});
 
-    this.newTabForm = this.fB.group({    
-      icon: new FormControl("music.note", Validators.required),
-      exercise_description: new FormControl(''),
+    //this.newTabForm = this.fB.group({    
+    //  icon: new FormControl("music.note", Validators.required),
+    //  exercise_description: new FormControl(''),
+    //});
+    this.collService.chapters_activated.subscribe({
+      next: (val) => {
+        this.activated = val;
+      }
     });
   }
 
@@ -157,75 +163,96 @@ export class ChapterOverviewComponent {
     }
   }
 
-  editTab(chapter_index: number, tab_index: number) {
-    this.tabService.selectedTab = this.collService.selectedColl.list_of_exercises[chapter_index].exercise_ids[tab_index];
-    this.tabService.selectedUploadURLAudio = HOST + '/upload/media/audio/' + this.tabService.selectedTab.id + '?user_code=' + this.collService.selectedColl.user_code;
-    this.tabService.selectedUploadURLImg = HOST + '/upload/media/img/' + this.tabService.selectedTab.id + '?user_code=' + this.collService.selectedColl.user_code;
-    this.tabService.selectedUploadURLDescription = HOST + '/upload/description/' + this.tabService.selectedTab.id + '?user_code=' + this.collService.selectedColl.user_code;
+  //editTab(chapter_index: number, tab_index: number) {
+  //  this.tabService.selectedTab = this.collService.selectedColl.list_of_exercises[chapter_index].exercise_ids[tab_index];
+  //  this.tabService.selectedUploadURLAudio = HOST + '/upload/media/audio/' + this.tabService.selectedTab.id + '?user_code=' + this.collService.selectedColl.user_code;
+  //  this.tabService.selectedUploadURLImg = HOST + '/upload/media/img/' + this.tabService.selectedTab.id + '?user_code=' + this.collService.selectedColl.user_code;
+  //  this.tabService.selectedUploadURLDescription = HOST + '/upload/description/' + this.tabService.selectedTab.id + '?user_code=' + this.collService.selectedColl.user_code;
 
-  }
+  //}
 
-  delCollection() {
+  delCollection(event: Event) {
     //this.collService.deleteOneCollection(this.collService.selectedColl.id.toString())
-    const headers = getAuthHeaders();
-    const params = new HttpParams().set("user_id", this.collService.selectedColl.owner.toString());
-    if (this.authService.is_token_valid()) {
-      this.hC.delete<CollectionModel[]>(HOST + "/delete_one_collection/" + this.collService.selectedColl.id,
-                                      {params: params, headers: headers}).subscribe({
-        next: (response) => {
-          console.log(response);
-          this.collService.selectedColl = EmptyColl;
-          this.collService.getUserCollections(false);
-        },
-        error: (err) => {
-          console.log(err);
-        },
-        complete: () => {
-          console.log('Collection deleted')
+    this.confirmationService.confirm({
+      target: event.target as EventTarget,
+      message: 'Soll die Sammlung wirklich gelöscht werden?',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        const headers = getAuthHeaders();
+        const params = new HttpParams().set("user_id", this.collService.selectedColl.owner.toString());
+        if (this.authService.is_token_valid()) {
+          this.hC.delete<CollectionModel[]>(HOST + "/delete_one_collection/" + this.collService.selectedColl.id,
+                                          {params: params, headers: headers}).subscribe({
+            next: (response) => {
+              console.log(response);
+              this.collService.selectedColl = EmptyColl;
+              this.collService.getUserCollections(false);
+            },
+            error: (err) => {
+              console.log(err);
+            },
+            complete: () => {
+              console.log('Collection deleted')
+            }
+          });
+        } else {
+          alert('Bitte öffnen Sie die Collection erneut.');
         }
-      });
-    } else {
-      alert('Bitte öffnen Sie die Collection erneut.');
-    }
-    this.activated = false;
+        this.activated = false;
+      },
+      reject: () => {
+        console.log("Sammlung wirklich löschen wurde abgelehnt.");
+      }
+    });
   }
 
-  delChapter() {
-    console.log('Chapter löschen')
-    const headers = getAuthHeaders();
-    if (this.authService.is_token_valid()) {
-      this.hC.delete<ChapterModel[]>(HOST + "/delete_one_chapter/" + this.collService.selectedChapter.id +
-                                     '?coll_id=' + this.collService.selectedColl.id,
-                                      {headers: headers}).subscribe({
-        next: (response) => {
-          console.log(response);
-          this.collService.selectedColl.list_of_exercises = response;
-          this.collService.selectedColl.list_of_exercises.sort((a, b) => {
-            if (a['order_num'] > b['order_num']) {
-              return 1
+  delChapter(event: Event) {
+    this.confirmationService.confirm({
+      target: event.target as EventTarget,
+      message: 'Willst Du das Kapitel wirklich löschen?',
+      icon: 'pi pi-exclamation-triangle',
+      acceptLabel: 'Ok',
+      rejectLabel: 'Abbrechen',
+      accept: () => {
+        const headers = getAuthHeaders();
+        if (this.authService.is_token_valid()) {
+          this.hC.delete<ChapterModel[]>(HOST + "/delete_one_chapter/" + this.collService.selectedChapter.id +
+                                         '?coll_id=' + this.collService.selectedColl.id,
+                                          {headers: headers}).subscribe({
+            next: (response) => {
+              console.log(response);
+              this.collService.selectedColl.list_of_exercises = response;
+              this.collService.selectedColl.list_of_exercises.sort((a, b) => {
+                if (a['order_num'] > b['order_num']) {
+                  return 1
+                }
+                if (a['order_num'] < b['order_num']) {
+                  return -1
+                }
+                return 0
+              })
+            },
+            error: (err) => {
+              console.log(err);
+            },
+            complete: () => {
+              console.log('Collection deleted', this.collService.selectedColl, this.collService.collections)
             }
-            if (a['order_num'] < b['order_num']) {
-              return -1
-            }
-            return 0
-          })
-        },
-        error: (err) => {
-          console.log(err);
-        },
-        complete: () => {
-          console.log('Collection deleted', this.collService.selectedColl, this.collService.collections)
+          });
+        } else {
+          alert('Bitte öffnen Sie die Collection erneut.');
         }
-      });
-    } else {
-      alert('Bitte öffnen Sie die Collection erneut.');
-    }
+      },
+      reject: () => {
+        console.log('Chapter löschen');
+      }     
+    });
     //this.chapterService.deleteOneChapter(this.chapterService.selectedChapter.id.toString(),
     //                                    this.collService.selectedColl.id.toString());
   }
 
-
   copyClipboard() {
-    navigator.clipboard.writeText(this.collService.selectedColl.user_code.toString())
+    navigator.clipboard.writeText(this.collService.selectedColl.user_code.toString());
+    this.messageService.add({severity: 'success', summary: 'Code kopiert!', detail: 'Der User Code ist in die Zwischenablage kopiert.'});
   }
 }

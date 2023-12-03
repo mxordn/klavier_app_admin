@@ -13,7 +13,7 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class CollectionService {
   collections: CollectionModel[] = [];
-  chapters_activated: Boolean = false
+  chapters_activated: BehaviorSubject<boolean>;
   selectedColl: CollectionModel = EmptyColl;
   selectedChapter: ChapterModel = EmptyChapter;
   selectedTab: TabModel = EmptyTab;
@@ -32,6 +32,7 @@ export class CollectionService {
               private tabService: TabService) {
     this.currentAudioURL = new BehaviorSubject('');
     this.currentImgURL = new BehaviorSubject('');
+    this.chapters_activated = new BehaviorSubject(false);
   }
 
   public getUserCollections(refresh: boolean=true) {

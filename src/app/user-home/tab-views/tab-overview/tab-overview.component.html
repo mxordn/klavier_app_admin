@@ -29,7 +29,7 @@
                 </p-fileUpload>
                 <p-button class="mt-2 mr-2" (onClick)="clearMedia('img')" icon="pi pi-times" severity="danger"
                             [disabled]="collService.selectedTab.img_url === ''"></p-button>
-                <div>{{ collService.selectedUploadURLImg }}</div>
+                <!--<div>{{ collService.selectedUploadURLImg }}</div>-->
             </div>
         </div>
         <p-divider></p-divider>
@@ -54,7 +54,7 @@
                 <p-button class="m-2" (onClick)="clearMedia('audio')" icon="pi pi-times" severity="danger"
                             [disabled]="collService.selectedTab.audio_url === ''"></p-button>
                 </div>
-                <div> {{ collService.selectedUploadURLAudio }}</div>
+                <!--<div> {{ collService.selectedUploadURLAudio }}</div>-->
             </div>
         </div>
     </p-tabPanel>
