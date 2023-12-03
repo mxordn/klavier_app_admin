@@ -11,22 +11,23 @@ import { PanelModule } from 'primeng/panel';
 import { MenuModule } from 'primeng/menu';
 import { ToolbarModule } from 'primeng/toolbar';
 import { DialogModule } from 'primeng/dialog';
-import { DialogService } from 'primeng/dynamicdialog';
 import { TabViewModule } from 'primeng/tabview';
 import { AccordionModule } from 'primeng/accordion';
 import { FileUploadModule } from 'primeng/fileupload';
 import { DividerModule } from 'primeng/divider';
 import { ImageModule } from 'primeng/image';
 import { DropdownModule } from 'primeng/dropdown';
-import { ConfirmationService } from 'primeng/api';
-import { MessageService } from 'primeng/api';
 import { ConfirmPopupModule } from 'primeng/confirmpopup';
 import { ToastModule } from 'primeng/toast';
+import { ReactiveFormsModule }  from  '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+
+import { DialogService } from 'primeng/dynamicdialog';
+import { ConfirmationService } from 'primeng/api';
+import { MessageService } from 'primeng/api';
 
 import { AppComponent } from './app.component';
-import { ReactiveFormsModule }  from  '@angular/forms';
 import { CollectionFormComponent } from './collection-form/collection-form.component';
-import { HttpClientModule } from '@angular/common/http';
 import { LoginComponent } from './login/login.component';
 import { CollectionRoutingModule } from './app-routing/app-routing.module';
 import { UserHomeComponent } from './user-home/user-home.component';
@@ -36,8 +37,9 @@ import { NewTabPanelComponent } from './user-home/tab-views/new-tab-panel/new-ta
 import { NewChapterComponent } from './user-home/chapter-views/new-chapter/new-chapter.component';
 import { NewCollectionComponent } from './user-home/collection-overview/new-collection/new-collection.component';
 import { EditCollectionComponent } from './user-home/collection-overview/edit-collection/edit-collection.component';
-import { MarkdownPipe } from './markdown.pipe';
 import { TabOverviewComponent } from './user-home/tab-views/tab-overview/tab-overview.component';
+
+import { MarkdownPipe } from './markdown.pipe';
 
 @NgModule({
   declarations: [
@@ -51,8 +53,8 @@ import { TabOverviewComponent } from './user-home/tab-views/tab-overview/tab-ove
     NewChapterComponent,
     NewCollectionComponent,
     EditCollectionComponent,
-    MarkdownPipe,
-    TabOverviewComponent
+    TabOverviewComponent,
+    MarkdownPipe
   ],
   imports: [
     BrowserModule,
@@ -79,7 +81,11 @@ import { TabOverviewComponent } from './user-home/tab-views/tab-overview/tab-ove
     ImageModule,
     DropdownModule
   ],
-  providers: [DialogService, ConfirmationService, MessageService],
+  providers: [
+    DialogService,
+    ConfirmationService,
+    MessageService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

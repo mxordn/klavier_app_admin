@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { DialogService } from 'primeng/dynamicdialog';
 import { CollectionService } from 'src/app/collection.service';
 import { TabDescriptionComponent } from '../tab-description/tab-description.component';
 import { HOST } from 'src/app/models/collection';

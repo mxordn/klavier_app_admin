@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder, FormControl } from '@angular/forms';
 import { DynamicDialogRef } from 'primeng/dynamicdialog';
 import { AuthService } from 'src/app/auth/auth.service';

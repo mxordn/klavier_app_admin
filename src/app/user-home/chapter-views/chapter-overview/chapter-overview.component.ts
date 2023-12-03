@@ -1,5 +1,5 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { getAuthHeaders } from 'src/app/auth/auth.header';
 import { ChapterService } from 'src/app/chapter.service';
 import { CollectionService } from 'src/app/collection.service';

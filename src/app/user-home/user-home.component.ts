@@ -4,9 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../auth/auth.service';
 import { getAuthHeaders } from '../auth/auth.header';
-import { Router } from '@angular/router';
 import { CollectionService } from '../collection.service';
-import { ChapterService } from '../chapter.service';
 import { DialogService } from 'primeng/dynamicdialog';
 import { NewCollectionComponent } from './collection-overview/new-collection/new-collection.component';
 
@@ -37,9 +35,7 @@ export class UserHomeComponent implements OnInit {
   
   constructor(private hC: HttpClient,
                public authService: AuthService,
-               private router: Router,
                public collService: CollectionService,
-               private chapterService: ChapterService,
                private dialogService: DialogService,
                private formBuilder: FormBuilder) {
     this.loading = false;
