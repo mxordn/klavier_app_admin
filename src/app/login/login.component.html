@@ -2,9 +2,9 @@
     <p-toolbar class="mb-2">
         <h2>Keyboard App Admin Center</h2>
         <div>
-            <p-button (click)="loginPanel.toggle($event)" icon="pi pi-user" label="Login"></p-button>
             <p-button class="ml-2" [rounded]="true" [text]="true" (click)="mainMenu.toggle($event)" icon="pi pi-bars"></p-button>
             <p-menu #mainMenu [popup]="true"></p-menu>
+            <p-button (click)="loginPanel.toggle($event)" icon="pi pi-user" label="Login"></p-button>
         </div>
     </p-toolbar>
     <p-overlayPanel #loginPanel>

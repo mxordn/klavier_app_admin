@@ -33,7 +33,7 @@ export class EditCollectionComponent {
       formData.append("title", this.editCollectionForm.value.title);
       formData.append("collection_description", this.editCollectionForm.value.collection_description)
       const headers = getAuthHeaders();
-      this.hC.post<CollectionModel>(HOST + '/upload/updatecollection/' + this.collService.selectedColl.id, formData , {headers: headers}).subscribe({
+      this.hC.post<CollectionModel>(HOST + '/upload/update_collection/' + this.collService.selectedColl.id, formData , {headers: headers}).subscribe({
         next: (res) => {
           this.collService.collections.forEach((c) => {
             if (c.id === res.id) {

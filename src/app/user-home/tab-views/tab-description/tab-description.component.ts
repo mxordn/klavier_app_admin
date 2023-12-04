@@ -1,7 +1,8 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormBuilder, FormControl } from '@angular/forms';
 import { DynamicDialogRef } from 'primeng/dynamicdialog';
+import { getAuthHeaders } from 'src/app/auth/auth.header';
 import { AuthService } from 'src/app/auth/auth.service';
 import { CollectionService } from 'src/app/collection.service';
 import { HOST } from 'src/app/models/collection';
@@ -33,12 +34,14 @@ export class TabDescriptionComponent {
     updateDescription() {
       //updateTabDescription(formTab: FormGroup) {
       if (this.authService.is_token_valid()) {
+        const headers: HttpHeaders = getAuthHeaders();
         if (this.formTab.valid) {
           let formData: FormData = new FormData();
           formData.append("tab_description", this.formTab.value.tab_description);
           formData.append("exercise_tab_name", this.formTab.value.exercise_tab_name);
     
-          this.hC.post<TabModel>(HOST + '/upload/update_tab_description/' + this.collService.selectedTab.id + '?user_code=' + this.collService.selectedColl.user_code, formData).subscribe({
+          this.hC.post<TabModel>(HOST + '/upload/update_tab_description/' + this.collService.selectedTab.id +
+                           '?user_code=' + this.collService.selectedColl.user_code, formData, {headers: headers}).subscribe({
             next: (data) => {
               this.collService.selectedTab = data;
               this.collService.selectedChapter.exercise_ids.forEach((t) => {

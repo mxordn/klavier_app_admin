@@ -185,4 +185,8 @@ export class TabOverviewComponent implements OnInit {
       this.player_icon = 'pi pi-play';
     }
   }
+
+  getHeaders(): HttpHeaders {
+    return getAuthHeaders()
+  }
 }
