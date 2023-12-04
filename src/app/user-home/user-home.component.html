@@ -1,23 +1,27 @@
 <div class="w-full p-3"  [hidden]="!authService.user_logged_in">
     <div class="w-full flex grid">
         <div class="col-3">
-            <div>
-                <form [formGroup]="formGroup">
-                    <div class="p-2" *ngFor="let aColl of collService.collections; index as i;">
-                        <p-button class="w-full" [outlined]="true" severtiy="secondary"
-                        (onClick)="openCollection(aColl.id)"
-                        [label]="aColl.display_name.toString()"
-                        ></p-button>
-                    </div>
-                    <div class="p-2">
-                        <p-button (onClick)="openNewCollectionDialog()" icon="pi pi-plus"></p-button>
-                    </div>
-                </form>
-                <!--<p-button (click)="openDialog()" icon="pi pi-external-link" label="Show"></p-button>
-                <p-button (onClick)="openCollection()">Öffnen</p-button>//openCreateCollection()-->
+            <p-listbox [options]="collService.collections"
+                optionValue="id"
+                (onDblClick)="openCollection($event.option.id)"
+                selectAll="false"
+                optionLabel="display_name"
+                scrollHeight="100%">
+            </p-listbox>
+            <!--<form [formGroup]="formGroup">(onClick)="openCollection(aColl.id)"-->
+            <!--<div class="p-2" *ngFor="let aColl of collService.collections; index as i;">
+                <p-button class="w-full" [outlined]="true" severtiy="secondary"
+                [label]="aColl.display_name.toString()"
+                ></p-button>
             </div>
+            <div class="p-2">
+                <p-button (onClick)="openNewCollectionDialog()" icon="pi pi-plus"></p-button>
+            </div>-->
+                <!--</form>
+                <p-button (click)="openDialog()" icon="pi pi-external-link" label="Show"></p-button>
+                <p-button (onClick)="openCollection()">Öffnen</p-button>//openCreateCollection()-->
         </div>
-        <div class="col-8">
+        <div class="col-9">
             <app-chapter-overview></app-chapter-overview>
         </div>
     </div>

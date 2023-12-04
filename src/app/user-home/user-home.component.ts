@@ -7,6 +7,7 @@ import { getAuthHeaders } from '../auth/auth.header';
 import { CollectionService } from '../collection.service';
 import { DialogService } from 'primeng/dynamicdialog';
 import { NewCollectionComponent } from './collection-overview/new-collection/new-collection.component';
+import { ListboxClickEvent } from 'primeng/listbox';
 
 
 @Component({
@@ -72,11 +73,12 @@ export class UserHomeComponent implements OnInit {
   //}
 
   openCollection(id: String) {
-    console.log('Öffnen', id)
+    //console.log('Öffnen', id, e.value.id)
     this.chapters_activated = true;
     this.collService.collections.forEach((coll) => {
       if (coll.id === id) {
         this.collService.selectedColl = coll;
+        this.collService.sortOrder('chapters');
         //this.chapterService.collChapters = coll.list_of_exercises;
         this.collService.chapters_activated.next(true);
         return

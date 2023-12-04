@@ -13,6 +13,7 @@ import { NewTabPanelComponent } from '../../tab-views/new-tab-panel/new-tab-pane
 import { NewChapterComponent } from '../new-chapter/new-chapter.component';
 import { EditCollectionComponent } from '../../collection-overview/edit-collection/edit-collection.component';
 import { AuthService } from 'src/app/auth/auth.service';
+import { EditChapterComponent } from '../edit-chapter/edit-chapter.component';
 
 @Component({
   selector: 'app-chapter-overview',
@@ -63,15 +64,16 @@ export class ChapterOverviewComponent {
     this.collService.selectedColl.list_of_exercises.forEach((c) => {
       if (c.id === chapter_id) {
         this.collService.selectedChapter = c;
+        this.collService.sortOrder('tabs');
         //console.log(c);
-        c.exercise_ids.sort((a, b) => {
-          if (a['order_num'] < b['order_num']) {
-            return -1
-          } if (a['order_num'] > b['order_num']) {
-            return 1
-          }
-          return 0
-        });
+        // c.exercise_ids.sort((a, b) => {
+        //   if (a['order_num'] < b['order_num']) {
+        //     return -1
+        //   } if (a['order_num'] > b['order_num']) {
+        //     return 1
+        //   }
+        //   return 0
+        // });
         if (this.collService.selectedChapter.exercise_ids.length != 0) {
           this.collService.selectedTab = this.collService.selectedChapter.exercise_ids[0];
           this.collService.setTabMediaData();
@@ -125,20 +127,20 @@ export class ChapterOverviewComponent {
       },
       header: "Titel und Beschreibung des Tabs"
     });
-    this.dialogRef.onClose.subscribe(() => {
-      this.chapterService.selectedChapter.exercise_ids.forEach((t) => {
-        if (t.id === tabId) {
-          this.tabService.setSelectedTab(t.id);
-        }
-      })
-    });
+    // this.dialogRef.onClose.subscribe(() => {
+    //   this.chapterService.selectedChapter.exercise_ids.forEach((t) => {
+    //     if (t.id === tabId) {
+    //       this.tabService.setSelectedTab(t.id);
+    //     }
+    //   })
+    // });
   }
 
 //  closeDialogNewChapter(): void {
 //    this.dialogVisible = false;
 //  }
 
-  openNewTabPanel(chapter_index: number) {
+  openNewTabPanel() {
     this.dialogRef = this.dialogService.open(NewTabPanelComponent, {
       header: "Neuen Tab anlegen",
       modal: true,
@@ -154,7 +156,7 @@ export class ChapterOverviewComponent {
       this.dialogService.open(EditCollectionComponent, {
         header: "Sammlung bearbeiten",
         modal: true,
-        style: { width: '400px', height: '350px' },
+        style: { width: '800px', height: '500px' },
         draggable: false,
         resizable: false,
       });
@@ -163,6 +165,15 @@ export class ChapterOverviewComponent {
     }
   }
 
+  editChapter() {
+    this.dialogService.open(EditChapterComponent, {
+      header: 'Kapitel bearbeiten',
+      modal: true,
+      style: { width: '800px', height: '500px' },
+      draggable: false,
+      resizable: false,
+    });
+  }
   //editTab(chapter_index: number, tab_index: number) {
   //  this.tabService.selectedTab = this.collService.selectedColl.list_of_exercises[chapter_index].exercise_ids[tab_index];
   //  this.tabService.selectedUploadURLAudio = HOST + '/upload/media/audio/' + this.tabService.selectedTab.id + '?user_code=' + this.collService.selectedColl.user_code;

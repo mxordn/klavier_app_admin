@@ -1,11 +1,12 @@
 <p-panel [hidden]="!activated">
     <ng-template pTemplate="header">
         <div class="flex justify-content-between flex-wrap">
-            <h2 class="m-2 flex align-items-center justify-content-center">
+            <h2 class="mr-5 flex align-items-center justify-content-center">
                 {{ collService.selectedColl.display_name }}
             </h2>
+            
             <div class="flex align-items-center">
-                <p-button (onClick)="editCollection()" icon="pi pi-file-edit" size="small" [disabled]="!activated"></p-button>
+                <p-button class="mr-2" (onClick)="editCollection()" icon="pi pi-file-edit" size="small" [disabled]="!activated"></p-button>
                 <p-button (onClick)="delCollection($event)" icon="pi pi-trash" size="small"
                          [disabled]="!activated" severity="danger"></p-button>
                 <p-confirmPopup></p-confirmPopup>
@@ -33,11 +34,12 @@
         <p-accordionTab *ngFor="let chapter of collService.selectedColl.list_of_exercises, let i=index"
                         class="m-1" [header]="chapter.name.toString()" (selectedChange)="openChapter(chapter.id)">
             <p-card header="{{ chapter.name }}">
-                <p-button (onClick)="openNewTabPanel(i)" label="Neuer Tab" icon="pi pi-plus" size="small"></p-button>
+                <p-button (onClick)="openNewTabPanel()" label="Neuer Tab" icon="pi pi-plus" size="small"></p-button>
                 <app-tab-overview></app-tab-overview>
                 <ng-template pTemplate="footer">
-                    <p-button severity="danger" (onClick)="delChapter($event)"
-                                label="Chapter löschen" icon="pi pi-trash" [disabled]="!activated"></p-button>
+                    <p-button class="mr-2" (onClick)="editChapter()" label="Kapitel Bearbeiten" icon="pi pi-book" size="small" severity="secondary"></p-button>
+                    <p-button severity="danger" size="small" (onClick)="delChapter($event)"
+                            label="Chapter löschen" icon="pi pi-trash" [disabled]="!activated"></p-button>
                 </ng-template>
             </p-card>
         </p-accordionTab>

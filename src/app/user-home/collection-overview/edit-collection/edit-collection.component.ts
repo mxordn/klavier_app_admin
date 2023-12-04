@@ -1,10 +1,11 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { DynamicDialogRef } from 'primeng/dynamicdialog';
 import { getAuthHeaders } from 'src/app/auth/auth.header';
 import { CollectionService } from 'src/app/collection.service';
-import { CollectionModel, HOST } from 'src/app/models/collection';
+import { ChapterModel } from 'src/app/models/chapter';
+import { CollectionModel, HOST, IdOrderTable } from 'src/app/models/collection';
 
 @Component({
   selector: 'app-edit-collection',
@@ -12,7 +13,8 @@ import { CollectionModel, HOST } from 'src/app/models/collection';
   styleUrls: ['./edit-collection.component.scss']
 })
 export class EditCollectionComponent {
-  editCollectionForm: FormGroup
+  editCollectionForm: FormGroup;
+  chapters: ChapterModel[];
 
   constructor(private collService: CollectionService,
             private fb: FormBuilder,
@@ -21,7 +23,8 @@ export class EditCollectionComponent {
     this.editCollectionForm = this.fb.group({
       title: new FormControl(this.collService.selectedColl.display_name, Validators.required),
       collection_description: new FormControl(this.collService.selectedColl.collection_description)
-    })
+    });
+    this.chapters = collService.selectedColl.list_of_exercises;
   }
 
   updateCollectionInfo() {
@@ -52,5 +55,31 @@ export class EditCollectionComponent {
         }
       })
     }
+  }
+
+  onOrderChanged() {
+    let newOrder: Array<IdOrderTable> = new Array()
+    let cnt: number = 1;
+    this.collService.selectedColl.list_of_exercises.forEach((el) => {
+      el.order_num = cnt;
+      cnt += 1;
+      newOrder.push({id: el.id, order_num: el.order_num});
+    });
+    console.log("Data to be sent:", newOrder);
+    console.log(this.collService.selectedColl.list_of_exercises, {order_list: JSON.stringify(newOrder)});
+
+    const headers: HttpHeaders = getAuthHeaders();
+    // let params: HttpParams = new HttpParams()
+    // params.append("chapter_id", "chapter");JSON.stringify()
+
+    this.hC.post<IdOrderTable[]>(HOST + '/upload/update_order/' + this.collService.selectedColl.id + '?sort_chapters=true',
+              newOrder, {headers: headers}).subscribe({
+      next: (res) => {
+        console.log(res);
+      },
+      error: (err) => {
+        console.log('Error Response', err);
+      }
+    });
   }
 }

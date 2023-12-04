@@ -7,6 +7,7 @@ import { HOST } from 'src/app/models/collection';
 import { EmptyTab, TabModel } from 'src/app/models/tab';
 import { AuthService } from 'src/app/auth/auth.service';
 import { getAuthHeaders } from 'src/app/auth/auth.header';
+import { ConfirmationService } from 'primeng/api';
 
 @Component({
   selector: 'app-tab-overview',
@@ -27,6 +28,7 @@ export class TabOverviewComponent implements OnInit {
   constructor(private dialogService: DialogService,
               private hC: HttpClient,
               private authService: AuthService,
+              private confirmationDialogService: ConfirmationService,
               public collService: CollectionService) {}
 
   ngOnInit(): void {
@@ -133,27 +135,39 @@ export class TabOverviewComponent implements OnInit {
     //this.imgURL = HOST + "/serve_media/" + this.collService.selectedColl.user_code + "/" + this.tabService.selectedTab.img_url;
   }
 
-  delTab(tab_id: string) {
-    console.log('Tab löschen', tab_id);
-    //deleteOneTab(tab_id: string, chapter_id: string) {chapter_
-    const headers = getAuthHeaders();
-    const params = new HttpParams().append('chapter_id', this.collService.selectedChapter.id);
-    if (this.authService.is_token_valid()) {
-      this.hC.delete<TabModel[]>(HOST + '/delete_tab/' + tab_id, {params: params, headers: headers}).subscribe({
-        next: (res) => {
-          console.log('Response:', res);
-          //this.tabService.tabs = res;
-          this.collService.selectedChapter.exercise_ids = res;
-          this.collService.selectedTab = EmptyTab;
-        },
-        error: (err) => {
-          console.log(err);
-        },
-        complete: () => {
-          console.log('Tab deleted', this.collService.selectedChapter.exercise_ids)
+  delTab(event: Event, tab_id: string) {
+    this.confirmationDialogService.confirm({
+      target: event.target as EventTarget,
+      message: 'Willst Du den Tab wirklich löschen?',
+      icon: 'pi pi-exclamation-triangle',
+      acceptLabel: 'Ok',
+      rejectLabel: 'Abbrechen',
+      accept: () => {
+        console.log('Tab löschen', tab_id);
+        //deleteOneTab(tab_id: string, chapter_id: string) {chapter_
+        const headers = getAuthHeaders();
+        const params = new HttpParams().append('chapter_id', this.collService.selectedChapter.id);
+        if (this.authService.is_token_valid()) {
+          this.hC.delete<TabModel[]>(HOST + '/delete_tab/' + tab_id, {params: params, headers: headers}).subscribe({
+            next: (res) => {
+              console.log('Response:', res);
+              //this.tabService.tabs = res;
+              this.collService.selectedChapter.exercise_ids = res;
+              this.collService.selectedTab = EmptyTab;
+            },
+            error: (err) => {
+              console.log(err);
+            },
+            complete: () => {
+              console.log('Tab deleted', this.collService.selectedChapter.exercise_ids)
+            }
+          });
         }
-      });
-    }
+      },
+      reject: () => {
+        console.log('Tab not deleted', tab_id);
+      }
+    });
     //this.collService.deleteOneTab(tab_id, this.chapterService.selectedChapter.id.toString());
   }
 

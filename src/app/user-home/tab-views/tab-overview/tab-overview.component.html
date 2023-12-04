@@ -7,10 +7,11 @@
                 <p-button (onClick)="openDialogUpdateDescription(exTab.id)" 
                         label="Beschreibung bearbeiten" size="small" severity="secondary">
                 </p-button>
-                <p-button class="ml-4" (onClick)="delTab(exTab.id)" icon="pi pi-times"
+                <p-button class="ml-4" (onClick)="delTab($event, exTab.id)" icon="pi pi-times"
                         label="Tab löschen" severity="danger" size="small">
                 </p-button>
             </div>    
+            <p-confirmPopup></p-confirmPopup>
         </div>
         <p-divider></p-divider>
         <div>

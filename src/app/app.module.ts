@@ -4,6 +4,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputTextareaModule } from 'primeng/inputtextarea';
+import { ListboxModule } from 'primeng/listbox';
 import { PasswordModule } from 'primeng/password';
 import { CardModule } from 'primeng/card';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
@@ -21,6 +22,7 @@ import { ConfirmPopupModule } from 'primeng/confirmpopup';
 import { ToastModule } from 'primeng/toast';
 import { ReactiveFormsModule }  from  '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { OrderListModule } from 'primeng/orderlist';
 
 import { DialogService } from 'primeng/dynamicdialog';
 import { ConfirmationService } from 'primeng/api';
@@ -40,6 +42,7 @@ import { EditCollectionComponent } from './user-home/collection-overview/edit-co
 import { TabOverviewComponent } from './user-home/tab-views/tab-overview/tab-overview.component';
 
 import { MarkdownPipe } from './markdown.pipe';
+import { EditChapterComponent } from './user-home/chapter-views/edit-chapter/edit-chapter.component';
 
 @NgModule({
   declarations: [
@@ -54,7 +57,8 @@ import { MarkdownPipe } from './markdown.pipe';
     NewCollectionComponent,
     EditCollectionComponent,
     TabOverviewComponent,
-    MarkdownPipe
+    MarkdownPipe,
+    EditChapterComponent
   ],
   imports: [
     BrowserModule,
@@ -66,6 +70,7 @@ import { MarkdownPipe } from './markdown.pipe';
     ReactiveFormsModule,
     InputTextModule,
     InputTextareaModule,
+    ListboxModule,
     PasswordModule,
     MenuModule,
     CardModule,
@@ -77,6 +82,7 @@ import { MarkdownPipe } from './markdown.pipe';
     ToastModule,
     FileUploadModule,
     OverlayPanelModule,
+    OrderListModule,
     DividerModule,
     ImageModule,
     DropdownModule

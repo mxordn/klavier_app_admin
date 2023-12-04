@@ -1,11 +1,33 @@
 <form class="w-full" [formGroup]="editCollectionForm">
-    <input class="w-full" type="text" pInputText name="title" formControlName="title" placeholder="Titel eingeben"/>
-    <textarea class="w-full mt-2" id="collection_description" pInputText type="text" name="collection_description"
-                rows="6" placeholder="Beschreibung" formControlName="collection_description">
-    </textarea>
+    <div class="grid">
+        <div class="col">
+            <input class="w-full" type="text" pInputText name="title" formControlName="title" placeholder="Titel eingeben"/>
+            <textarea class="w-full mt-2" id="collection_description" pInputText type="text" name="collection_description"
+                        rows="6" placeholder="Beschreibung" formControlName="collection_description">
+            </textarea>
+        </div>
+        <div class="col">
+            <p-orderList [value]="chapters" [listStyle]="{ 'max-height': '30rem' }"
+                         header="Reihenfolge der Kapitel" [dragdrop]="true"
+                         (onReorder)="onOrderChanged()">
+                <ng-template let-chapter pTemplate="item">
+                    <div class="flex flex-wrap p-2 align-items-center gap-3">
+                        <div class="flex-1 flex flex-column gap-2">
+                            <span class="font-bold">{{ chapter.name }}</span>
+                            <div class="flex align-items-center gap-2">
+                                <i class="pi pi-book text-sm"></i>
+                                <span>{{ chapter.chapter_description }}</span>
+                            </div>
+                        </div>
+                        <span class="font-bold text-900"></span>
+                    </div>
+                </ng-template>
+            </p-orderList>
+        </div>
+    </div>
     <div class="mt-2">
         <p-button class="mt-2" (onClick)="updateCollectionInfo()">
             Sammlung aktualisieren
-        </p-button>    
+        </p-button>
     </div>
 </form>

@@ -6,6 +6,7 @@ import { getAuthHeaders } from 'src/app/auth/auth.header';
 import { AuthService } from 'src/app/auth/auth.service';
 import { ChapterService } from 'src/app/chapter.service';
 import { CollectionService } from 'src/app/collection.service';
+import { HOST } from 'src/app/models/collection';
 import { TabModel } from 'src/app/models/tab';
 
 @Component({
@@ -57,7 +58,7 @@ export class NewTabPanelComponent {
       //addNewTab(formData: FormData)
       if (this.authService.is_token_valid()) {
         const headers = getAuthHeaders();
-        this.hC.post<TabModel>(this.chapterService.addTabUrl, formData, {headers: headers}).subscribe({
+        this.hC.post<TabModel>(HOST + '/new_exercise', formData, {headers: headers}).subscribe({
           next: (data) => {
             console.log('Chapter', data);
             //console.log(this.chapterService.selectedChapter);
