@@ -1,0 +1,32 @@
+<form class="w-full" [formGroup]="chapUpdateForm">
+    <div class="grid">
+        <div class="col">
+            <input class="w-full mt-2" pInputText type="text" name="name"
+                    formControlName="name" placeholder="Titel des Kapitels"/>
+            <textarea class="w-full mt-2 mb-2" pInputTextarea type="textarea" cols="6" formControlName="chapter_description"
+                    name="chapter_description" placeholder="Beschreibung des Kapitels">
+            </textarea>
+            <!--<p-button (onClick)="closeDialogNewChapter()" severity="secondary">Schließen</p-button>-->
+        </div>
+    
+        <div class="col">
+            <p-orderList [value]="tabs" [listStyle]="{ 'max-height': '30rem' }"
+            header="Reihenfolge der Kapitel" [dragdrop]="true"
+            (onReorder)="onTabsOrderChanged()">
+                <ng-template let-tab pTemplate="item">
+                    <div class="flex flex-wrap p-2 align-items-center gap-3">
+                        <div class="flex-1 flex flex-column gap-2">
+                            <span class="font-bold">{{ tab.exercise_tab_name }}</span>
+                            <div class="flex align-items-center gap-2">
+                                <i class="pi pi-book text-sm"></i>
+                                <span>{{ tab.exercise_description }}</span>
+                            </div>
+                        </div>
+                        <span class="font-bold text-900"></span>
+                    </div>
+                </ng-template>
+            </p-orderList>
+        </div>
+    </div>
+    <p-button class="mt-2" (onClick)="updateChapter()">Kapitel aktualisieren</p-button>
+</form>
