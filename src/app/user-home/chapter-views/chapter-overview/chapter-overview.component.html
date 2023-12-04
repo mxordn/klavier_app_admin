@@ -4,7 +4,7 @@
             <h2 class="mr-5 flex align-items-center justify-content-center">
                 {{ collService.selectedColl.display_name }}
             </h2>
-            
+
             <div class="flex align-items-center">
                 <p-button class="mr-2" (onClick)="editCollection()" icon="pi pi-file-edit" size="small" [disabled]="!activated"></p-button>
                 <p-button (onClick)="delCollection($event)" icon="pi pi-trash" size="small"
@@ -14,18 +14,18 @@
         </div>
     </ng-template>
     <div class="grid">
-        <div class="col-9">
+        <div class="col-10">
             <!--<h2>{{ collService.selectedColl.display_name }}</h2>-->
             <p-panel header="Beschreibung der Sammlung" [toggleable]="true">
                 <p [innerHTML]="collService.selectedColl.collection_description | markdown"></p>
             </p-panel>
         </div>
-        <div class="col-3 flex">
-            <div [hidden]="!activated">
-                <h4>User Code:</h4>
+        <div class="col-2 flex">
+            <p-panel header="User Code">
+                <!--<h4>User Code:</h4>-->
                 <p-toast></p-toast>
                 <p-button label=" {{ collService.selectedColl.user_code }}" icon="pi pi-copy" size="small" [text]="true" [plain]="true" (onClick)="copyClipboard()"></p-button>
-            </div>
+            </p-panel>
             <!--<p-button (onClick)="editCollection()" icon="pi pi-file-edit" [disabled]="!activated"></p-button>
             <p-button (onClick)="delCollection()" icon="pi pi-trash" [disabled]="!activated" severity="danger"></p-button>-->
         </div>
