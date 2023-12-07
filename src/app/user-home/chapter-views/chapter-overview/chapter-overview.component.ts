@@ -1,13 +1,11 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { getAuthHeaders } from 'src/app/auth/auth.header';
-import { ChapterService } from 'src/app/chapter.service';
 import { CollectionService } from 'src/app/collection.service';
 import { ChapterModel } from 'src/app/models/chapter';
 import { CollectionModel, EmptyColl } from 'src/app/models/collection';
 import { HOST } from 'src/app/config';
 import { ConfirmationService, MessageService } from 'primeng/api';
-import { TabService } from 'src/app/tab.service';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { NewTabPanelComponent } from '../../tab-views/new-tab-panel/new-tab-panel.component';
 import { NewChapterComponent } from '../new-chapter/new-chapter.component';
@@ -32,8 +30,6 @@ export class ChapterOverviewComponent {
   dialogRef: DynamicDialogRef | undefined;
 
   constructor(public collService: CollectionService,
-              public tabService: TabService,
-              public chapterService: ChapterService,
               private dialogService: DialogService,
               private messageService: MessageService,
               private confirmationService: ConfirmationService,
