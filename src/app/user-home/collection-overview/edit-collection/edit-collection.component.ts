@@ -1,8 +1,9 @@
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { DynamicDialogRef } from 'primeng/dynamicdialog';
 import { getAuthHeaders } from 'src/app/auth/auth.header';
+import { AuthService } from 'src/app/auth/auth.service';
 import { CollectionService } from 'src/app/collection.service';
 import { ChapterModel } from 'src/app/models/chapter';
 import { CollectionModel, HOST, IdOrderTable } from 'src/app/models/collection';
@@ -19,6 +20,7 @@ export class EditCollectionComponent {
   constructor(private collService: CollectionService,
             private fb: FormBuilder,
             private hC: HttpClient,
+            private authService: AuthService,
             private dialogRef: DynamicDialogRef) {
     this.editCollectionForm = this.fb.group({
       title: new FormControl(this.collService.selectedColl.display_name, Validators.required),
@@ -33,27 +35,31 @@ export class EditCollectionComponent {
       formData.append("title", this.editCollectionForm.value.title);
       formData.append("collection_description", this.editCollectionForm.value.collection_description)
       const headers = getAuthHeaders();
-      this.hC.post<CollectionModel>(HOST + '/upload/update_collection/' + this.collService.selectedColl.id, formData , {headers: headers}).subscribe({
-        next: (res) => {
-          this.collService.collections.forEach((c) => {
-            if (c.id === res.id) {
-              c.display_name = res.display_name;
-              c.collection_description = res.collection_description;
-              console.log("Response:", res, 'collection', c, this.collService.collections);
-              this.collService.selectedColl = c;
-            }
-            //console.log(c);
-          });
-        },
-        error: (err) => {
-          console.log(err);
-        },
-        complete: () => {
-          //console.log("Check:", this.collService.collections);
-          //console.log("Check:", this.collService.selectedColl);
-          this.dialogRef.close();
-        }
-      })
+      if (this.authService.is_token_valid()) {
+        this.hC.post<CollectionModel>(HOST + '/upload/update_collection/' + this.collService.selectedColl.id, formData , {headers: headers}).subscribe({
+          next: (res) => {
+            this.collService.collections.forEach((c) => {
+              if (c.id === res.id) {
+                c.display_name = res.display_name;
+                c.collection_description = res.collection_description;
+                console.log("Response:", res, 'collection', c, this.collService.collections);
+                this.collService.selectedColl = c;
+              }
+              //console.log(c);
+            });
+          },
+          error: (err) => {
+            console.log(err);
+          },
+          complete: () => {
+            //console.log("Check:", this.collService.collections);
+            //console.log("Check:", this.collService.selectedColl);
+            this.dialogRef.close();
+          }
+        });
+      } else {
+        alert("Bitte loggen Sie sich neu ein. Token abgelaufen.");
+      }
     }
   }
 

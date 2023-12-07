@@ -60,6 +60,8 @@ export class TabDescriptionComponent {
             }
           });
         }
+      } else {
+        alert("Bitte loggen Sie sich neu ein. (Token ist nicht mehr gültig)")
       }
       //if (this.formTab.valid) {
       //  this.tabService.updateTabDescription(this.formTab);

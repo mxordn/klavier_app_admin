@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../auth/auth.service';
 import { OverlayPanel } from 'primeng/overlaypanel';
+import { CollectionService } from '../collection.service';
 
 @Component({
   selector: 'app-login',
@@ -12,6 +13,7 @@ export class LoginComponent {
   loginForm: FormGroup
 
   constructor(private fB: FormBuilder,
+              private collService: CollectionService,
               public authService: AuthService) {
     this.loginForm = this.fB.group({
       username_email: new FormControl('', Validators.email),
@@ -32,5 +34,6 @@ export class LoginComponent {
 
   logout() {
     this.authService.logout_user();
+    this.collService.chapters_activated.next(false);
   }
 }

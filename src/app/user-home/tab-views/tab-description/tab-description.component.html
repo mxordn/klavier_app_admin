@@ -1,10 +1,11 @@
 <form [formGroup]="formTab">
     <div class="justify-content-center w-full mt-2">
-        <input class="w-full" type="text" pInputText formControlName="exercise_tab_name" placeholder="Titel für den Tab"/>
+        <label for="titel">Titel des Tabs</label>
+        <input id="titel" class="w-full" type="text" pInputText formControlName="exercise_tab_name" placeholder="Titel für den Tab"/>
     </div>
-    <p-divider></p-divider>
     <div class="justify-content-center mt-2 mb-2">
-        <textarea class="w-full" rows="6" pInputTextarea formControlName="tab_description" placeholder="Beschreibung"></textarea>
+        <label for="beschreibung">Beschreibung (Markdown möglich)</label>
+        <textarea id="beschreibung" class="w-full" rows="12" pInputTextarea formControlName="tab_description" placeholder="Beschreibung"></textarea>
     </div>
     <p-button class="mt-2" (onClick)="updateDescription()">Beschreibung aktualisieren</p-button>
 </form>

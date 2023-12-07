@@ -6,7 +6,8 @@
             </h2>
 
             <div class="flex align-items-center">
-                <p-button class="mr-2" (onClick)="editCollection()" icon="pi pi-file-edit" size="small" [disabled]="!activated"></p-button>
+                <p-button class="mr-2" (onClick)="editCollection()" icon="pi pi-file-edit"
+                         size="small" [disabled]="!activated" severity="secondary"></p-button>
                 <p-button (onClick)="delCollection($event)" icon="pi pi-trash" size="small"
                          [disabled]="!activated" severity="danger"></p-button>
                 <p-confirmPopup></p-confirmPopup>

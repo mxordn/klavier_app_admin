@@ -24,12 +24,15 @@ export class TabOverviewComponent implements OnInit {
   selectedUploadURLAudio: string|undefined;
   imgURL: string = '';
   audioURL: string = '';
+  authHeaders: HttpHeaders;
 
   constructor(private dialogService: DialogService,
               private hC: HttpClient,
               private authService: AuthService,
               private confirmationDialogService: ConfirmationService,
-              public collService: CollectionService) {}
+              public collService: CollectionService) {
+    this.authHeaders = getAuthHeaders();
+  }
 
   ngOnInit(): void {
     console.log(this.collService.selectedColl);
@@ -66,22 +69,14 @@ export class TabOverviewComponent implements OnInit {
     this.player_icon = "pi pi-play";
   }
 
-  openDialogUpdateDescription(tabId: string) {
-    //this.dialogDescriptionVisible = true;
+  openDialogUpdateDescription() {
     console.log(this.collService.selectedTab.exercise_tab_name, this.collService.selectedTab.exercise_description)
     this.dialogService.open(TabDescriptionComponent, {
-      //data: {
-      //  title: this.collService.selectedTab.exercise_tab_name,
-      //  tab_desc: this.collService.selectedTab.exercise_description
-      //},
-      header: "Titel und Beschreibung des Tabs"
+      header: "Titel und Beschreibung des Tabs",
+      style: { width: '600px', height: '530px' },
+      draggable: false,
+      resizable: false
     });
-    //this.collService.selectedChapter.exercise_ids.forEach((t) => {
-      //if (t.id === tabId) {
-        //this.collService.selectedTab = t;
-        //setSelectedTab(t.id);
-      //}
-    //});
   }
 
   clearMedia(media_type: 'img' | 'audio') {
@@ -102,8 +97,6 @@ export class TabOverviewComponent implements OnInit {
             this.collService.selectedTab.audio_url = res.audio_url;
             this.collService.updateTabMedia(media_type);
           }
-          //this.tabService.setSelectedTab(res.id);
-          //this.collService.getUserCollections(); = 
         },
         error: (err) => {
           console.log(err);
@@ -112,6 +105,8 @@ export class TabOverviewComponent implements OnInit {
           console.log('successfully deleted.');
         }
       });
+    } else {
+      alert("Bitte loggen Sie sich neu ein. Token ist abgelaufen.")
     }
   }
 
@@ -184,9 +179,5 @@ export class TabOverviewComponent implements OnInit {
       this.player.pause();
       this.player_icon = 'pi pi-play';
     }
-  }
-
-  getHeaders(): HttpHeaders {
-    return getAuthHeaders()
   }
 }

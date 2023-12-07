@@ -1,10 +1,16 @@
 <form class="w-full" [formGroup]="editCollectionForm">
     <div class="grid">
         <div class="col">
-            <input class="w-full" type="text" pInputText name="title" formControlName="title" placeholder="Titel eingeben"/>
-            <textarea class="w-full mt-2" id="collection_description" pInputText type="text" name="collection_description"
-                        rows="6" placeholder="Beschreibung" formControlName="collection_description">
-            </textarea>
+            <div>
+                <label for="titelColl">Titel der Sammlung</label>
+                <input id="titelColl" class="w-full" type="text" pInputText name="title" formControlName="title" placeholder="Titel eingeben"/>
+            </div>
+            <div class="w-full mt-2">
+                <label for="collection_description">Beschreibung (auch Markdown möglich)</label>
+                <textarea  class="w-full mt-2" id="collection_description" pInputText type="text" name="collection_description"
+                            rows="12" placeholder="Beschreibung" formControlName="collection_description">
+                </textarea>
+            </div>
         </div>
         <div class="col">
             <p-orderList [value]="chapters" [listStyle]="{ 'max-height': '30rem' }"
@@ -14,10 +20,6 @@
                     <div class="flex flex-wrap p-2 align-items-center gap-3">
                         <div class="flex-1 flex flex-column gap-2">
                             <span class="font-bold">{{ chapter.name }}</span>
-                            <!--<div class="flex align-items-center gap-2">
-                                <i class="pi pi-book text-sm"></i>
-                                <span>{{ chapter.chapter_description }}</span>
-                            </div>-->
                         </div>
                         <span class="font-bold text-900"></span>
                     </div>

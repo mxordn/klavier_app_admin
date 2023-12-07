@@ -21,7 +21,7 @@ export class NewCollectionComponent {
               private hC: HttpClient,
               private collService: CollectionService) {
     this.collForm = this.formBuilder.group({
-      name: new FormControl('', Validators.required),
+      //name: new FormControl('', Validators.required),
       display_name: new FormControl('', Validators.required),
       collection_description: new FormControl('')
     });

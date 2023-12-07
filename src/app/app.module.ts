@@ -1,12 +1,15 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ReactiveFormsModule }  from  '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+
 import { ButtonModule } from 'primeng/button';
+import { CardModule } from 'primeng/card';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { ListboxModule } from 'primeng/listbox';
 import { PasswordModule } from 'primeng/password';
-import { CardModule } from 'primeng/card';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { PanelModule } from 'primeng/panel';
 import { MenuModule } from 'primeng/menu';
@@ -20,8 +23,6 @@ import { ImageModule } from 'primeng/image';
 import { DropdownModule } from 'primeng/dropdown';
 import { ConfirmPopupModule } from 'primeng/confirmpopup';
 import { ToastModule } from 'primeng/toast';
-import { ReactiveFormsModule }  from  '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
 import { OrderListModule } from 'primeng/orderlist';
 
 import { DialogService } from 'primeng/dynamicdialog';

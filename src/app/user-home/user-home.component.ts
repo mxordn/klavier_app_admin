@@ -99,32 +99,32 @@ export class UserHomeComponent implements OnInit {
     });
   }
 
-  onSubmit() {
-    if (this.collForm.valid) {
-      console.log('VALID', this.collForm.value.collection_description)
+  // onSubmit() {
+  //   if (this.collForm.valid) {
+  //     console.log('VALID', this.collForm.value.collection_description)
 
-      console.log(this.collForm)
-      let headers = getAuthHeaders()
-      this.loading = true;
-      let formData: FormData = new FormData();
-      formData.append("name", this.collForm.value.name);
-      formData.append("display_name", this.collForm.value.display_name);
-      formData.append("collection_description", this.collForm.value.collection_description);
-      this.hC.post(HOST+'/new_collection', formData, { headers: headers }).subscribe({
-        next: (data) => {
-          console.log(data)
-        },
-        error: (err) => {
-          console.log(err)
-        },
-        complete: () => {
-          this.collService.getUserCollections();
-          this.loading = false;
-          this.dialogVisible = false;
-        }
-      })
-    } else {
-      return
-    }
-  }
+  //     console.log(this.collForm)
+  //     let headers = getAuthHeaders()
+  //     this.loading = true;
+  //     let formData: FormData = new FormData();
+  //     formData.append("name", this.collForm.value.name);
+  //     formData.append("display_name", this.collForm.value.display_name);
+  //     formData.append("collection_description", this.collForm.value.collection_description);
+  //     this.hC.post(HOST+'/new_collection', formData, { headers: headers }).subscribe({
+  //       next: (data) => {
+  //         console.log(data)
+  //       },
+  //       error: (err) => {
+  //         console.log(err)
+  //       },
+  //       complete: () => {
+  //         this.collService.getUserCollections();
+  //         this.loading = false;
+  //         this.dialogVisible = false;
+  //       }
+  //     })
+  //   } else {
+  //     return
+  //   }
+  // }
 }
