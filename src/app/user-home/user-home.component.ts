@@ -1,13 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { EmptyColl, HOST } from '../models/collection';
+import { EmptyColl } from '../models/collection';
 import { HttpClient } from '@angular/common/http';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../auth/auth.service';
-import { getAuthHeaders } from '../auth/auth.header';
 import { CollectionService } from '../collection.service';
 import { DialogService } from 'primeng/dynamicdialog';
 import { NewCollectionComponent } from './collection-overview/new-collection/new-collection.component';
-import { ListboxClickEvent } from 'primeng/listbox';
 
 
 @Component({

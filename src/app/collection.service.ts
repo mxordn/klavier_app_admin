@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
-import { CollectionModel, EmptyColl, HOST } from './models/collection';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { CollectionModel, EmptyColl } from './models/collection';
+import { HOST } from './config'
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ChapterModel, EmptyChapter } from './models/chapter';
-import { TabService } from './tab.service';
 import { EmptyTab, TabModel } from './models/tab';
-import { getAuthHeaders } from './auth/auth.header';
 import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
@@ -26,8 +25,7 @@ export class CollectionService {
         
 
   
-  constructor(private hC: HttpClient,
-              private tabService: TabService) {
+  constructor(private hC: HttpClient) {
     this.currentAudioURL = new BehaviorSubject('');
     this.currentImgURL = new BehaviorSubject('');
     this.chapters_activated = new BehaviorSubject(false);

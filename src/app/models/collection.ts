@@ -1,7 +1,5 @@
 import { ChapterModel } from "./chapter"
 
-export const HOST: string = 'http://127.0.0.1:8000'
-
 export interface IdOrderTable {
     id: string,
     order_num: number

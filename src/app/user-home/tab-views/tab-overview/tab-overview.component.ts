@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { DialogService } from 'primeng/dynamicdialog';
 import { CollectionService } from 'src/app/collection.service';
 import { TabDescriptionComponent } from '../tab-description/tab-description.component';
-import { HOST } from 'src/app/models/collection';
+import { HOST } from 'src/app/config';
 import { EmptyTab, TabModel } from 'src/app/models/tab';
 import { AuthService } from 'src/app/auth/auth.service';
 import { getAuthHeaders } from 'src/app/auth/auth.header';

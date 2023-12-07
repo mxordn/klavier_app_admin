@@ -4,9 +4,8 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { DynamicDialogRef } from 'primeng/dynamicdialog';
 import { getAuthHeaders } from 'src/app/auth/auth.header';
 import { AuthService } from 'src/app/auth/auth.service';
-import { ChapterService } from 'src/app/chapter.service';
 import { CollectionService } from 'src/app/collection.service';
-import { HOST } from 'src/app/models/collection';
+import { HOST } from 'src/app/config';
 import { TabModel } from 'src/app/models/tab';
 
 @Component({
@@ -31,7 +30,6 @@ export class NewTabPanelComponent {
   constructor(private fB: FormBuilder,
               private hC: HttpClient,
               private collService: CollectionService,
-              private chapterService: ChapterService,
               private authService: AuthService,
               private dialogRef: DynamicDialogRef) {
     this.newTabForm = this.fB.group({

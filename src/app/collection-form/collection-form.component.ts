@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http'
 import { FormControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { HOST } from '../models/collection'
+import { HOST } from '../config'
 import { getAuthHeaders } from '../auth/auth.header';
 
 @Component({

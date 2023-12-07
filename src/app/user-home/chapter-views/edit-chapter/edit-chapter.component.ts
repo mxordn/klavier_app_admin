@@ -6,7 +6,8 @@ import { getAuthHeaders } from 'src/app/auth/auth.header';
 import { AuthService } from 'src/app/auth/auth.service';
 import { CollectionService } from 'src/app/collection.service';
 import { ChapterModel } from 'src/app/models/chapter';
-import { HOST, IdOrderTable } from 'src/app/models/collection';
+import { IdOrderTable } from 'src/app/models/collection';
+import { HOST } from 'src/app/config';
 import { TabModel } from 'src/app/models/tab';
 
 @Component({

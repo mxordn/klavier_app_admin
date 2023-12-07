@@ -6,7 +6,9 @@ import { getAuthHeaders } from 'src/app/auth/auth.header';
 import { AuthService } from 'src/app/auth/auth.service';
 import { CollectionService } from 'src/app/collection.service';
 import { ChapterModel } from 'src/app/models/chapter';
-import { CollectionModel, HOST, IdOrderTable } from 'src/app/models/collection';
+import { CollectionModel, IdOrderTable } from 'src/app/models/collection';
+import { HOST } from 'src/app/config';
+
 
 @Component({
   selector: 'app-edit-collection',

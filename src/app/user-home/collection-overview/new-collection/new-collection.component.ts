@@ -4,7 +4,8 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { DynamicDialogRef } from 'primeng/dynamicdialog';
 import { getAuthHeaders } from 'src/app/auth/auth.header';
 import { CollectionService } from 'src/app/collection.service';
-import { CollectionModel, HOST } from 'src/app/models/collection';
+import { CollectionModel } from 'src/app/models/collection';
+import { HOST } from 'src/app/config';
 
 @Component({
   selector: 'app-new-collection',
