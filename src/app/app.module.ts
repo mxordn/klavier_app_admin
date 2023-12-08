@@ -45,6 +45,8 @@ import { TabOverviewComponent } from './user-home/tab-views/tab-overview/tab-ove
 import { MarkdownPipe } from './markdown.pipe';
 import { EditChapterComponent } from './user-home/chapter-views/edit-chapter/edit-chapter.component';
 
+import {APP_BASE_HREF} from '@angular/common';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -91,7 +93,8 @@ import { EditChapterComponent } from './user-home/chapter-views/edit-chapter/edi
   providers: [
     DialogService,
     ConfirmationService,
-    MessageService
+    MessageService,
+    {provide: APP_BASE_HREF, useValue: '/app'}
   ],
   bootstrap: [AppComponent]
 })
