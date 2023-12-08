@@ -36,7 +36,7 @@ export class NewCollectionComponent {
       this.loading = true;
 
       let formData: FormData = new FormData();
-      formData.append("name", this.collForm.value.name);
+      // formData.append("name", this.collForm.value.name);
       formData.append("display_name", this.collForm.value.display_name);
       formData.append("collection_description", this.collForm.value.collection_description);
 
