@@ -5,7 +5,11 @@
                 {{ collService.selectedColl.display_name }}
             </h2>
 
-            <div class="flex align-items-center">
+            <div class="flex justify-content-between align-items-center">
+                <p-toast></p-toast>
+                <p-button class="mr-2" label=" {{ collService.selectedColl.user_code }}" icon="pi pi-copy" [outlined]="true"
+                            size="small" [text]="true" [plain]="true" (onClick)="copyClipboard()">
+                </p-button>
                 <p-button class="mr-2" (onClick)="editCollection()" icon="pi pi-file-edit"
                          size="small" [disabled]="!activated" severity="secondary"></p-button>
                 <p-button (onClick)="delCollection($event)" icon="pi pi-trash" size="small"
@@ -15,33 +19,31 @@
         </div>
     </ng-template>
     <div class="grid">
-        <div class="col-10">
+        <div class="lg:col-10 md:col-9 sm:col-6">
             <!--<h2>{{ collService.selectedColl.display_name }}</h2>-->
             <p-panel header="Beschreibung der Sammlung" [toggleable]="true">
                 <p [innerHTML]="collService.selectedColl.collection_description | markdown"></p>
             </p-panel>
         </div>
-        <div class="col-2 flex">
+        <div class="lg:col-2 md:col-3 sm:col-6 flex">
             <p-panel header="User Code">
                 <!--<h4>User Code:</h4>-->
-                <p-toast></p-toast>
-                <p-button label=" {{ collService.selectedColl.user_code }}" icon="pi pi-copy" size="small" [text]="true" [plain]="true" (onClick)="copyClipboard()"></p-button>
             </p-panel>
             <!--<p-button (onClick)="editCollection()" icon="pi pi-file-edit" [disabled]="!activated"></p-button>
-            <p-button (onClick)="delCollection()" icon="pi pi-trash" [disabled]="!activated" severity="danger"></p-button>-->
+                <p-button (onClick)="delCollection()" icon="pi pi-trash" [disabled]="!activated" severity="danger"></p-button>-->
+            </div>
         </div>
-    </div>
-    <p-accordion [multiple]="false">
-        <p-accordionTab *ngFor="let chapter of collService.selectedColl.list_of_exercises, let i=index"
-                        class="m-1" [header]="chapter.name.toString()" (selectedChange)="openChapter(chapter.id)">
+        <p-accordion [multiple]="false">
+            <p-accordionTab *ngFor="let chapter of collService.selectedColl.list_of_exercises, let i=index"
+            class="m-1" [header]="chapter.name.toString()" (selectedChange)="openChapter(chapter.id)">
+            <div class="pb-2">
+                <p-button class="mr-2" (onClick)="editChapter()" label="Kapitel Bearbeiten" icon="pi pi-book" size="small" severity="secondary"></p-button>
+                <p-button severity="danger" size="small" (onClick)="delChapter($event)"
+                        label="Chapter löschen" icon="pi pi-trash" [disabled]="!activated"></p-button>
+            </div>
             <p-card header="{{ chapter.name }}">
                 <p-button (onClick)="openNewTabPanel()" label="Neuer Tab" icon="pi pi-plus" size="small"></p-button>
                 <app-tab-overview></app-tab-overview>
-                <ng-template pTemplate="footer">
-                    <p-button class="mr-2" (onClick)="editChapter()" label="Kapitel Bearbeiten" icon="pi pi-book" size="small" severity="secondary"></p-button>
-                    <p-button severity="danger" size="small" (onClick)="delChapter($event)"
-                            label="Chapter löschen" icon="pi pi-trash" [disabled]="!activated"></p-button>
-                </ng-template>
             </p-card>
         </p-accordionTab>
         <div class="m-2">
