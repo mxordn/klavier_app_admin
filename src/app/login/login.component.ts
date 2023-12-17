@@ -3,6 +3,8 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { AuthService } from '../auth/auth.service';
 import { OverlayPanel } from 'primeng/overlaypanel';
 import { CollectionService } from '../collection.service';
+import { MenuItem } from 'primeng/api/menuitem';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -11,6 +13,7 @@ import { CollectionService } from '../collection.service';
 })
 export class LoginComponent {
   loginForm: FormGroup
+  menu_items: MenuItem[] | undefined;
 
   constructor(private fB: FormBuilder,
               private collService: CollectionService,
@@ -19,6 +22,10 @@ export class LoginComponent {
       username_email: new FormControl('', Validators.email),
       password: new FormControl('', Validators.required)
     })
+    this.menu_items = [
+      {label: 'Öffentliche Sammlungen', routerLink: '', disabled: true},
+      {label: 'Registrierung', routerLink: 'user_registration', disabled: true}
+  ]
   }
 
   

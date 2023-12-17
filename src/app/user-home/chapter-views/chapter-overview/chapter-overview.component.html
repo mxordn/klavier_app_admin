@@ -18,21 +18,21 @@
             </div>
         </div>
     </ng-template>
-    <div class="grid">
-        <div class="lg:col-10 md:col-9 sm:col-6">
+    <!--class="grid">-->
+        <!--<div class="lg:col-10 md:col-9 sm:col-6">-->
             <!--<h2>{{ collService.selectedColl.display_name }}</h2>-->
             <p-panel header="Beschreibung der Sammlung" [toggleable]="true">
                 <p [innerHTML]="collService.selectedColl.collection_description | markdown"></p>
             </p-panel>
-        </div>
-        <div class="lg:col-2 md:col-3 sm:col-6 flex">
-            <p-panel header="User Code">
-                <!--<h4>User Code:</h4>-->
-            </p-panel>
+        <!--</div>-->
+        <!--<div class="lg:col-2 md:col-3 sm:col-6 flex">-->
+            <!--<p-panel header="User Code">
+                <h4>User Code:</h4>
+            </p-panel>-->
             <!--<p-button (onClick)="editCollection()" icon="pi pi-file-edit" [disabled]="!activated"></p-button>
                 <p-button (onClick)="delCollection()" icon="pi pi-trash" [disabled]="!activated" severity="danger"></p-button>-->
-            </div>
-        </div>
+            <!--</div>-->
+        <!--</div>-->
         <p-accordion [multiple]="false">
             <p-accordionTab *ngFor="let chapter of collService.selectedColl.list_of_exercises, let i=index"
             class="m-1" [header]="chapter.name.toString()" (selectedChange)="openChapter(chapter.id)">
@@ -50,6 +50,6 @@
             <p-button (onClick)="openDialogNewChapter()" icon="pi pi-plus" [hidden]="!activated"></p-button>
         </div>
     </p-accordion>
-    <ng-template pTemplate="footer">
-    </ng-template>
+    <!--<ng-template pTemplate="footer">
+    </ng-template>-->
 </p-panel>

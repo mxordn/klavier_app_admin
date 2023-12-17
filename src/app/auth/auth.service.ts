@@ -68,6 +68,7 @@ export class AuthService {
     console.log(renewTokenIntervalId);
     clearInterval(renewTokenIntervalId);
     console.log(renewTokenIntervalId);
+    this.router.navigate(['']);
   }
   
   is_token_valid(): Boolean {
