@@ -26,7 +26,7 @@
             <div class="flex justify-content-left">
                 <p-fileUpload #imgUpload class="m-2" mode="basic" chooseLabel="Bild auswählen"
                                 name="file" [url]="collService.selectedUploadURLImg"
-                                [withCredentials]="true" [headers]="authHeaders"
+                                [withCredentials]="true" [headers]="authHeaders" [maxFileSize]="10000000"
                                 accept="image/*" [auto]="true" (onUpload)="onUpload($event, 'img')">
                 </p-fileUpload>
                 <p-button class="mt-2 mr-2" (onClick)="clearMedia('img')" icon="pi pi-times" severity="danger"

@@ -1,0 +1,28 @@
+<!--<p>register works!</p>-->
+<div class="flex justify-content-center">
+    <p-card header="Konto registrieren">
+        <form [formGroup]="register_form">
+            <div class="flex flex-column">
+                <input type="text" pInputText placeholder="Vorname" formControlName="firstname"/>
+                <input type="text" pInputText placeholder="Nachname" formControlName="lastname"/>
+                <p-divider></p-divider>
+                <input type="text" pInputText placeholder="Username" formControlName="username"/>
+                <input type="text" pInputText placeholder="eMail" formControlName="email"/>
+                <p-password type="text" placeholder="Passwort" formControlName="password"/>
+            </div>
+            <div class="pt-4 w-12">
+                <p-button label="Konto registrieren" (onClick)="register()"></p-button>
+            </div>
+        </form>
+    </p-card>
+</div>
+
+<!--<div class="flex justify-content-center">
+<p-card header="Passwort zurücksetzen">
+    <form [formGroup]="recovery_form">
+        <input pInputText type="text" placeholder="eMail Adresse" formControlName="email_recovery"/>
+        <br>
+        <p-button label="Passwort zurücksetzen" (onClick)="recovery()"></p-button>
+    </form>
+</p-card>
+</div>-->

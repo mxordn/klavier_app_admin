@@ -17,6 +17,7 @@ export class LoginComponent {
 
   constructor(private fB: FormBuilder,
               private collService: CollectionService,
+              private router: Router,
               public authService: AuthService) {
     this.loginForm = this.fB.group({
       username_email: new FormControl('', Validators.email),
@@ -24,7 +25,7 @@ export class LoginComponent {
     })
     this.menu_items = [
       {label: 'Öffentliche Sammlungen', routerLink: '', disabled: true},
-      {label: 'Registrierung', routerLink: 'user_registration', disabled: true}
+      {label: 'Registrierung', routerLink: 'register_user', disabled: false }
   ]
   }
 

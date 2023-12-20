@@ -1,2 +1,2 @@
-export const HOST: string = 'https://klavier-app-api.satzlehre-online.de'
-//'http://127.0.0.1:8000'
+export const HOST: string = 'http://127.0.0.1:8000'
+//'http://127.0.0.1:8000''https://klavier-app-api.satzlehre-online.de'

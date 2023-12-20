@@ -47,6 +47,7 @@ import { EditChapterComponent } from './user-home/chapter-views/edit-chapter/edi
 
 import {APP_BASE_HREF} from '@angular/common';
 import { StartComponent } from './start/start.component';
+import { RegisterComponent } from './register/register.component';
 
 @NgModule({
   declarations: [
@@ -63,7 +64,8 @@ import { StartComponent } from './start/start.component';
     TabOverviewComponent,
     MarkdownPipe,
     EditChapterComponent,
-    StartComponent
+    StartComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,
@@ -95,8 +97,7 @@ import { StartComponent } from './start/start.component';
   providers: [
     DialogService,
     ConfirmationService,
-    MessageService,
-    {provide: APP_BASE_HREF, useValue: '/admin'}
+    MessageService
   ],
   bootstrap: [AppComponent]
 })
