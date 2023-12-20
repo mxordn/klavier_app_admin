@@ -1,31 +1,33 @@
 <!--<p>start works!</p>-->
-<div class="p-5">
-    <p-toast></p-toast>
-    <h1>Willkommen beim Keyboad App Admin</h1>
-    <p>Bitte melden Sie sich an, um ihre Sammlungen zu bearbeiten.</p>
+<div class="flex justify-content-center">
+    <div class="w-10">
+        <p-toast></p-toast>
+        <h1>Willkommen beim Keyboad App Admin</h1>
+        <p>Bitte melden Sie sich an, um ihre Sammlungen zu bearbeiten.</p>
 
-    <h2>Öffentliche Sammlungen</h2>
-    <p>Es gibt ein paar öffentlich verfügbare Sammlungen, die die Möglichkeiten der Piano App zeigen.</p>
-    <div>
-        <p>Um die Sammlungen auszuprobieren:</p>
-        <ol>
-            <li>Die Codes kopieren und</li>
-            <li>
-                <a rel="noopener" href="https://piano-lab.satzlehre-online.de/trainer/" target="_blank">
-                Im Trainer einfügen (https://piano-lab.satzlehre-online.de/trainer/)</a>
-            </li>
-        </ol>
-    </div>
-    <div class="grid">
-        <p-card class="lg:col-4 md:col-6 sm:col-12" *ngFor="let coll of publicCollections" [header]="coll.name">
-            <ng-template pTemplate="content">
-                <div>
-                    <p [innerHTML]="coll.description | markdown"></p>
-                </div>
-            </ng-template>
-            <ng-template pTemplate="footer">
-                <p-button [plain]="true" [outlined]="true" severity="info" (onClick)="copyUserCode(coll.user_code)" label="Usercode kopieren ({{ coll.user_code }})"></p-button>
-            </ng-template>
-        </p-card>
+        <h2>Öffentliche Sammlungen</h2>
+        <p>Es gibt ein paar öffentlich verfügbare Sammlungen, die die Möglichkeiten der Piano App zeigen.</p>
+        <div>
+            <p>Um die Sammlungen auszuprobieren:</p>
+            <ol>
+                <li>Die Codes kopieren und</li>
+                <li>
+                    <a rel="noopener" href="https://piano-lab.satzlehre-online.de/trainer/" target="_blank">
+                    Im Trainer einfügen (https://piano-lab.satzlehre-online.de/trainer/)</a>
+                </li>
+            </ol>
+        </div>
+        <div class="grid">
+            <p-card class="lg:col-4 md:col-6 sm:col-12" *ngFor="let coll of publicCollections" [header]="coll.name">
+                <ng-template pTemplate="content">
+                    <div>
+                        <p [innerHTML]="coll.description | markdown"></p>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="footer">
+                    <p-button [plain]="true" [outlined]="true" severity="info" (onClick)="copyUserCode(coll.user_code)" label="Usercode kopieren ({{ coll.user_code }})"></p-button>
+                </ng-template>
+            </p-card>
+        </div>
     </div>
 </div>

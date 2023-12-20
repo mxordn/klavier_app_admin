@@ -23,6 +23,7 @@ export class RegisterComponent {
       firstname: new FormControl('', Validators.required),
       lastname: new FormControl('', Validators.required),
       password: new FormControl('', Validators.required),
+      legal: new FormControl('', Validators.requiredTrue),
     });
     this.recovery_form = this.fB.group({
       email_recovery: new FormControl('', Validators.email)

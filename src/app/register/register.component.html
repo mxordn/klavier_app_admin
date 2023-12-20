@@ -8,7 +8,17 @@
                 <p-divider></p-divider>
                 <input type="text" pInputText placeholder="Username" formControlName="username"/>
                 <input type="text" pInputText placeholder="eMail" formControlName="email"/>
+                <input type="text" pInputText placeholder="eMail" formControlName="email"/>
                 <p-password type="text" placeholder="Passwort" formControlName="password"/>
+                <br>
+                <div class="flex align-items-center">
+                    <p-inputSwitch formControlName="legal"></p-inputSwitch>
+                    <p class="pl-2 text-sm">Ich akzeptiere die Datenschutzbestimmungen<br>
+                    und willige in die Speicherung und Verarbeitung<br>
+                    der oben angegebenen Daten ein. Nähere<br>
+                    Informationen siehe die <a href="impressum/#datenschutz" target="_blank">Datenschutzerklärung</a>
+                </p>
+                </div>
             </div>
             <div class="pt-4 w-12">
                 <p-button label="Konto registrieren" (onClick)="register()"></p-button>
@@ -16,7 +26,6 @@
         </form>
     </p-card>
 </div>
-
 <!--<div class="flex justify-content-center">
 <p-card header="Passwort zurücksetzen">
     <form [formGroup]="recovery_form">

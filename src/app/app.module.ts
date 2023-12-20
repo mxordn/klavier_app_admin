@@ -24,6 +24,7 @@ import { DropdownModule } from 'primeng/dropdown';
 import { ConfirmPopupModule } from 'primeng/confirmpopup';
 import { ToastModule } from 'primeng/toast';
 import { OrderListModule } from 'primeng/orderlist';
+import { InputSwitchModule } from 'primeng/inputswitch';
 
 import { DialogService } from 'primeng/dynamicdialog';
 import { ConfirmationService } from 'primeng/api';
@@ -48,6 +49,7 @@ import { EditChapterComponent } from './user-home/chapter-views/edit-chapter/edi
 import {APP_BASE_HREF} from '@angular/common';
 import { StartComponent } from './start/start.component';
 import { RegisterComponent } from './register/register.component';
+import { ImpressumComponent } from './impressum/impressum.component';
 
 @NgModule({
   declarations: [
@@ -65,7 +67,8 @@ import { RegisterComponent } from './register/register.component';
     MarkdownPipe,
     EditChapterComponent,
     StartComponent,
-    RegisterComponent
+    RegisterComponent,
+    ImpressumComponent
   ],
   imports: [
     BrowserModule,
@@ -77,6 +80,7 @@ import { RegisterComponent } from './register/register.component';
     ReactiveFormsModule,
     InputTextModule,
     InputTextareaModule,
+    InputSwitchModule,
     ListboxModule,
     PasswordModule,
     MenuModule,

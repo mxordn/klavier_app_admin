@@ -14,5 +14,6 @@ export const authGuard = () => {
   }
 
   // Redirect to the login page
+  alert("Die Seite ist nur für eingeloggte User sichtbar.")
   return router.parseUrl('/');
 };

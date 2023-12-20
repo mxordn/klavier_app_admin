@@ -19,8 +19,8 @@ export let renewTokenIntervalId = 0;
 })
 export class AuthService {
   jwt_usertoken: string = '';
-  user_logged_in: Boolean = false;
-  
+  user_logged_in: boolean = false;
+
   constructor(private hC: HttpClient,
     private router: Router,
     private collService: CollectionService) { }
