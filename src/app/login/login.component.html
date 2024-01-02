@@ -9,17 +9,34 @@
     </p-toolbar>
     <p-overlayPanel #loginPanel>
         <ng-template pTemplate="content">
-            <p-card header="Login">
+            <p-card header="Login" [style]="{ width: '300px' }">
                 <form [formGroup]="loginForm">
-                    <input id="username" type="text" pInputText class="w-full mb-3" 
+                    <input id="username" type="text" pInputText class="mb-3" 
                             placeholder="eMail"
                             formControlName="username_email"/>
                     <br>
                     <p-password type="text" placeholder="Passwort" formControlName="password" [feedback]="false"></p-password>
                 </form>
                 <ng-template pTemplate="footer">
-                    <p-button class="mr-2" [disabled]="!!authService.user_logged_in" (onClick)="login(loginPanel)">Login</p-button>
-                    <p-button [disabled]="!authService.user_logged_in" (onClick)="logout()">Logout</p-button>
+                    <div class="flex">
+                        <div class="grid">
+                            <div class="col-6">
+                                <div class="flex justify-content-center">
+                                    <p-button [disabled]="!!authService.user_logged_in" (onClick)="login(loginPanel)">Login</p-button>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="flex justify-content-center">
+                                    <p-button [disabled]="!authService.user_logged_in" (onClick)="logout()">Logout</p-button>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="flex justify-content-center ">
+                                    <p-button [text]="true" (onClick)="navigate_pwd(loginPanel)">Passwort vergessen</p-button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </ng-template>
             </p-card>
         </ng-template>

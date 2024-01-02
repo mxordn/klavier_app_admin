@@ -4,6 +4,7 @@ import { AuthService } from '../auth/auth.service';
 import { OverlayPanel } from 'primeng/overlaypanel';
 import { CollectionService } from '../collection.service';
 import { MenuItem } from 'primeng/api/menuitem';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -17,6 +18,7 @@ export class LoginComponent {
 
   constructor(private fB: FormBuilder,
               private collService: CollectionService,
+              private router: Router,
               public authService: AuthService) {
     this.loginForm = this.fB.group({
       username_email: new FormControl('', Validators.email),
@@ -44,5 +46,10 @@ export class LoginComponent {
   logout() {
     this.authService.logout_user();
     this.collService.chapters_activated.next(false);
+  }
+
+  navigate_pwd(panel: OverlayPanel) {
+    this.router.navigate(['/reset_password']);
+    panel.hide();
   }
 }

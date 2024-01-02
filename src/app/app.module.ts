@@ -50,6 +50,8 @@ import {APP_BASE_HREF} from '@angular/common';
 import { StartComponent } from './start/start.component';
 import { RegisterComponent } from './register/register.component';
 import { ImpressumComponent } from './impressum/impressum.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { SetNewPasswordComponent } from './set-new-password/set-new-password.component';
 
 @NgModule({
   declarations: [
@@ -68,7 +70,9 @@ import { ImpressumComponent } from './impressum/impressum.component';
     EditChapterComponent,
     StartComponent,
     RegisterComponent,
-    ImpressumComponent
+    ImpressumComponent,
+    ResetPasswordComponent,
+    SetNewPasswordComponent
   ],
   imports: [
     BrowserModule,
