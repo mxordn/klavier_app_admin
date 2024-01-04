@@ -34,7 +34,7 @@ export class SetNewPasswordComponent implements OnInit {
   ngOnInit() {
     this.ut = this.route.snapshot.queryParams['ut'];
     this.user_id = this.route.snapshot.params['user_id'];
-    console.log(this.ut, this.user_id);
+    // console.log(this.ut, this.user_id);
   }
 
   set_pwd() {

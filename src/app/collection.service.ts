@@ -34,7 +34,7 @@ export class CollectionService {
   public getUserCollections(refresh: boolean=true) {
     let headers = new HttpHeaders()
     headers = headers.append('Authorization', 'Bearer ' + localStorage.getItem('token') || '');
-    console.log('LOG Header', headers.get('Authorization'))
+    // console.log('LOG Header', headers.get('Authorization'))
     this.hC.get<CollectionModel[]>(HOST + "/get_user_collection/" + localStorage.getItem('user_id'),
                                     {headers: headers}).subscribe({
       next: (response) => {
@@ -44,7 +44,7 @@ export class CollectionService {
         console.log(err);
       },
       complete: () =>{
-        console.log(this.collections)
+        // console.log(this.collections)
         // set selection with updated data.
         if (this.selectedColl != EmptyColl && refresh) {
           this.collections.forEach((c) => {

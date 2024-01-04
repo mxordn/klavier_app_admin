@@ -28,7 +28,7 @@ export class AuthService {
   login_user(formData: FormData) {
     this.hC.post(HOST + '/user/login', formData).subscribe({
       next: (data) => {
-        console.log(data);
+        // console.log(data);
         if (data) {
           this.jwt_usertoken = data.toString();
           const dec: jwtData = jwtDecode(this.jwt_usertoken);
@@ -45,7 +45,7 @@ export class AuthService {
       },
       complete: () => {
         console.log("Complete!");
-        console.log(this.is_token_valid());
+        // console.log(this.is_token_valid());
         
         if (this.is_token_valid()) {
           this.user_logged_in = true;
@@ -53,7 +53,7 @@ export class AuthService {
           this.router.navigate(["user_home"]);
         }
         renewTokenIntervalId = Number(setInterval(this.renewToken, 3300000));
-        console.log('ID', renewTokenIntervalId);
+        // console.log('ID', renewTokenIntervalId);
         //10000
       }
     })
@@ -66,9 +66,9 @@ export class AuthService {
     this.collService.collections = [];
     this.collService.selectedColl = EmptyColl;
     this.user_logged_in = false;
-    console.log(renewTokenIntervalId);
+    // console.log(renewTokenIntervalId);
     clearInterval(renewTokenIntervalId);
-    console.log(renewTokenIntervalId);
+    // console.log(renewTokenIntervalId);
     this.router.navigate(['']);
   }
   
@@ -76,7 +76,7 @@ export class AuthService {
     let curr_date = new Date().getTime();
     let token_exp = Number(localStorage.getItem("exp")!) * 1000;
     
-    console.log(localStorage.getItem("exp"), Number(token_exp) * 1000, curr_date);
+    // console.log(localStorage.getItem("exp"), Number(token_exp) * 1000, curr_date);
     if (Number(token_exp) > curr_date) {
       return true
     } else {
@@ -85,7 +85,7 @@ export class AuthService {
   }
 
   renewToken() {
-    console.log(renewTokenIntervalId);
+    // console.log(renewTokenIntervalId);
     clearInterval(renewTokenIntervalId);
     alert('Die Sitzung läuft in 5 Minuten ab. Bitte erneuern Sie die Sitzung, indem Sie sich neu einloggen.');
   }

@@ -13,8 +13,8 @@ import { NewCollectionComponent } from './collection-overview/new-collection/new
   templateUrl: './user-home.component.html',
   styleUrls: ['./user-home.component.scss']
 })
-export class UserHomeComponent implements OnInit {
-  //collections: CollectionModel[] = [];
+export class UserHomeComponent {
+  //collections: CollectionModel[] = [];implements OnInit 
   chapters_activated: boolean = false
   //selectedColl: CollectionModel = {
   //  name: '',
@@ -52,13 +52,13 @@ export class UserHomeComponent implements OnInit {
     //this.collService.getUserCollections();
   }
   
-  ngOnInit(): void {
-    console.log('component initialized')
-  }
+  // ngOnInit(): void {
+  //   console.log('component initialized')
+  // }
 
-  ngOnDestroy(): void {
-    console.log('component destroyed')
-  }
+  // ngOnDestroy(): void {
+  //   console.log('component destroyed')
+  // }
 
   openNewCollectionDialog() {
     this.dialogService.open(NewCollectionComponent, {
