@@ -1,0 +1,7 @@
+<div>
+    <form class="flex align-items-center gap-1" [formGroup]="formGroupExport">
+        <p-inputSwitch formControlName="include_media" inputId="ny"></p-inputSwitch>
+        <label for="ny">Mediendateien mit Exportieren</label>
+    </form>
+    <p-button (onClick)="downloadAndExportCollection()">Exportieren und Herunterladen</p-button>
+</div>

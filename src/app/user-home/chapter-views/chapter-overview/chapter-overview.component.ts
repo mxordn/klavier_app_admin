@@ -1,4 +1,4 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { getAuthHeaders } from 'src/app/auth/auth.header';
 import { CollectionService } from 'src/app/collection.service';
@@ -12,6 +12,7 @@ import { NewChapterComponent } from '../new-chapter/new-chapter.component';
 import { EditCollectionComponent } from '../../collection-overview/edit-collection/edit-collection.component';
 import { AuthService } from 'src/app/auth/auth.service';
 import { EditChapterComponent } from '../edit-chapter/edit-chapter.component';
+import { ExportCollectionComponent } from '../export-collection/export-collection.component';
 
 @Component({
   selector: 'app-chapter-overview',
@@ -200,6 +201,13 @@ export class ChapterOverviewComponent {
       reject: () => {
         console.log('Chapter löschen');
       }     
+    });
+  }
+
+  exportCollection() {
+    this.dialogService.open(ExportCollectionComponent, {
+      header: 'Export Sammlung',
+      width: '25%',
     });
   }
 

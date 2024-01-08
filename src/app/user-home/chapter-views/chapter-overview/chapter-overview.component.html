@@ -1,20 +1,28 @@
 <p-panel [hidden]="!activated">
     <ng-template pTemplate="header">
-        <div class="flex justify-content-between flex-wrap">
-            <h2 class="mr-5 flex align-items-center justify-content-center">
-                {{ collService.selectedColl.display_name }}
-            </h2>
-            <div class="flex justify-content-between align-items-center">
+        <div class="flex justify-content-between flex-wrap w-full">
+            <div class="flex align-items-center">
+                <h2 class="mr-5 flex align-items-center justify-content-center">
+                    {{ collService.selectedColl.display_name }}
+                </h2>
                 <p-toast></p-toast>
                 <p-button class="mr-2" label=" {{ collService.selectedColl.user_code }}" icon="pi pi-copy" [outlined]="true"
-                            size="small" [text]="true" [plain]="true" (onClick)="copyClipboard()">
+                    size="small" [text]="true" [plain]="true" (onClick)="copyClipboard()">
                 </p-button>
+            </div>
+            <!-- <div class="flex"> -->
+            <div class="flex align-items-center">
                 <p-button class="mr-2" (onClick)="editCollection()" icon="pi pi-file-edit"
-                         size="small" [disabled]="!activated" severity="secondary"></p-button>
+                        size="small" [disabled]="!activated" severity="secondary"></p-button>
+                <p-button class="mr-2" (onClick)="exportCollection()" icon="pi pi-cloud-download"
+                        size="small" [disabled]="!activated" severity="secondary"></p-button>
+            </div>
+            <div class="flex align-items-center">
                 <p-button (onClick)="delCollection($event)" icon="pi pi-trash" size="small"
-                         [disabled]="!activated" severity="danger"></p-button>
+                        [disabled]="!activated" severity="danger"></p-button>
                 <p-confirmPopup></p-confirmPopup>
             </div>
+            <!-- </div> -->
         </div>
     </ng-template>
     <!--class="grid">-->

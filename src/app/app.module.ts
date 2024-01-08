@@ -46,12 +46,12 @@ import { TabOverviewComponent } from './user-home/tab-views/tab-overview/tab-ove
 import { MarkdownPipe } from './markdown.pipe';
 import { EditChapterComponent } from './user-home/chapter-views/edit-chapter/edit-chapter.component';
 
-import {APP_BASE_HREF} from '@angular/common';
 import { StartComponent } from './start/start.component';
 import { RegisterComponent } from './register/register.component';
 import { ImpressumComponent } from './impressum/impressum.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { SetNewPasswordComponent } from './set-new-password/set-new-password.component';
+import { ExportCollectionComponent } from './user-home/chapter-views/export-collection/export-collection.component';
 
 @NgModule({
   declarations: [
@@ -72,7 +72,8 @@ import { SetNewPasswordComponent } from './set-new-password/set-new-password.com
     RegisterComponent,
     ImpressumComponent,
     ResetPasswordComponent,
-    SetNewPasswordComponent
+    SetNewPasswordComponent,
+    ExportCollectionComponent
   ],
   imports: [
     BrowserModule,
