@@ -70,7 +70,8 @@ export class CourseOverviewComponent {
         console.log(err);
       },
       complete: () => {
-        this.messageService.add({severity: 'info', summary: "Änderungen gespeichert", detail: "Neue Reihenfolge wurde gespeichert."});
+        this.messageService.add({severity: 'info', summary: "Änderungen gespeichert",
+                                  detail: "Neue Reihenfolge wurde gespeichert."});
       }
     });
   }
