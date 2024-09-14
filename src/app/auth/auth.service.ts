@@ -24,8 +24,9 @@ export class AuthService {
   constructor(private hC: HttpClient,
     private router: Router,
     private collService: CollectionService) { }
-    
+
   login_user(formData: FormData) {
+    console.log("Start login…");
     this.hC.post(HOST + '/user/login', formData).subscribe({
       next: (data) => {
         // console.log(data);
@@ -46,7 +47,7 @@ export class AuthService {
       complete: () => {
         console.log("Complete!");
         // console.log(this.is_token_valid());
-        
+
         if (this.is_token_valid()) {
           this.user_logged_in = true;
           this.collService.getUserCollections();
@@ -58,7 +59,7 @@ export class AuthService {
       }
     })
   }
-  
+
   logout_user() {
     localStorage.removeItem('user_id');
     localStorage.removeItem('exp');
@@ -71,12 +72,12 @@ export class AuthService {
     // console.log(renewTokenIntervalId);
     this.router.navigate(['']);
   }
-  
+
   is_token_valid(): Boolean {
     let curr_date = new Date().getTime();
     let token_exp = Number(localStorage.getItem("exp")!) * 1000;
-    
-    // console.log(localStorage.getItem("exp"), Number(token_exp) * 1000, curr_date);
+
+    console.log(localStorage.getItem("exp"), Number(token_exp) * 1000, curr_date);
     if (Number(token_exp) > curr_date) {
       return true
     } else {

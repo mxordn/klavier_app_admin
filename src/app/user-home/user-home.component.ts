@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { EmptyColl } from '../models/collection';
 import { HttpClient } from '@angular/common/http';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
@@ -6,7 +6,9 @@ import { AuthService } from '../auth/auth.service';
 import { CollectionService } from '../collection.service';
 import { DialogService } from 'primeng/dynamicdialog';
 import { NewCollectionComponent } from './collection-overview/new-collection/new-collection.component';
-
+import { NewCourseComponent } from './course-views/new-course/new-course.component';
+import { EmptyCourse } from '../models/course';
+import { CourseService } from '../course.service';
 
 @Component({
   selector: 'app-user-home',
@@ -15,7 +17,8 @@ import { NewCollectionComponent } from './collection-overview/new-collection/new
 })
 export class UserHomeComponent {
   //collections: CollectionModel[] = [];implements OnInit 
-  chapters_activated: boolean = false
+  chapters_activated: boolean = false;
+  course_activated: boolean = false;
   //selectedColl: CollectionModel = {
   //  name: '',
   //  display_name: '',
@@ -29,12 +32,13 @@ export class UserHomeComponent {
   formGroup: FormGroup;
   dialogVisible: boolean = false;
 
-  collForm: FormGroup
-  loading: boolean
+  collForm: FormGroup;
+  loading: boolean;
   
   constructor(private hC: HttpClient,
                public authService: AuthService,
                public collService: CollectionService,
+               public courseService: CourseService,
                private dialogService: DialogService,
                private formBuilder: FormBuilder) {
     this.loading = false;
@@ -47,6 +51,11 @@ export class UserHomeComponent {
     this.collService.chapters_activated.subscribe({
       next: (val) => {
         this.chapters_activated = val;
+      }
+    });
+    this.collService.course_activated.subscribe({
+      next: (val) => {
+        this.course_activated = val;
       }
     });
     //this.collService.getUserCollections();
@@ -66,6 +75,12 @@ export class UserHomeComponent {
     });
   }
 
+  openNewCourseDialog() {
+    this.dialogService.open(NewCourseComponent, {
+      header: 'Neuen Kurs anlegen'
+    });
+  }
+
   //closeDialog() {
   //  this.dialogVisible = false;Visible = true
   //}
@@ -79,11 +94,31 @@ export class UserHomeComponent {
         this.collService.sortOrder('chapters');
         //this.chapterService.collChapters = coll.list_of_exercises;
         this.collService.chapters_activated.next(true);
+        this.collService.course_activated.next(false);
         return
       }
     });
     if (this.collService.selectedColl === EmptyColl) {
       alert('Sammlung nicht gefunden.');
+    }
+  }
+  
+  openCourse(id: String) {
+    console.log(id);
+    this.course_activated = true;
+    this.collService.courses.forEach((course) => {
+      if (course.id === id) {
+        console.log("found", course.display_name)
+        this.collService.selectedCourse = course;
+        this.courseService.courseCollections = course.list_of_collections;
+        this.courseService.updateAvailableCollections();
+        this.collService.course_activated.next(true);
+        this.collService.chapters_activated.next(false);
+        return;
+      }
+    });
+    if (this.collService.selectedCourse === EmptyCourse) {
+      alert('Kurs nicht gefunden.');
     }
   }
 

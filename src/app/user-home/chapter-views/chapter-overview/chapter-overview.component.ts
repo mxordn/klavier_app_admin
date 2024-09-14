@@ -1,4 +1,4 @@
-import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { getAuthHeaders } from 'src/app/auth/auth.header';
 import { CollectionService } from 'src/app/collection.service';

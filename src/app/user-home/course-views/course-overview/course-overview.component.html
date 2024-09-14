@@ -1,0 +1,42 @@
+<p-panel [hidden]="!activated">
+    <ng-template pTemplate="header">
+        <div class="flex justify-content-between flex-wrap w-full">
+            <div class="flex align-items-center">
+                <h2 class="mr-5 flex align-items-center justify-content-center">
+                    {{ collService.selectedCourse.display_name }}
+                </h2>
+                <p-toast></p-toast>
+                <p-button class="mr-2" label=" {{ collService.selectedCourse.user_code }}" icon="pi pi-copy" [outlined]="true"
+                    size="small" [text]="true" [plain]="true" (onClick)="copyClipboard()">
+                </p-button>
+              </div>
+              <p-button class="flex align-items-center" icon="pi pi-trash" (onClick)="deleteCourse()" severity="danger"></p-button>
+        </div>
+    </ng-template>
+    <div>
+        <p-pickList [source]="courseService.availableCollections" [target]="courseService.courseCollections"
+                sourceHeader="Verfügbare Sammlungen" targetHeader="Ausgewählte Kursteile"
+                [dragdrop]="true" [responsive]="true" [sourceStyle]="{ height: '30rem' }"
+                [targetStyle]="{ height: '30rem' }" filterBy="display_name"
+                sourceFilterPlaceholder="Suchen nach Name" targetFilterPlaceholder="Suchen nach Name" breakpoint="1400px">
+            <ng-template let-collection pTemplate="item">
+                <div class="flex flex-wrap p-2 align-items-center gap-3">
+                    <div class="flex-1 flex flex-column gap-2">
+                        <span class="font-bold">{{ collection.display_name }}</span>
+                        <div class="flex align-products-center gap-2">
+                            <i class="pi pi-tag text-sm"></i>
+                            <span>{{ collection.user_code }}</span>
+                        </div>
+                    </div>
+                    <span class="font-bold text-900">{{ 'Kapitel: ' + collection.num_of_chapters }}</span>
+                </div>
+            </ng-template>
+        </p-pickList>
+    </div>
+    <p-divider></p-divider>
+    <div class="flex mt-2 justify-content-between">
+        <p-button (onClick)="setCourseCollections()">Speichern</p-button>
+        <p-button severity="secondary" (onClick)="closeOverview()">Schließen</p-button>
+    </div>
+    <!-- <p>course-overview works!</p> -->
+</p-panel>

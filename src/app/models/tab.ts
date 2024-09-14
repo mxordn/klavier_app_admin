@@ -6,6 +6,7 @@ export interface TabModel {
     chapter_id: string,
     exercise_description: string,
     order_num: number,
+    is_active: boolean,
     id: string
 }
 
@@ -17,5 +18,6 @@ export const EmptyTab: TabModel = {
     chapter_id: '',
     exercise_description: '',
     order_num: 0,
+    is_active: true,
     id: ''
 }

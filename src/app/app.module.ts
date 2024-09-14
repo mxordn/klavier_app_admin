@@ -3,8 +3,10 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule }  from  '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 
 import { ButtonModule } from 'primeng/button';
+import { CheckboxModule } from 'primeng/checkbox';
 import { CardModule } from 'primeng/card';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputTextareaModule } from 'primeng/inputtextarea';
@@ -25,6 +27,8 @@ import { ConfirmPopupModule } from 'primeng/confirmpopup';
 import { ToastModule } from 'primeng/toast';
 import { OrderListModule } from 'primeng/orderlist';
 import { InputSwitchModule } from 'primeng/inputswitch';
+import { PickListModule } from 'primeng/picklist';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
 import { DialogService } from 'primeng/dynamicdialog';
 import { ConfirmationService } from 'primeng/api';
@@ -52,6 +56,8 @@ import { ImpressumComponent } from './impressum/impressum.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { SetNewPasswordComponent } from './set-new-password/set-new-password.component';
 import { ExportCollectionComponent } from './user-home/chapter-views/export-collection/export-collection.component';
+import { NewCourseComponent } from './user-home/course-views/new-course/new-course.component';
+import { CourseOverviewComponent } from './user-home/course-views/course-overview/course-overview.component';
 
 @NgModule({
   declarations: [
@@ -64,6 +70,7 @@ import { ExportCollectionComponent } from './user-home/chapter-views/export-coll
     NewTabPanelComponent,
     NewChapterComponent,
     NewCollectionComponent,
+    NewCourseComponent,
     EditCollectionComponent,
     TabOverviewComponent,
     MarkdownPipe,
@@ -73,15 +80,19 @@ import { ExportCollectionComponent } from './user-home/chapter-views/export-coll
     ImpressumComponent,
     ResetPasswordComponent,
     SetNewPasswordComponent,
-    ExportCollectionComponent
+    ExportCollectionComponent,
+    NewCourseComponent,
+    CourseOverviewComponent
   ],
   imports: [
     BrowserModule,
+    FormsModule,
     CollectionRoutingModule,
     ConfirmPopupModule,
     HttpClientModule,
     BrowserAnimationsModule,
     ButtonModule,
+    CheckboxModule,
     ReactiveFormsModule,
     InputTextModule,
     InputTextareaModule,
@@ -101,7 +112,9 @@ import { ExportCollectionComponent } from './user-home/chapter-views/export-coll
     OrderListModule,
     DividerModule,
     ImageModule,
-    DropdownModule
+    DropdownModule,
+    PickListModule,
+    ProgressSpinnerModule
   ],
   providers: [
     DialogService,

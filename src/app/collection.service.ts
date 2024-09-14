@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CollectionModel, EmptyColl } from './models/collection';
+import { CourseModel, EmptyCourse } from './models/course';
 import { HOST } from './config'
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ChapterModel, EmptyChapter } from './models/chapter';
@@ -10,10 +11,13 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root'
 })
 export class CollectionService {
+  courses: CourseModel[] = [];
   collections: CollectionModel[] = [];
+  course_activated: BehaviorSubject<boolean>;
   chapters_activated: BehaviorSubject<boolean>;
   selectedColl: CollectionModel = EmptyColl;
   selectedChapter: ChapterModel = EmptyChapter;
+  selectedCourse: CourseModel = EmptyCourse;
   selectedTab: TabModel = EmptyTab;
   collChapters: ChapterModel[] = [];
 
@@ -29,12 +33,23 @@ export class CollectionService {
     this.currentAudioURL = new BehaviorSubject('');
     this.currentImgURL = new BehaviorSubject('');
     this.chapters_activated = new BehaviorSubject(false);
+    this.course_activated = new BehaviorSubject(false);
   }
 
   public getUserCollections(refresh: boolean=true) {
     let headers = new HttpHeaders()
     headers = headers.append('Authorization', 'Bearer ' + localStorage.getItem('token') || '');
     // console.log('LOG Header', headers.get('Authorization'))
+    this.hC.get<CourseModel[]>(HOST + "/get_user_courses/" + localStorage.getItem('user_id'),
+                                    {headers: headers}).subscribe({
+      next: (res) => {
+        this.courses = res;
+        // console.log(res);
+      },
+      error: (err) => {
+        console.log(err);
+      },
+    });
     this.hC.get<CollectionModel[]>(HOST + "/get_user_collection/" + localStorage.getItem('user_id'),
                                     {headers: headers}).subscribe({
       next: (response) => {

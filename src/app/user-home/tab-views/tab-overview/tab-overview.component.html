@@ -4,13 +4,19 @@
         <div>
             <p [innerHTML]="exTab.exercise_description | markdown"></p>
             <div class="flex align-items-center justify-content-between">
-                <p-button (onClick)="openDialogUpdateDescription()" 
-                        label="Beschreibung bearbeiten" size="small" severity="secondary">
-                </p-button>
+                <div class="flex align-items-center">
+                    <p-button class="mr-2" (onClick)="openDialogUpdateDescription()"
+                            label="Beschreibung bearbeiten" size="small" severity="secondary">
+                    </p-button>
+                    <p-checkbox [(ngModel)]="exTab.is_active" [binary]="true"
+                                inputId="binary" label="Tab aktiviert"
+                                (onChange)="setTabActivity($event)">
+                    </p-checkbox>
+                </div>
                 <p-button class="ml-4" (onClick)="delTab($event, exTab.id)" icon="pi pi-times"
                         label="Tab löschen" severity="danger" size="small">
                 </p-button>
-            </div>    
+            </div>
             <p-confirmPopup></p-confirmPopup>
         </div>
         <p-divider></p-divider>
@@ -23,11 +29,14 @@
             <div *ngIf="exTab.img_url === ''">
                 Kein Bild hinterlegt.
             </div>
+            <div *ngIf="progressImg">
+              <p-progressSpinner styleClass="w-4rem h-4rem" strokeWidth="8" fill="var(--surface-ground)" animationDuration=".5s"></p-progressSpinner>
+            </div>
             <div class="flex justify-content-left">
                 <p-fileUpload #imgUpload class="m-2" mode="basic" chooseLabel="Bild auswählen"
                                 name="file" [url]="collService.selectedUploadURLImg"
                                 [withCredentials]="true" [headers]="authHeaders" [maxFileSize]="10000000"
-                                accept="image/*" [auto]="true" (onUpload)="onUpload($event, 'img')">
+                                accept="image/*" [auto]="true" (onBeforeUpload)="showProgress('img')" (onUpload)="onUploadActions($event, 'img')">
                 </p-fileUpload>
                 <p-button class="mt-2 mr-2" (onClick)="clearMedia('img')" icon="pi pi-times" severity="danger"
                             [disabled]="collService.selectedTab.img_url === ''"></p-button>
@@ -46,12 +55,15 @@
                 <div *ngIf="exTab.audio_url === ''">
                     Keine Audiodatei hinterlegt.
                 </div>
+                <div *ngIf="progressAudio">
+                  <p-progressSpinner styleClass="w-4rem h-4rem" strokeWidth="8" fill="var(--surface-ground)" animationDuration=".5s"></p-progressSpinner>
+                </div>
                 <!--{{ HOST }}/serve_media/{{ collService.selectedColl.user_code }}/{{ exTab.audio_url }}-->
                 <div class="flex justify-content-left">
                     <p-fileUpload #audioUpload class="m-2" mode="basic" chooseLabel="Audio auswählen"
                                 name="file" [url]="collService.selectedUploadURLAudio"
-                                accept="audio/mpeg" [auto]="true"
-                                (onUpload)="onUpload($event, 'audio')">
+                                [withCredentials]="true" [headers]="authHeaders"  [maxFileSize]="10000000"
+                                accept="audio/mpeg" [auto]="true" (onBeforeUpload)="showProgress('audio')" (onUpload)="onUploadActions($event, 'audio')">
                 </p-fileUpload>
                 <p-button class="m-2" (onClick)="clearMedia('audio')" icon="pi pi-times" severity="danger"
                             [disabled]="collService.selectedTab.audio_url === ''"></p-button>

@@ -6,8 +6,21 @@
                 (onDblClick)="openCollection($event.option.id)"
                 selectAll="false"
                 optionLabel="display_name"
-                scrollHeight="100%">
+                scrollHeight="500px">
             </p-listbox>
+            <div class="pt-2 pb-4">
+                <p-button (onClick)="openNewCollectionDialog()" icon="pi pi-plus"></p-button>
+            </div>
+            <p-listbox [options]="collService.courses"
+                optionValue="id"
+                (onDblClick)="openCourse($event.option.id)"
+                selectAll="false"
+                optionLabel="display_name"
+                scrollHeight="500px">
+            </p-listbox>
+            <div class="mt-2 mb-4">
+                <p-button (onClick)="openNewCourseDialog()" icon="pi pi-plus"></p-button>
+            </div>
             <!--<form [formGroup]="formGroup">(onClick)="openCollection(aColl.id)"-->
             <!--<div class="p-2" *ngFor="let aColl of collService.collections; index as i;">
                 <p-button class="w-full" [outlined]="true" severtiy="secondary"
@@ -17,12 +30,10 @@
             <!--</form>
                 <p-button (click)="openDialog()" icon="pi pi-external-link" label="Show"></p-button>
                 <p-button (onClick)="openCollection()">Öffnen</p-button>//openCreateCollection()-->
-            <div class="p-2">
-                <p-button (onClick)="openNewCollectionDialog()" icon="pi pi-plus"></p-button>
-            </div>
         </div>
         <div class="col-9">
             <app-chapter-overview></app-chapter-overview>
+            <app-course-overview></app-course-overview>
         </div>
     </div>
 </div>

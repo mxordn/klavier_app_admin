@@ -8,6 +8,13 @@ import { EmptyTab, TabModel } from 'src/app/models/tab';
 import { AuthService } from 'src/app/auth/auth.service';
 import { getAuthHeaders } from 'src/app/auth/auth.header';
 import { ConfirmationService } from 'primeng/api';
+import { CheckboxChangeEvent } from 'primeng/checkbox';
+import { FileUploadEvent } from 'primeng/fileupload';
+
+interface OnUploadEvent {
+  originalEvent: Event;
+  files: File[];
+}
 
 @Component({
   selector: 'app-tab-overview',
@@ -19,6 +26,9 @@ export class TabOverviewComponent implements OnInit {
   player_icon: "pi pi-play" | "pi pi-pause" = "pi pi-play";
 
   activeIndex: number = 0;
+  tab_active: boolean = true;
+  progressImg: boolean = false;
+  progressAudio: boolean = false;
 
   selectedUploadURLImg: string|undefined;
   selectedUploadURLAudio: string|undefined;
@@ -61,7 +71,7 @@ export class TabOverviewComponent implements OnInit {
       }
       cnt += 1;
     });
-    
+
     this.selectedUploadURLAudio = HOST + '/upload/media/audio/' + this.collService.selectedTab.id + '?user_code=' + this.collService.selectedColl.user_code;
     this.selectedUploadURLImg = HOST + '/upload/media/img/' + this.collService.selectedTab.id + '?user_code=' + this.collService.selectedColl.user_code;
     //this.tabService.selectedUploadURLDescription = HOST + '/upload/description/' + this.tabService.selectedTab.id + '?user_code=' + this.collService.selectedColl.user_code;
@@ -82,8 +92,8 @@ export class TabOverviewComponent implements OnInit {
   clearMedia(media_type: 'img' | 'audio') {
     const headers: HttpHeaders = getAuthHeaders();
     if (this.authService.is_token_valid()) {
-      this.hC.delete<TabModel>(HOST+'/del_media/' + this.collService.selectedTab.id + '/' + 
-                                media_type + '?user_code=' + this.collService.selectedColl.user_code, 
+      this.hC.delete<TabModel>(HOST+'/del_media/' + this.collService.selectedTab.id + '/' +
+                                media_type + '?user_code=' + this.collService.selectedColl.user_code,
                                 {headers: headers})
       .subscribe({
         next: (res) => {
@@ -110,9 +120,16 @@ export class TabOverviewComponent implements OnInit {
     }
   }
 
-  onUpload(e: any, media_type: 'img' | 'audio') {
-    console.log('Upload:', e.originalEvent.body);
+  onUploadActions(e: any, media_type: 'img' | 'audio') {
+    console.log('Upload:', e);
     const updatedTab: TabModel = e.originalEvent.body;
+    console.log(updatedTab)
+    if (media_type === 'img') {
+      this.progressImg = false;
+    }
+    if (media_type === 'audio') {
+      this.progressAudio = false;
+    }
     this.collService.selectedChapter.exercise_ids.forEach((t) => {
       if (t.id === updatedTab.id) {
         if (media_type === 'audio') {
@@ -126,8 +143,48 @@ export class TabOverviewComponent implements OnInit {
         //this.tabService.setSelectedTab(t.id);
       }
     });
-    //s =  = 
+    //s =  =
     //this.imgURL = HOST + "/serve_media/" + this.collService.selectedColl.user_code + "/" + this.tabService.selectedTab.img_url;
+  }
+
+  showProgress(uploadType: string) {
+    if (uploadType === 'img') {this.progressImg = true;};
+    if (uploadType === 'audio') {this.progressAudio = true};
+  }
+
+  setTabActivity(event: CheckboxChangeEvent) {
+    console.log(event.checked)
+    if (this.authService.is_token_valid()) {
+      const headers: HttpHeaders = getAuthHeaders();
+      let formData: FormData = new FormData();
+      formData.append("is_active", event.checked);
+      console.log(formData);
+      if (event.checked) {
+        this.hC.post(HOST+'/upload/update_tab_activity/' + this.collService.selectedTab.id,
+          formData, {headers: headers}).subscribe({
+            next: (res) => {
+              console.log(res);
+            },
+            error: (err) => {
+              console.log(err);
+            },
+            complete: () => {}
+          }
+        );
+      } else {
+        this.hC.post<TabModel>(HOST+'/upload/update_tab_activity/' + this.collService.selectedTab.id,
+          formData, {headers: headers}).subscribe({
+            next: (res) => {
+              console.log(res);
+            },
+            error: (err) => {
+              console.log(err);
+            },
+            complete: () => {}
+          }
+        );
+      }
+    }
   }
 
   delTab(event: Event, tab_id: string) {

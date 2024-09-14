@@ -6,14 +6,14 @@ export interface IdOrderTable {
 }
 
 export interface CollectionModel {
-    name: String,
+    name: string,
     num_of_chapters: number,
-    display_name: String,
-    owner: String,
-    collection_description: String,
+    display_name: string,
+    owner: string,
+    collection_description: string,
     list_of_exercises: ChapterModel[],
-    user_code: String,
-    id: String
+    user_code: string,
+    id: string
 }
 
 export const EmptyColl: CollectionModel = {

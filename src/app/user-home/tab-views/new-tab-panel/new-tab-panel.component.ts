@@ -17,7 +17,7 @@ export class NewTabPanelComponent {
   newTabForm: FormGroup;
 
   iconList: string[] = ["music.note",
-                        "music.note",
+                        // "music.note",
                         "music.quarternote.3",
                         "music.note.list",
                         "music.note.house",
@@ -34,16 +34,17 @@ export class NewTabPanelComponent {
               private dialogRef: DynamicDialogRef) {
     this.newTabForm = this.fB.group({
       exercise_tab_name: new FormControl("", Validators.required),
-      icon: new FormControl(this.iconList, Validators.required),
-      exercise_description: new FormControl(" ", Validators.nullValidator)
+      icon: new FormControl("music.note", Validators.required),
+      active: new FormControl(true, Validators.required),
+      exercise_description: new FormControl("", Validators.nullValidator)
     });
-    this.newTabForm.value.icon = "music.note";
+    // this.newTabForm.value.icon = "music.note";
   }
 
   addTab() {
     if (!this.authService.is_token_valid()) {
       alert("Bitte neu einloggen (Token Timeout)");
-      return; 
+      return;
     }
     if (this.newTabForm.valid) {
       let formData: FormData = new FormData();
@@ -51,6 +52,7 @@ export class NewTabPanelComponent {
 
       formData.append("exercise_tab_name", this.newTabForm.value.exercise_tab_name);
       formData.append("icon", this.newTabForm.value.icon);
+      formData.append("is_active", this.newTabForm.value.active);
       formData.append("exercise_description", this.newTabForm.value.exercise_description);
       formData.append("chap_id", this.collService.selectedChapter.id);
       //addNewTab(formData: FormData)
@@ -78,6 +80,8 @@ export class NewTabPanelComponent {
             this.dialogRef.close();
           }
         });
+      } else {
+        alert("Sie wurden zwischenzeitlich ausgeloggt. Bitte loggen Sie sich neu ein.");
       }
       //this.collService.addNewTab(formData);
     } else {
