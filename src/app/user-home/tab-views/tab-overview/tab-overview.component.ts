@@ -9,7 +9,6 @@ import { AuthService } from 'src/app/auth/auth.service';
 import { getAuthHeaders } from 'src/app/auth/auth.header';
 import { ConfirmationService } from 'primeng/api';
 import { CheckboxChangeEvent } from 'primeng/checkbox';
-import { FileUploadEvent } from 'primeng/fileupload';
 
 interface OnUploadEvent {
   originalEvent: Event;

@@ -28,9 +28,7 @@ export class CourseOverviewComponent {
 
   constructor(public collService: CollectionService,
               public courseService: CourseService,
-              private dialogService: DialogService,
               private messageService: MessageService,
-              private confirmationService: ConfirmationService,
               private authService: AuthService,
               private hC: HttpClient) {
     this.collService.course_activated.subscribe({
