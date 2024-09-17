@@ -37,7 +37,12 @@ export class NewCourseComponent {
       let formData: FormData = new FormData();
       // formData.append("name", this.collForm.value.name);
       formData.append("display_name", this.courseForm.value.display_name);
-      formData.append("course_description", this.courseForm.value.course_description);
+      if (this.courseForm.value.course_description) {
+        formData.append("course_description", this.courseForm.value.course_description);
+      }
+      else {
+        formData.append("course_description", "");
+      }
 
       this.hC.post<CourseModel>(HOST+'/new_course', formData, { headers: headers }).subscribe({
         next: (data) => {

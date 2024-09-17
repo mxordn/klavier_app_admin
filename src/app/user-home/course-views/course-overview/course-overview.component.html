@@ -9,10 +9,20 @@
                 <p-button class="mr-2" label=" {{ collService.selectedCourse.user_code }}" icon="pi pi-copy" [outlined]="true"
                     size="small" [text]="true" [plain]="true" (onClick)="copyClipboard()">
                 </p-button>
+                <p-button icon="pi pi-file-edit" [outlined]="true" severity="info"
+                    size="small" [plain]="true" (onClick)="openEditCourse()">
+                </p-button>
               </div>
-              <p-button class="flex align-items-center" icon="pi pi-trash" (onClick)="deleteCourse()" severity="danger"></p-button>
-        </div>
+              <div class="flex align-items-center">
+                <p-button class="flex align-items-center" icon="pi pi-trash" (onClick)="deleteCourse($event)" severity="danger"></p-button>
+                <p-confirmPopup></p-confirmPopup>
+              </div>
+            </div>
     </ng-template>
+    <p-panel header="Beschreibung des Kurses" [toggleable]="true">
+      <div [innerHTML]="collService.selectedCourse.course_description|markdown"></div>
+    </p-panel>
+    <p-divider></p-divider>
     <div>
         <p-pickList [source]="courseService.availableCollections" [target]="courseService.courseCollections"
                 sourceHeader="Verfügbare Sammlungen" targetHeader="Ausgewählte Kursteile"

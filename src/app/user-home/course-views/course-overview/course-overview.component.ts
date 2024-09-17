@@ -7,8 +7,8 @@ import { AuthService } from 'src/app/auth/auth.service';
 import { CollectionService } from 'src/app/collection.service';
 import { HOST } from 'src/app/config';
 import { CourseService } from 'src/app/course.service';
-import { CollectionModel } from 'src/app/models/collection';
 import { CourseModel, EmptyCourse } from 'src/app/models/course';
+import { CourseEditComponent } from '../course-edit/course-edit.component';
 
 @Component({
   selector: 'app-course-overview',
@@ -30,11 +30,23 @@ export class CourseOverviewComponent {
               public courseService: CourseService,
               private messageService: MessageService,
               private authService: AuthService,
+              private dialogService: DialogService,
+              private confirmationService: ConfirmationService,
               private hC: HttpClient) {
     this.collService.course_activated.subscribe({
       next: (val) => {
         this.activated = val;
       }
+    });
+  }
+
+  openEditCourse() {
+    this.dialogRef = this.dialogService.open(CourseEditComponent, {
+      header: 'Kurs bearbeiten',
+      modal: true,
+      style: { width: '500px', height: '530px' },
+      draggable: false,
+      resizable: false,
     });
   }
 
@@ -60,7 +72,7 @@ export class CourseOverviewComponent {
       data.append('coll_list', "empty");
     }
 
-    this.hC.post(HOST + '/upload/update_course/' + this.collService.selectedCourse.id, data, {headers: headers}).subscribe({
+    this.hC.post(HOST + '/upload/update_course_collections/' + this.collService.selectedCourse.id, data, {headers: headers}).subscribe({
       next: (res) => {
         console.log(res);
       },
@@ -74,7 +86,19 @@ export class CourseOverviewComponent {
     });
   }
 
-  deleteCourse() {
+  deleteCourse(event: Event) {
+    this.confirmationService.confirm({
+      target: event.target as EventTarget,
+      message: 'Willst Du den Kurs wirklich löschen?',
+      icon: 'pi pi-exclamation-triangle',
+      acceptLabel: 'Ok',
+      rejectLabel: 'Abbrechen',
+      accept: () => {this.deleteCourseActions()},
+      reject: () => {console.log()}
+    });
+  }
+
+  private deleteCourseActions() {
     const headers: HttpHeaders = getAuthHeaders();
     if (this.authService.is_token_valid()) {
       const params = new HttpParams().set("user_id", this.collService.selectedColl.owner.toString());
@@ -98,3 +122,6 @@ export class CourseOverviewComponent {
     this.collService.course_activated.next(false);
   }
 }
+
+
+

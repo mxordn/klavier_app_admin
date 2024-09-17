@@ -58,6 +58,7 @@ import { SetNewPasswordComponent } from './set-new-password/set-new-password.com
 import { ExportCollectionComponent } from './user-home/chapter-views/export-collection/export-collection.component';
 import { NewCourseComponent } from './user-home/course-views/new-course/new-course.component';
 import { CourseOverviewComponent } from './user-home/course-views/course-overview/course-overview.component';
+import { CourseEditComponent } from './user-home/course-views/course-edit/course-edit.component';
 
 @NgModule({
   declarations: [
@@ -82,7 +83,8 @@ import { CourseOverviewComponent } from './user-home/course-views/course-overvie
     SetNewPasswordComponent,
     ExportCollectionComponent,
     NewCourseComponent,
-    CourseOverviewComponent
+    CourseOverviewComponent,
+    CourseEditComponent
   ],
   imports: [
     BrowserModule,
